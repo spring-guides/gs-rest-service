@@ -166,13 +166,17 @@ All of the pieces of our REST endpoint are in place. All that's left to do is to
 
 To run the sample, issue the following Gradle command:
 
-	$ gradle jettyRun
+```sh
+$ gradle jettyRun
+```
 	
 This will cause the application to be compiled and for a Jetty server to start on port 8080. You can then point your browser or other REST client (such as Spring's RestTemplate or the Spring REST Shell) at http://localhost:8080/HelloWorldRest/hello-world to see the result. Or you can try specifying a name parameter as in http://localhost:8080/HelloWorldRest/hello-world?name=Craig.
 
 If you simply want to build the code into a WAR file that you can deploy in your own server, issue the following Gradle command:
 
-	$ gradle build
+```sh
+$ gradle build
+```
 
 
 Next Steps
