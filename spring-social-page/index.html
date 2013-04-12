@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Spring Social</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="assets/ico/favicon.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">SpringSource</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Spring Social</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Learn <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Reference Docs</a></li>
+                  <li><a href="#">API Docs</a></li>
+                  <li><a href="#">Tutorials</a></li>
+                  <li class="nav-header">Videos</li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Develop <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Catalyst</a></li>
+                  <li><a href="#">Samples</a></li>
+                  <li><a href="#">GitHub Project</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Community <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">StackOverflow</a></li>
+                  <li><a href="#">Community Extensions</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <img src="assets/img/Untitled.png" style="float:left;margin-right: 50px;">
+        <h1>Spring Social</h1>
+        <p>Easily connect your applications with third-party APIs such as Facebook, Twitter, LinkedIn, and more.</p>
+        <p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+      </div>
+
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="span4">
+          <h2>Why Spring Social?</h2>
+          <p>
+            Modern applications must be able to readily connect to one or more third party APIs.
+            But the security requirements around these APIs (usually OAuth) can be daunting.
+            Spring Social reduces API connectivity to little more than a configuration exercise, leaving your application to merely use the APIs.
+          </p>
+        </div>
+        <div class="span4">
+          <h2>Alternatives</h2>
+          <p>Although there are many OAuth client libraries available, most of them focus on the backend exchange for tokens, leaving it to you to handle the front-end redirects and callbacks. Only Spring Social handles the entire OAuth "dance", including browser-level redirects, requiring little or no OAuth expertise.</p>
+       </div>
+        <div class="span4">
+          <h2>Extensibility</h2>
+          <p>Spring Social was designed with extensibility in mind. Although the core project only supports a handful of API providers, Spring Social's extensibility has led to dozens of community extensions. And there's always room for more.</p>
+        </div>
+      </div>
+
+      <br><br>
+
+      <div class="row">
+        <div class="span12">
+          <h2>Configuring Spring for API Connectivity</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span4">
+          <p>Spring Social configuration includes enabling support for one or more API providers (<code>EnableFacebook</code> in this configuration), a connection repository (seen here as <code>@EnableJdbcConnectionRepository</code>) for storing connections made on behalf of a user, and a <code>ConnectController</code> whose job is to establish those connections.</p>
+       </div>
+       <div class="span8">
+         <p>
+           <pre class="pre-scrollable"><small>@Configuration
+@EnableFacebook(appId="${facebook.clientId}", 
+                appSecret="${facebook.clientSecret}")
+@EnableJdbcConnectionRepository
+public class SocialConfig {
+
+  @Bean
+  public ConnectController connectController(
+         ConnectionFactoryLocator connFactoryLocator,
+         ConnectionRepository connectionRepo) {
+    return new ConnectController(connFactoryLocator, connectionRepo);
+  }
+
+}</small></pre>
+         </p>
+       </div>
+
+      </div>
+
+      <br><br>
+      <div class="row">
+        <div class="span12">
+          <h2>Using API Bindings</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span4">
+         <p>Spring Social offers Java bindings against all of the API providers it supports.
+           To use these API bindings, you simply inject them where they're needed.</p>
+         <p>Note that since the API bindings are acting on behalf of a user, they are
+           request-scoped and therefore many operations can only be performed within the scope of a request.</p>
+        </div>
+        <div class="span8">
+          <p>
+            <pre class="pre-scrollable"><small>@Controller
+public class FacebookFriendsController {
+
+  private final Facebook facebook;
+
+  @Inject
+  public FacebookFriendsController(Facebook facebook) {
+    this.facebook = facebook;
+  }
+
+  @RequestMapping(value="/facebook/friends", method=RequestMethod.GET)
+  public String showFeed(Model model) {
+    model.addAttribute("friends", 
+                     facebook.friendOperations().getFriendProfiles());
+    return "facebook/friends";
+  }
+
+}</small></pre>
+          </p>
+        </div>
+      </div>
+
+      <br><br>
+      <div class="row">
+        <div class="span12">
+          <h2>Extending Spring Social</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span4">
+          <p>Spring Social was designed with extensibility in mind. Although the core project only supports a handful of API providers, Spring Social's extensibility has led to dozens of community extensions. And there's always room for more.</p>
+          <p>[EDITOR NOTE: Here I'd like to use a tabbed panel for code to show the connection factory, service, provider, and API adapter.]</p>
+        </div>
+        <div class="span8">
+          <p>
+            <pre class="pre-scrollable"><small>public class NetFlixConnectionFactory 
+             extends OAuth1ConnectionFactory&lt;NetFlixApi&gt;{
+
+  public NetFlixConnectionFactory(String clientKey, String clientSecret) {
+    super("netflix", 
+          new NetFlixServiceProvider(clientKey, clientSecret), 
+          new NetFlixApiAdapter());
+	}
+
+}</small></pre>
+          </p>
+        </div>
+      </div>
+
+      <hr>
+      <footer>
+        <p>&copy; SpringSource 2013</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="assets/js/bootstrap.js"></script>
+
+  </body>
+</html>
