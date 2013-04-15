@@ -3,7 +3,7 @@ Getting Started: Creating a REST Endpoint
 
 This Getting Started guide will walk you through the process of creating a simple REST endpoint using Spring.
 
-Setting up Gradle
+Setting Up Gradle
 -----------------
 We recommend you use Gradle for your Spring projects. If you’re a big Ant / Ivy, Buildr, Gradle, SBT, Leiningen, or Gant fan, that’s cool, but we use Gradle and we’ll be using Gradle in this guide. If you have any questions about how Gradle works, Building and Testing with Gradle (O'Reilly) should have what you’re looking for. (We’re assuming you know how to create a new Gradle project. If not, you can use this to get started.)
 
@@ -18,50 +18,59 @@ repositories { mavenCentral() }
 dependencies {
 	compile "org.springframework:spring-webmvc:3.2.2.RELEASE"
 	compile "org.codehaus.jackson:jackson-mapper-asl:1.9.9"
+	providedCompile "javax.servlet:servlet-api:2.5"
 }
 ```
 
-Spring's REST support is based on Spring MVC. Therefore, we must add spring-webmvc as a dependency to our project. Also, so that our endpoints can produce JSON output, we needed to include the Jackson JSON library.
+Spring's REST support is based on Spring MVC. Therefore, we must add spring-webmvc as a dependency to our project. Also, so that our endpoints can produce JSON output, we needed to include the Jackson JSON library. And, since we'll be working with code that depends on the Servlet API, we'll need the Servlet API (as a providedCompile dependency for compile-time purposes only).
 
-Each of these dependencies has dependencies of their own that will transitively be resolved.
+Each of these dependencies have dependencies of their own that will transitively be resolved.
 
 We've also included the 'jetty' plugin so that we can easily run and test our code via Gradle.
 
 
-Setting up DispatcherServlet
+Setting Up DispatcherServlet
 ----------------------------
-Spring REST endpoints are built as Spring MVC controllers. Therefore, we'll need to be sure that Spring's DispatcherServlet is configured in our application's /WEB-INF/web.xml:
+Spring REST endpoints are built as Spring MVC controllers. Therefore, we'll need to be sure that Spring's DispatcherServlet is configured. We can do that by creating a web application initializer class:
 
-```xml
-<servlet>
-	<servlet-name>appServlet</servlet-name>
-	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-	<init-param>
-		<param-name>contextClass</param-name>
-		<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
-	</init-param>
-	<init-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>org.springframework.hello.config</param-value>
-	</init-param>
-	<load-on-startup>1</load-on-startup>
-</servlet>
-	
-<servlet-mapping>
-	<servlet-name>appServlet</servlet-name>
-	<url-pattern>/</url-pattern>
-</servlet-mapping>
+```java
+package org.springframework.hello.config;
+
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+public class HelloWorldWebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+
+	@Override
+	protected String[] getServletMappings() {
+		return new String[] { "/" };
+	}
+
+	@Override
+	protected Class<?>[] getRootConfigClasses() {
+		return null;
+	}
+
+	@Override
+	protected Class<?>[] getServletConfigClasses() {
+		return new Class[] { HelloWorldConfiguration.class };
+	}
+
+}
 ```
 
-Here we've configured DispatcherServlet to use AnnotationConfigWebApplicationContext as the context class so that our configuration can be expressed in Java, rather than XML. We've also set told DispatcherServlet (via the contextConfigLocation initialization parameter) that it can find our configuration classes in the org.springframework.hello.config package.
+By extending AbstractAnnotationConfigDispatcherServletInitializer, our web application initializer will get a DispatcherServlet that is configured with @Configuration-annotated classes. All we must do is tell it where those configuration classes are and what path(s) to map DispatcherServlet to. 
 
-Now let's create the configuration class.
+With regard to the servlet path mappings, getServletMappings() returns a single-entry array of String specifying that DispatcherServlet should be mapped to "/".
 
+The getRootConfigClasses() and getServletConfigClasses() methods specify the configuration classes. The Class array returned from getRootConfigClasses() specifies the classes for the root context provided to ContextLoaderListener. Similarly, the Class array returned from getServletConfigClasses() specifies the classes for the servlet application context provided to DispatcherServlet. 
+
+For our purposes there will only be a servlet application context, so getRootConfigClasses() returns null. getServletConfigClasses(), however, specifies HelloWorldConfiguration as the only configuration class.
 
 Creating a Configuration Class
 ------------------------------
-In our Spring configuration, we'll need to enable annotation-oriented Spring MVC. And we'll also need to tell Spring where it can find our endpoint controller class. The following configuration class takes care of both of those things:
+Now that we have setup DispatcherServlet to handle requests for our application, we need to configure the Spring application context used by DispatcherServlet.
 
+In our Spring configuration, we'll need to enable annotation-oriented Spring MVC. And we'll also need to tell Spring where it can find our endpoint controller class. The following configuration class takes care of both of those things:
 
 ```java
 package org.springframework.hello.config;
@@ -80,10 +89,10 @@ public class HelloWorldConfiguration {
 	
 The @EnableWebMvc annotation turns on annotation-oriented Spring MVC. And we've also annotated the configuration class with @ComponentScan to have it look for components (including controllers) in the org.springframework.hello package. As it turns out, classes that are annotated with @Configuration are also discovered by component scanning, so we had to specify an exclude filter to keep it from discovering and using our configuration class a second time.
 
-With configuration details completed, now it's time to start writing code for our endpoint.
-
 Creating a Representation Class
 -------------------------------
+With the essential Spring MVC configuration out of the way, it's time to get to the nuts and bolts of our REST endpoint by creating a resource representation class and an endpoint controller.
+
 Before we get too carried away with building the endpoint controller, we need to give some thought to what our API will look like. 
 
 What we want is to handle GET requests for /hello-world, optionally with a name query parameter. In response to such a request, we'd like to send back JSON looking something like this:
@@ -157,11 +166,17 @@ The key difference between a human-facing controller and a REST endpoint control
 
 The magic is in the @ResponseBody annotation. @ResponseBody tells Spring MVC to not render a model into a view, but rather to write the returned object into the response body. It does this by using one of Spring's message converters.
 
-{TODO: briefly talk about what message converters do and list the ones that come out of the box with Spring}
+>__TODO__: briefly talk about what message converters do and list the ones that come out of the box with Spring}
 
 
 Building and Running the REST Endpoint
 --------------------------------------
+>**NOTE**: The following section probably needs to be reworked 
+	      (and the build file that goes with it) to use a Servlet 3 
+	      container (such as a modern Tomcat). At this point, 
+	      these steps do not work since the sample code uses a
+	      web app initializer instead of web.xml.
+
 All of the pieces of our REST endpoint are in place. All that's left to do is to build it and run it.
 
 To run the sample, issue the following Gradle command:

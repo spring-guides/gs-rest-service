@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/hello-world")
 public class HelloWorldResource {
-  
-  private static final String template = "Hello, %s!";
-  private final AtomicLong counter = new AtomicLong();
+
+	private static final String template = "Hello, %s!";
+	private final AtomicLong counter = new AtomicLong();
 
 	@RequestMapping(method=RequestMethod.GET)
 	public @ResponseBody Saying sayHello(@RequestParam(value="name", required=false, defaultValue="Stranger") String name) {
