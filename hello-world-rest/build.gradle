@@ -1,0 +1,14 @@
+apply plugin: 'java'
+apply plugin: 'jetty'
+apply plugin: 'eclipse-wtp'
+
+repositories { mavenCentral() }
+
+dependencies {
+	compile "org.springframework:spring-webmvc:3.2.2.RELEASE"
+	compile "org.codehaus.jackson:jackson-mapper-asl:1.9.9"
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '1.5'
+}
