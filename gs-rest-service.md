@@ -3,31 +3,28 @@ Getting Started: Creating a REST Endpoint
 
 This Getting Started guide will walk you through the process of creating a simple REST endpoint using Spring.
 
-Setting Up Gradle
------------------
-We recommend you use Gradle for your Spring projects. If you’re a big Ant / Ivy, Buildr, Gradle, SBT, Leiningen, or Gant fan, that’s cool, but we use Gradle and we’ll be using Gradle in this guide. If you have any questions about how Gradle works, Building and Testing with Gradle (O'Reilly) should have what you’re looking for. (We’re assuming you know how to create a new Gradle project. If not, you can use this to get started.)
+To help you get started, we've provided an initial project structure for you in GitHub:
 
-The following build.gradle file has everything we'll need for our project.
-
-```groovy
-apply plugin: 'java'
-apply plugin: 'jetty'
-
-repositories { mavenCentral() }
-
-dependencies {
-	compile "org.springframework:spring-webmvc:3.2.2.RELEASE"
-	compile "org.codehaus.jackson:jackson-mapper-asl:1.9.9"
-	providedCompile "javax.servlet:servlet-api:2.5"
-}
+```sh
+$ git clone git://github.com/SpringSource/gs-rest-service.git
 ```
 
-Spring's REST support is based on Spring MVC. Therefore, we must add spring-webmvc as a dependency to our project. Also, so that our endpoints can produce JSON output, we needed to include the Jackson JSON library. And, since we'll be working with code that depends on the Servlet API, we'll need the Servlet API (as a providedCompile dependency for compile-time purposes only).
+As you work through this guide, you can fill in this project with the code necessary to complete the guide. Or, if you'd prefer to see the end result, the completed project is available in the *completed* branch of the Git repository:
 
-Each of these dependencies have dependencies of their own that will transitively be resolved.
+```sh
+$ git clone -b completed git://github.com/SpringSource/gs-rest-service.git
+```
 
-We've also included the 'jetty' plugin so that we can easily run and test our code via Gradle.
+Before we can write the REST endpoint itself, there's some initial project setup that's required. Or, you can skip straight to the [fun part]().
 
+Selecting Dependencies
+----------------------
+The sample in this Getting Started Guide will leverage Spring MVC and the Jackson JSON processor. Therefore, you'll need to declare the following library dependencies in your build:
+
+  - org.springframework:spring-webmvc:3.2.2.RELEASE
+  - org.codehaus.jackson:jackson-mapper-asl:1.9.9
+
+Click here for details on how to map these dependencies to your specific build tool.
 
 Setting Up DispatcherServlet
 ----------------------------
