@@ -1,4 +1,4 @@
-package org.springframework.hello;
+package hello;
 
 public class Saying {
 

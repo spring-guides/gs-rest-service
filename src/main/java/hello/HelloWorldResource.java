@@ -1,4 +1,4 @@
-package org.springframework.hello;
+package hello;
 
 import java.util.concurrent.atomic.AtomicLong;
 

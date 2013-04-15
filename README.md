@@ -31,7 +31,7 @@ Setting Up DispatcherServlet
 Spring REST endpoints are built as Spring MVC controllers. Therefore, we'll need to be sure that Spring's DispatcherServlet is configured. We can do that by creating a web application initializer class:
 
 ```java
-package org.springframework.hello;
+package hello;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -70,7 +70,7 @@ Now that we have setup DispatcherServlet to handle requests for our application,
 In our Spring configuration, we'll need to enable annotation-oriented Spring MVC. And we'll also need to tell Spring where it can find our endpoint controller class. The following configuration class takes care of both of those things:
 
 ```java
-package org.springframework.hello;
+package hello;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -82,7 +82,7 @@ public class HelloWorldConfiguration {
 }
 ```
 	
-The @EnableWebMvc annotation turns on annotation-oriented Spring MVC. And we've also annotated the configuration class with @ComponentScan to have it look for components (including controllers) in the org.springframework.hello package. As it turns out, classes that are annotated with @Configuration are also discovered by component scanning, so we had to specify an exclude filter to keep it from discovering and using our configuration class a second time.
+The @EnableWebMvc annotation turns on annotation-oriented Spring MVC. And we've also annotated the configuration class with @ComponentScan to have it look for components (including controllers) in the hello package.
 
 Creating a Representation Class
 -------------------------------
@@ -104,7 +104,7 @@ The id field is a unique identifier for the saying, and content is the textual r
 To model this representation, we’ll create a representation class:
 
 ```java
-package org.springframework.hello;
+package hello;
 
 public class Saying {
 
@@ -134,7 +134,7 @@ Creating a Resource Controller
 In Spring, REST endpoints are just Spring MVC controllers. The following Spring MVC controller handles a GET request for /hello-world and returns our Saying resource:
 
 ```java
-package org.springframework.hello;
+package hello;
 import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

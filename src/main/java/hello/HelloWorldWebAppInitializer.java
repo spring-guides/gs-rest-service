@@ -1,4 +1,4 @@
-package org.springframework.hello;
+package hello;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
