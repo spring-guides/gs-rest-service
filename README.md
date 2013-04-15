@@ -31,7 +31,7 @@ Setting Up DispatcherServlet
 Spring REST endpoints are built as Spring MVC controllers. Therefore, we'll need to be sure that Spring's DispatcherServlet is configured. We can do that by creating a web application initializer class:
 
 ```java
-package org.springframework.hello.config;
+package org.springframework.hello;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -70,16 +70,14 @@ Now that we have setup DispatcherServlet to handle requests for our application,
 In our Spring configuration, we'll need to enable annotation-oriented Spring MVC. And we'll also need to tell Spring where it can find our endpoint controller class. The following configuration class takes care of both of those things:
 
 ```java
-package org.springframework.hello.config;
+package org.springframework.hello;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages="org.springframework.hello", 
-	              excludeFilters=@Filter(Configuration.class))
+@ComponentScan
 public class HelloWorldConfiguration {
 }
 ```
