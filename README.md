@@ -6,13 +6,13 @@ This Getting Started guide will walk you through the process of creating a simpl
 To help you get started, we've provided an initial project structure for you in GitHub:
 
 ```sh
-$ git clone git://github.com/SpringSource/gs-rest-service.git
+$ git clone https://github.com/springframework-meta/gs-rest-service.git
 ```
 
 As you work through this guide, you can fill in this project with the code necessary to complete the guide. Or, if you'd prefer to see the end result, the completed project is available in the *completed* branch of the Git repository:
 
 ```sh
-$ git clone -b completed git://github.com/SpringSource/gs-rest-service.git
+$ git clone -b completed https://github.com/springframework-meta/gs-rest-service.git
 ```
 
 Before we can write the REST endpoint itself, there's some initial project setup that's required. Or, you can skip straight to the [fun part]().
@@ -22,7 +22,7 @@ Selecting Dependencies
 The sample in this Getting Started Guide will leverage Spring MVC and the Jackson JSON processor. Therefore, you'll need to declare the following library dependencies in your build:
 
   - org.springframework:spring-webmvc:3.2.2.RELEASE
-  - org.codehaus.jackson:jackson-mapper-asl:1.9.9
+  - com.fasterxml.jackson.core:jackson-core:2.1.4
 
 Click here for details on how to map these dependencies to your specific build tool.
 
@@ -90,7 +90,7 @@ With the essential Spring MVC configuration out of the way, it's time to get to 
 
 Before we get too carried away with building the endpoint controller, we need to give some thought to what our API will look like. 
 
-What we want is to handle GET requests for /hello-world, optionally with a name query parameter. In response to such a request, we'd like to send back JSON looking something like this:
+What we want is to handle GET requests for /hello-world, optionally with a name query parameter. In response to such a request, we'd like to send back JSON, representing a greeting, that looks something like this:
 
 ```json
 {
@@ -99,19 +99,19 @@ What we want is to handle GET requests for /hello-world, optionally with a name 
 }
 ```
 	
-The id field is a unique identifier for the saying, and content is the textual representation of the saying.
+The id field is a unique identifier for the greeting, and content is the textual representation of the greeting.
 
-To model this representation, we’ll create a representation class:
+To model the greeting representation, we’ll create a representation class:
 
 ```java
 package hello;
 
-public class Saying {
+public class Greeting {
 
 	private final long id;
 	private final String content;
 
-	public Saying(long id, String content) {
+	public Greeting(long id, String content) {
 	this.id = id;
 	this.content = content;
 	}
@@ -144,14 +144,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/hello-world")
-public class HelloWorldResource {
+public class HelloWorldController {
 	
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
 
 	@RequestMapping(method=RequestMethod.GET)
-	public @ResponseBody Saying sayHello(@RequestParam(value="name", required=false, defaultValue="Stranger") String name) {
-		return new Saying(counter.incrementAndGet(), String.format(template, name));
+	public @ResponseBody Greeting sayHello(@RequestParam(value="name", required=false, defaultValue="Stranger") String name) {
+		return new Greeting(counter.incrementAndGet(), String.format(template, name));
 	}
 	
 }
