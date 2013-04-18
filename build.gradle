@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'jetty'
 apply plugin: 'eclipse-wtp'
+apply plugin: 'idea'
 
 repositories { mavenCentral() }
 
