@@ -1,0 +1,16 @@
+apply plugin: 'java'
+apply plugin: 'jetty'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'idea'
+
+repositories { mavenCentral() }
+
+dependencies {
+	compile "org.springframework:spring-webmvc:3.2.2.RELEASE"
+	compile "com.fasterxml.jackson.core:jackson-core:2.1.4"
+	providedCompile "javax.servlet:servlet-api:2.5"
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '1.5'
+}

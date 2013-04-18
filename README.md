@@ -3,17 +3,13 @@ Getting Started: Creating a REST Service
 
 This Getting Started guide will walk you through the process of creating a simple REST service using Spring.
 
-To help you get started, we've provided an initial project structure for you in GitHub:
+To help you get started, we've provided an initial project structure as well as the completed project for you in GitHub:
 
 ```sh
 $ git clone https://github.com/springframework-meta/gs-rest-service.git
 ```
 
-As you work through this guide, you can fill in this project with the code necessary to complete the guide. Or, if you'd prefer to see the end result, the completed project is available in the *completed* branch of the Git repository:
-
-```sh
-$ git clone -b completed https://github.com/springframework-meta/gs-rest-service.git
-```
+In the `start` folder, you'll find a bare project, ready for you to copy-n-paste code snippets from this document. In the `complete` folder, you'll find the complete project code.
 
 Before we can write the REST service itself, there's some initial project setup that's required. Or, you can skip straight to the [fun part]().
 
