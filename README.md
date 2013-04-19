@@ -11,7 +11,7 @@ $ git clone https://github.com/springframework-meta/gs-rest-service.git
 
 In the `start` folder, you'll find a bare project, ready for you to copy-n-paste code snippets from this document. In the `complete` folder, you'll find the complete project code.
 
-Before we can write the REST service itself, there's some initial project setup that's required. Or, you can skip straight to the [fun part]().
+Before we can write the REST service itself, there's some initial project setup that's required. Or, you can skip straight to the [fun part](#creating-a-representation-class).
 
 Selecting Dependencies
 ----------------------
@@ -171,7 +171,7 @@ There's more to building REST services than is covered here. You may want to con
 * Creating self-describing APIs with HATEOAS
 * Securing a REST service with HTTP Basic
 * Securing a REST service with OAuth
-* Consuming REST APIs
-* Testing REST APIs
+* [Consuming REST services](https://github.com/springframework-meta/gs-consuming-rest-core/blob/master/README.md)
+* Testing REST services
 
 
