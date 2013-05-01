@@ -1,14 +1,18 @@
 apply plugin: 'java'
-apply plugin: 'jetty'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'idea'
+apply plugin: 'application'
+
+mainClassName = "hello.Main"
 
 repositories { mavenCentral() }
 
 dependencies {
 	compile "org.springframework:spring-webmvc:3.2.2.RELEASE"
-	compile "com.fasterxml.jackson.core:jackson-core:2.1.4"
-	providedCompile "javax.servlet:servlet-api:2.5"
+	compile "com.fasterxml.jackson.core:jackson-databind:2.1.4"
+	compile "org.apache.tomcat:tomcat-catalina:7.0.39"
+	compile "org.apache.tomcat.embed:tomcat-embed-core:7.0.39"
+	compile "org.apache.tomcat:tomcat-jasper:7.0.39"
 }
 
 task wrapper(type: Wrapper) {
