@@ -6,7 +6,6 @@ import org.apache.catalina.Context;
 import org.apache.catalina.core.AprLifecycleListener;
 import org.apache.catalina.core.StandardServer;
 import org.apache.catalina.startup.Tomcat;
-import org.springframework.web.SpringServletContainerInitializer;
 
 public class Main {
 
@@ -24,7 +23,13 @@ public class Main {
 		Context context = tomcat.addWebapp("/", "/");
 		HashSet<Class<?>> classes = new HashSet<Class<?>>();
 		classes.add(HelloWorldWebAppInitializer.class);
-		context.addServletContainerInitializer(new SpringServletContainerInitializer(), classes);
+		
+		// TODO: The following line is necessary to run hello.Main in Eclipse or from 'gradlew run'.
+		//       But when the executable JAR produced by Maven Shade plugin is run, it results in
+		//       an error from the DispatcherServlet being loaded twice with the name "dispatcher".
+		//       Need to find a way that works equally well with 'gradlew run'/Eclipse and the
+		//       executable JAR.
+//		context.addServletContainerInitializer(new SpringServletContainerInitializer(), classes);
 		tomcat.start();
 		tomcat.getServer().await();
 	}

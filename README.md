@@ -39,6 +39,11 @@ Add the following within the `<project>` section of your pom.xml file:
         <version>2.1.4</version>
     </dependency>
     <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.1.4</version>
+    </dependency>
+    <dependency>
         <groupId>org.apache.tomcat</groupId>
         <artifactId>tomcat-catalina</artifactId>
         <version>7.0.39</version>
@@ -64,6 +69,7 @@ Add the following within the `dependencies { }` section of your build.gradle fil
 ```groovy
 compile 'org.springframework:spring-webmvc:3.2.2.RELEASE'
 compile 'com.fasterxml.jackson.core:jackson-core:2.1.4'
+compile 'com.fasterxml.jackson.core:jackson-databind:2.1.4'
 ```
 
 
@@ -211,7 +217,7 @@ The magic is in the [`@ResponseBody`](http://static.springsource.org/spring/docs
 
 Creating an executable main class
 ---------------------------------
-_**TODO**: explain._
+To run the REST service, we'll create a main class that deploys the application to Tomcat.
 
 `src/main/java/hello/Main.java`
 ```java
@@ -248,6 +254,7 @@ public class Main {
 }
 ```
 
+As you can see, the `main()` method fires up an embedded Tomcat server and then loads the application, via the `HelloWorldWebAppInitializer`, into Tomcat.
 
 
 Building an executable JAR
@@ -299,14 +306,18 @@ The following will produce a single executable JAR file containing all necessary
 $ mvn package
 ```
 
-_**TODO:** this produces a bunch of the following. Fix?_
-```
-[WARNING] We have a duplicate javax/el/ExpressionFactory$4.class in /Users/cbeams/.m2/repository/org/apache/tomcat/tomcat-el-api/7.0.39/tomcat-el-api-7.0.39.jar
-```
+> _**TODO:** this produces a bunch of the following. Fix?_
+> ```
+> [WARNING] We have a duplicate javax/el/ExpressionFactory$4.class in /Users/cbeams/.m2/repository/org/apache/> tomcat/tomcat-el-api/7.0.39/tomcat-el-api-7.0.39.jar
+>```
+>> It seems to be a quirk with the shade plugin and seems harmless. There is some advice online for removing
+>> or minimizing the warnings by adding exclusions to the dependencies. But given that it seems harmless, I'm
+>> unsure if we should dwell on this.
 
 
 Running the Service
 -------------------------------------
+Now that the REST service code has been built into an executable JAR file, you can run it like this:
 
 ```
 $ java -jar target/gs-rest-service-0.0.1-SNAPSHOT.jar
@@ -314,14 +325,11 @@ $ java -jar target/gs-rest-service-0.0.1-SNAPSHOT.jar
 ... service comes up ...
 ```
 
-_**TODO:** this fails with the following. Fix._
-```
-Caused by: java.lang.IllegalArgumentException: Failed to register servlet with name 'dispatcher'.Check if there is another servlet registered under the same name.
-        at org.springframework.util.Assert.notNull(Assert.java:112)
-        at org.springframework.web.servlet.support.AbstractDispatcherServletInitializer.registerDispatcherServlet(AbstractDispatcherServletInitializer.java:98)
-```
+Once the service starts, you can test it by pointing your web browser at http://localhost:8080/hello-world. Or you can consume it from the command line using curl:
 
-_**TODO:** exercise the service in some meaningful way, e.g. with `curl`._
+```sh
+$ curl http://localhost:8080/hello-world
+```
 
 Congratulations! You have just developed a simple REST service using Spring. This is a basic foundation for building a complete REST API in Spring.
 
