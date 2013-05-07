@@ -46,13 +46,36 @@ compile 'com.fasterxml.jackson.core:jackson-core:2.1.4'
 ```
 
 
+Creating a Configuration Class
+------------------------------
+The first step is to set up a simple Spring configuration class. It'll look like this:
+
+`src/main/java/hello/HelloWorldConfiguration.java`
+
+```java
+package hello;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+@Configuration
+@EnableWebMvc
+@ComponentScan
+public class HelloWorldConfiguration {
+}
+```
+
+This class is concise, but there's plenty going on under the hood. [`@EnableWebMvc`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/servlet/config/annotation/EnableWebMvc.html) handles the registration of a number of components that enable Spring's support for annotation-based controllers—you'll build one of those in an upcoming step. And we've also annotated the configuration class with [`@ComponentScan`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/context/annotation/ComponentScan.html) which tells Spring to scan the `hello` package for those controllers (along with any other annotated component classes).
+
+
 Setting up the Spring DispatcherServlet
 ------------------------------------------
-Spring-based RESTful web services are built as Spring MVC controllers. Therefore, we'll need to be sure that Spring's [`DispatcherServlet`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html) is configured. We can do that by creating a [`WebApplicationInitializer`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/WebApplicationInitializer.html) class:
+Spring's [`DispatcherServlet`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html) will do the work of accepting incoming HTTP requests and routing them to our controller. The simplest way to configure and register the `DispatcherServlet` is with a [`WebApplicationInitializer`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/WebApplicationInitializer.html) class as follows:
 
-`src/main/java/gs/HelloWorldWebAppInitializer.java`
+`src/main/java/hello/HelloWorldWebAppInitializer.java`
 ```java
-package gs;
+package hello;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -85,28 +108,6 @@ The `getRootConfigClasses()` and `getServletConfigClasses()` methods specify the
 For our purposes there will only be a servlet application context, so `getRootConfigClasses()` returns `null`. `getServletConfigClasses()`, however, specifies `HelloWorldConfiguration` as the only configuration class.
 
 
-Creating a Configuration Class
-------------------------------
-Now that we have setup `DispatcherServlet` to handle requests for our application, we need to configure the Spring application context used by `DispatcherServlet`.
-
-In our Spring configuration, we'll need to enable annotation-oriented Spring MVC. And we'll also need to tell Spring where it can find our endpoint controller class. The following configuration class takes care of both of those things:
-
-```java
-package hello;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
-@Configuration
-@EnableWebMvc
-@ComponentScan
-public class HelloWorldConfiguration {
-}
-```
-	
-The [`@EnableWebMvc`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/servlet/config/annotation/EnableWebMvc.html) annotation turns on annotation-oriented Spring MVC. And we've also annotated the configuration class with [`@ComponentScan`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/context/annotation/ComponentScan.html) to have it look for components (including controllers) in the `hello` package.
-
-
 Creating a Representation Class
 -------------------------------
 With the essential Spring MVC configuration out of the way, it's time to get to the nuts and bolts of our REST service by creating a resource representation class and an endpoint controller.
@@ -126,6 +127,7 @@ The `id` field is a unique identifier for the greeting, and `content` is the tex
 
 To model the greeting representation, we’ll create a representation class:
 
+`src/main/java/hello/Greeting.java`
 ```java
 package hello;
 
@@ -156,6 +158,7 @@ Creating a Resource Controller
 ------------------------------
 In Spring, REST endpoints are just Spring MVC controllers. The following Spring MVC controller handles a GET request for /hello-world and returns our `Greeting` resource:
 
+`src/main/java/hello/HelloWorldController.java`
 ```java
 package hello;
 import java.util.concurrent.atomic.AtomicLong;
