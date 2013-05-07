@@ -1,6 +1,7 @@
-Getting Started: Creating a REST Service
-========================================
+# Getting Started Building a RESTful Web Service
 
+Introduction
+------------
 This Getting Started guide will walk you through the process of creating a simple REST service using Spring.
 
 To help you get started, we've provided an initial project structure as well as the completed project for you in GitHub:
@@ -13,21 +14,45 @@ In the `start` folder, you'll find a bare project, ready for you to copy-n-paste
 
 Before we can write the REST service itself, there's some initial project setup that's required. Or, you can skip straight to the [fun part](#creating-a-representation-class).
 
-Selecting Dependencies
-----------------------
-The sample in this Getting Started Guide will leverage Spring MVC and the Jackson JSON processor. Therefore, the following library dependencies are needed in the project's build configuration:
 
-  - org.springframework:spring-webmvc:3.2.2.RELEASE
-  - com.fasterxml.jackson.core:jackson-core:2.1.4
+Adding dependencies
+-------------------
+First you'll need to set up a basic build script. You can use any build system you like, but we've included snippets for [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) here. If you're not familiar with either of these, you can refer to our [Getting Started with Maven](../gs-maven/README.md) or [Getting Started with Gradle](../gs-gradle/README.md) guides.
 
-Refer to the [Gradle Getting Started Guide]() or the [Maven Getting Started Guide]() for details on how to include these dependencies in your build.
+Add the [Spring MVC](TODO) and [Jackson](http://jackson.codehaus.org) JSON libraries as dependencies:
 
-Setting Up DispatcherServlet
-----------------------------
-Spring REST services are built as Spring MVC controllers. Therefore, we'll need to be sure that Spring's [`DispatcherServlet`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html) is configured. We can do that by creating a web application initializer class:
+### Maven \[[copy complete `pom.xml` to clipboard](start/pom.xml)\]
 
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webmvc</artifactId>
+        <version>3.2.2.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>2.1.4</version>
+    </dependency>
+</dependencies>
+```
+
+### Gradle \[[copy complete `build.gradle` to clipboard](start/build.gradle)\]
+
+```groovy
+compile 'org.springframework:spring-webmvc:3.2.2.RELEASE'
+compile 'com.fasterxml.jackson.core:jackson-core:2.1.4'
+```
+
+
+Setting up the Spring DispatcherServlet
+------------------------------------------
+Spring-based RESTful web services are built as Spring MVC controllers. Therefore, we'll need to be sure that Spring's [`DispatcherServlet`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html) is configured. We can do that by creating a [`WebApplicationInitializer`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/WebApplicationInitializer.html) class:
+
+`src/main/java/gs/HelloWorldWebAppInitializer.java`
 ```java
-package hello;
+package gs;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -59,6 +84,7 @@ The `getRootConfigClasses()` and `getServletConfigClasses()` methods specify the
 
 For our purposes there will only be a servlet application context, so `getRootConfigClasses()` returns `null`. `getServletConfigClasses()`, however, specifies `HelloWorldConfiguration` as the only configuration class.
 
+
 Creating a Configuration Class
 ------------------------------
 Now that we have setup `DispatcherServlet` to handle requests for our application, we need to configure the Spring application context used by `DispatcherServlet`.
@@ -79,6 +105,7 @@ public class HelloWorldConfiguration {
 ```
 	
 The [`@EnableWebMvc`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/servlet/config/annotation/EnableWebMvc.html) annotation turns on annotation-oriented Spring MVC. And we've also annotated the configuration class with [`@ComponentScan`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/context/annotation/ComponentScan.html) to have it look for components (including controllers) in the `hello` package.
+
 
 Creating a Representation Class
 -------------------------------
