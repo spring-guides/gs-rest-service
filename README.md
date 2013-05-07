@@ -23,6 +23,9 @@ Add the [Spring MVC](TODO) and [Jackson](http://jackson.codehaus.org) JSON libra
 
 ### Maven \[[copy complete `pom.xml` to clipboard](start/pom.xml)\]
 
+Add the following within the `<project>` section of your pom.xml file:
+
+`pom.xml`
 ```xml
 <dependencies>
     <dependency>
@@ -55,6 +58,9 @@ Add the [Spring MVC](TODO) and [Jackson](http://jackson.codehaus.org) JSON libra
 
 ### Gradle \[[copy complete `build.gradle` to clipboard](start/build.gradle)\]
 
+Add the following within the `dependencies { }` section of your build.gradle file:
+
+`build.gradle`
 ```groovy
 compile 'org.springframework:spring-webmvc:3.2.2.RELEASE'
 compile 'com.fasterxml.jackson.core:jackson-core:2.1.4'
@@ -114,11 +120,11 @@ public class HelloWorldWebAppInitializer extends AbstractAnnotationConfigDispatc
 }
 ```
 
-By extending [`AbstractAnnotationConfigDispatcherServletInitializer`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/servlet/support/AbstractAnnotationConfigDispatcherServletInitializer.html), our web application initializer will get a `DispatcherServlet` that is configured with [`@Configuration`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/context/annotation/Configuration.html)-annotated classes. All we must do is tell it where those configuration classes are and what path(s) to map `DispatcherServlet` to. 
+By extending [`AbstractAnnotationConfigDispatcherServletInitializer`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/servlet/support/AbstractAnnotationConfigDispatcherServletInitializer.html), our web application initializer will get a `DispatcherServlet` that is configured with [`@Configuration`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/context/annotation/Configuration.html)-annotated classes. All we must do is tell it where those configuration classes are and what path(s) to map `DispatcherServlet` to.
 
 With regard to the servlet path mappings, `getServletMappings()` returns a single-entry array of `String` specifying that `DispatcherServlet` should be mapped to "/".
 
-The `getRootConfigClasses()` and `getServletConfigClasses()` methods specify the configuration classes. The `Class` array returned from `getRootConfigClasses()` specifies the classes for the root context provided to [`ContextLoaderListener`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/context/ContextLoaderListener.html). Similarly, the `Class` array returned from `getServletConfigClasses()` specifies the classes for the servlet application context provided to `DispatcherServlet`. 
+The `getRootConfigClasses()` and `getServletConfigClasses()` methods specify the configuration classes. The `Class` array returned from `getRootConfigClasses()` specifies the classes for the root context provided to [`ContextLoaderListener`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/context/ContextLoaderListener.html). Similarly, the `Class` array returned from `getServletConfigClasses()` specifies the classes for the servlet application context provided to `DispatcherServlet`.
 
 For our purposes there will only be a servlet application context, so `getRootConfigClasses()` returns `null`. `getServletConfigClasses()`, however, specifies `HelloWorldConfiguration` as the only configuration class.
 
@@ -127,7 +133,7 @@ Creating a Representation Class
 -------------------------------
 With the essential Spring MVC configuration out of the way, it's time to get to the nuts and bolts of our REST service by creating a resource representation class and an endpoint controller.
 
-Before we get too carried away with building the endpoint controller, we need to give some thought to what our API will look like. 
+Before we get too carried away with building the endpoint controller, we need to give some thought to what our API will look like.
 
 What we want is to handle GET requests for /hello-world, optionally with a name query parameter. In response to such a request, we'd like to send back JSON, representing a greeting, that looks something like this:
 
@@ -198,17 +204,130 @@ public class HelloWorldController {
 }
 ```
 
-The key difference between a human-facing controller and a REST endpoint controller is in how the response is created. Rather than rely on a view (such as JSP) to render model data in HTML, an endpoint controller simply returns the data to be written directly to the body of the response. 
+The key difference between a human-facing controller and a REST endpoint controller is in how the response is created. Rather than rely on a view (such as JSP) to render model data in HTML, an endpoint controller simply returns the data to be written directly to the body of the response.
 
 The magic is in the [`@ResponseBody`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html) annotation. `@ResponseBody` tells Spring MVC to not render a model into a view, but rather to write the returned object into the response body. It does this by using one of Spring's message converters. Because Jackson 2 is in the classpath, this means that [`MappingJackson2HttpMessageConverter`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/http/converter/json/MappingJackson2HttpMessageConverter.html) will handle the conversion of Greeting to JSON if the request's `Accept` header specifies that JSON should be returned.
 
-Building and Running the REST Service
--------------------------------------
->**NOTE**: This section is a very important section, because it shows the user how all of the work done up to this point comes together and runs. The challenge here, however, is that there's no *easy* way to run this application. Gradle's Jetty plugin seems easy and natural, but it uses an older, non-Servlet 3 version of Jetty, so the application initializer will not work. There is a Gradle Tomcat plugin, but it's quite involved setup-wise. And loading this into any IDE and running it is far more involved than either of the Gradle-based options. It would be really nice to leverage Spring Bootstrap/Catalyst for running the sample. That's likely what will happen, but at this point it's too risky of an option until bootstrap/catalyst stabilizes.
 
-Next Steps
-----------
-Congratulations! You have just developed a simple REST service using Spring. This is a basic foundation for building a complete REST API in Spring. 
+Creating an executable main class
+---------------------------------
+_**TODO**: explain._
+
+`src/main/java/hello/Main.java`
+```java
+package hello;
+
+import java.util.HashSet;
+
+import org.apache.catalina.Context;
+import org.apache.catalina.core.AprLifecycleListener;
+import org.apache.catalina.core.StandardServer;
+import org.apache.catalina.startup.Tomcat;
+import org.springframework.web.SpringServletContainerInitializer;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        Tomcat tomcat = new Tomcat();
+        tomcat.setPort(8080);
+        tomcat.setBaseDir(".");
+        tomcat.getHost().setAppBase("/");
+
+        // Add AprLifecycleListener
+        StandardServer server = (StandardServer)tomcat.getServer();
+        AprLifecycleListener listener = new AprLifecycleListener();
+        server.addLifecycleListener(listener);
+
+        Context context = tomcat.addWebapp("/", "/");
+        HashSet<Class<?>> classes = new HashSet<Class<?>>();
+        classes.add(HelloWorldWebAppInitializer.class);
+        context.addServletContainerInitializer(new SpringServletContainerInitializer(), classes);
+        tomcat.start();
+        tomcat.getServer().await();
+    }
+}
+```
+
+
+
+Building an executable JAR
+--------------------------
+
+Add the following to the <build><plugins> section of your pom.xml file:
+
+`pom.xml`
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-shade-plugin</artifactId>
+    <version>1.6</version>
+    <configuration>
+        <createDependencyReducedPom>true</createDependencyReducedPom>
+        <filters>
+            <filter>
+                <artifact>*:*</artifact>
+                <excludes>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>META-INF/*.DSA</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                </excludes>
+            </filter>
+        </filters>
+    </configuration>
+    <executions>
+        <execution>
+            <phase>package</phase>
+            <goals>
+                <goal>shade</goal>
+            </goals>
+            <configuration>
+                <transformers>
+                    <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                    <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                        <mainClass>hello.Main</mainClass>
+                    </transformer>
+                </transformers>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+```
+
+The following will produce a single executable JAR file containing all necessary dependency classes:
+
+```
+$ mvn package
+```
+
+_**TODO:** this produces a bunch of the following. Fix?_
+```
+[WARNING] We have a duplicate javax/el/ExpressionFactory$4.class in /Users/cbeams/.m2/repository/org/apache/tomcat/tomcat-el-api/7.0.39/tomcat-el-api-7.0.39.jar
+```
+
+
+Running the Service
+-------------------------------------
+
+```
+$ java -jar target/gs-rest-service-0.0.1-SNAPSHOT.jar
+
+... service comes up ...
+```
+
+_**TODO:** this fails with the following. Fix._
+```
+Caused by: java.lang.IllegalArgumentException: Failed to register servlet with name 'dispatcher'.Check if there is another servlet registered under the same name.
+        at org.springframework.util.Assert.notNull(Assert.java:112)
+        at org.springframework.web.servlet.support.AbstractDispatcherServletInitializer.registerDispatcherServlet(AbstractDispatcherServletInitializer.java:98)
+```
+
+_**TODO:** exercise the service in some meaningful way, e.g. with `curl`._
+
+Congratulations! You have just developed a simple REST service using Spring. This is a basic foundation for building a complete REST API in Spring.
+
+
+Related Resources
+-----------------
 
 There's more to building REST services than is covered here. You may want to continue your exploration of Spring and REST with the following Getting Started guides:
 
