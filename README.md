@@ -35,6 +35,21 @@ Add the [Spring MVC](TODO) and [Jackson](http://jackson.codehaus.org) JSON libra
         <artifactId>jackson-core</artifactId>
         <version>2.1.4</version>
     </dependency>
+    <dependency>
+        <groupId>org.apache.tomcat</groupId>
+        <artifactId>tomcat-catalina</artifactId>
+        <version>7.0.39</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.tomcat</groupId>
+        <artifactId>tomcat-embed-core</artifactId>
+        <version>7.0.39</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.tomcat</groupId>
+        <artifactId>tomcat-jasper</artifactId>
+        <version>7.0.39</version>
+    </dependency>
 </dependencies>
 ```
 
