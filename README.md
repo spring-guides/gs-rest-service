@@ -21,45 +21,42 @@ First you'll need to set up a basic build script. You can use any build system y
 
 Add the [Spring MVC](TODO) and [Jackson](http://jackson.codehaus.org) JSON libraries as dependencies:
 
-### Maven \[[copy complete `pom.xml` to clipboard](start/pom.xml)\]
+### Maven
 
-Add the following within the `<project>` section of your pom.xml file:
+Create a `pom.xml` file with the following contents:
 
 `pom.xml`
 ```xml
-<dependencies>
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-webmvc</artifactId>
-        <version>3.2.2.RELEASE</version>
-    </dependency>
-    <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-core</artifactId>
-        <version>2.1.4</version>
-    </dependency>
-    <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>2.1.4</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.tomcat</groupId>
-        <artifactId>tomcat-catalina</artifactId>
-        <version>7.0.39</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.tomcat</groupId>
-        <artifactId>tomcat-embed-core</artifactId>
-        <version>7.0.39</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.tomcat</groupId>
-        <artifactId>tomcat-jasper</artifactId>
-        <version>7.0.39</version>
-    </dependency>
-</dependencies>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.springframework</groupId>
+    <artifactId>gs-rest-service-complete</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <parent>
+        <groupId>org.springframework.bootstrap</groupId>
+        <artifactId>spring-bootstrap-starters</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.bootstrap</groupId>
+            <artifactId>spring-bootstrap-web-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
 ```
+
+Experienced Maven users who feel nervous about using an external parent project: don't panic, you can take it out later, it's just there to reduce the amount of code you have to write to get started.
 
 ### Gradle \[[copy complete `build.gradle` to clipboard](start/build.gradle)\]
 
@@ -67,9 +64,8 @@ Add the following within the `dependencies { }` section of your build.gradle fil
 
 `build.gradle`
 ```groovy
-compile 'org.springframework:spring-webmvc:3.2.2.RELEASE'
-compile 'com.fasterxml.jackson.core:jackson-core:2.1.4'
-compile 'com.fasterxml.jackson.core:jackson-databind:2.1.4'
+compile "org.springframework.bootstrap:spring-bootstrap-web-starter:0.0.1-SNAPSHOT"
+compile "com.fasterxml.jackson.core:jackson-databind:2.2.0-"
 ```
 
 
@@ -96,45 +92,6 @@ public class HelloWorldConfiguration {
 This class is concise, but there's plenty going on under the hood. [`@EnableWebMvc`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/servlet/config/annotation/EnableWebMvc.html) handles the registration of a number of components that enable Spring's support for annotation-based controllers—you'll build one of those in an upcoming step. And we've also annotated the configuration class with [`@ComponentScan`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/context/annotation/ComponentScan.html) which tells Spring to scan the `hello` package for those controllers (along with any other annotated component classes).
 
 
-Setting up the Spring DispatcherServlet
-------------------------------------------
-Spring's [`DispatcherServlet`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html) will do the work of accepting incoming HTTP requests and routing them to our controller. The simplest way to configure and register the `DispatcherServlet` is with a [`WebApplicationInitializer`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/WebApplicationInitializer.html) class as follows:
-
-`src/main/java/hello/HelloWorldWebAppInitializer.java`
-```java
-package hello;
-
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
-public class HelloWorldWebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
-
-	@Override
-	protected String[] getServletMappings() {
-		return new String[] { "/" };
-	}
-
-	@Override
-	protected Class<?>[] getRootConfigClasses() {
-		return null;
-	}
-
-	@Override
-	protected Class<?>[] getServletConfigClasses() {
-		return new Class[] { HelloWorldConfiguration.class };
-	}
-
-}
-```
-
-By extending [`AbstractAnnotationConfigDispatcherServletInitializer`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/servlet/support/AbstractAnnotationConfigDispatcherServletInitializer.html), our web application initializer will get a `DispatcherServlet` that is configured with [`@Configuration`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/context/annotation/Configuration.html)-annotated classes. All we must do is tell it where those configuration classes are and what path(s) to map `DispatcherServlet` to.
-
-With regard to the servlet path mappings, `getServletMappings()` returns a single-entry array of `String` specifying that `DispatcherServlet` should be mapped to "/".
-
-The `getRootConfigClasses()` and `getServletConfigClasses()` methods specify the configuration classes. The `Class` array returned from `getRootConfigClasses()` specifies the classes for the root context provided to [`ContextLoaderListener`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/context/ContextLoaderListener.html). Similarly, the `Class` array returned from `getServletConfigClasses()` specifies the classes for the servlet application context provided to `DispatcherServlet`.
-
-For our purposes there will only be a servlet application context, so `getRootConfigClasses()` returns `null`. `getServletConfigClasses()`, however, specifies `HelloWorldConfiguration` as the only configuration class.
-
-
 Creating a Representation Class
 -------------------------------
 With the essential Spring MVC configuration out of the way, it's time to get to the nuts and bolts of our REST service by creating a resource representation class and an endpoint controller.
@@ -145,11 +102,11 @@ What we want is to handle GET requests for /hello-world, optionally with a name 
 
 ```json
 {
-	"id": 1,
-	"content": "Hello, stranger!"
+    "id": 1,
+    "content": "Hello, stranger!"
 }
 ```
-	
+    
 The `id` field is a unique identifier for the greeting, and `content` is the textual representation of the greeting.
 
 To model the greeting representation, we’ll create a representation class:
@@ -160,21 +117,21 @@ package hello;
 
 public class Greeting {
 
-	private final long id;
-	private final String content;
+    private final long id;
+    private final String content;
 
-	public Greeting(long id, String content) {
-	this.id = id;
-	this.content = content;
-	}
+    public Greeting(long id, String content) {
+    this.id = id;
+    this.content = content;
+    }
 
-	public long getId() {
-	return id;
-	}
+    public long getId() {
+    return id;
+    }
 
-	public String getContent() {
-	return content;
-	}
+    public String getContent() {
+    return content;
+    }
 
 }
 ```
@@ -198,15 +155,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/hello-world")
 public class HelloWorldController {
-	
-	private static final String template = "Hello, %s!";
-	private final AtomicLong counter = new AtomicLong();
+    
+    private static final String template = "Hello, %s!";
+    private final AtomicLong counter = new AtomicLong();
 
-	@RequestMapping(method=RequestMethod.GET)
-	public @ResponseBody Greeting sayHello(@RequestParam(value="name", required=false, defaultValue="Stranger") String name) {
-		return new Greeting(counter.incrementAndGet(), String.format(template, name));
-	}
-	
+    @RequestMapping(method=RequestMethod.GET)
+    public @ResponseBody Greeting sayHello(@RequestParam(value="name", required=false, defaultValue="Stranger") String name) {
+        return new Greeting(counter.incrementAndGet(), String.format(template, name));
+    }
+    
 }
 ```
 
@@ -217,87 +174,75 @@ The magic is in the [`@ResponseBody`](http://static.springsource.org/spring/docs
 
 Creating an executable main class
 ---------------------------------
-To run the REST service, we'll create a main class that deploys the application to Tomcat.
 
-`src/main/java/hello/Main.java`
+We can launch the application from a custom main class, or we can do that directly from one of the configuration classes.  The easiest way is to use the `SpringApplication` helper class:
+
+`src/main/java/hello/HelloWorldConfiguration.java`
+
 ```java
 package hello;
 
-import java.util.HashSet;
+import org.springframework.bootstrap.SpringApplication;
+import org.springframework.bootstrap.context.annotation.EnableAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import org.apache.catalina.Context;
-import org.apache.catalina.core.AprLifecycleListener;
-import org.apache.catalina.core.StandardServer;
-import org.apache.catalina.startup.Tomcat;
-import org.springframework.web.SpringServletContainerInitializer;
-
-public class Main {
-
-    public static void main(String[] args) throws Exception {
-        Tomcat tomcat = new Tomcat();
-        tomcat.setPort(8080);
-        tomcat.setBaseDir(".");
-        tomcat.getHost().setAppBase("/");
-
-        // Add AprLifecycleListener
-        StandardServer server = (StandardServer)tomcat.getServer();
-        AprLifecycleListener listener = new AprLifecycleListener();
-        server.addLifecycleListener(listener);
-
-        Context context = tomcat.addWebapp("/", "/");
-        HashSet<Class<?>> classes = new HashSet<Class<?>>();
-        classes.add(HelloWorldWebAppInitializer.class);
-        context.addServletContainerInitializer(new SpringServletContainerInitializer(), classes);
-        tomcat.start();
-        tomcat.getServer().await();
+@Configuration
+@EnableAutoConfiguration
+@EnableWebMvc
+@ComponentScan
+public class HelloWorldConfiguration {
+    public static void main(String[] args) {
+        SpringApplication.run(HelloWorldConfiguration.class, args);
     }
 }
 ```
 
-As you can see, the `main()` method fires up an embedded Tomcat server and then loads the application, via the `HelloWorldWebAppInitializer`, into Tomcat.
+The `@EnableAutoConfiguration` annotation has also been added: it provides a load of defaults (like the embedded servlet container) depending on the contents of your classpath, and other things.
 
+Running the Service
+-------------------------------------
+
+Add the following to your `pom.xml`: 
+
+`pom.xml`
+```xml
+<properties>
+    <start-class>hello.HelloWorldConfiguration</start-class>
+</properties>
+```
+
+You can now run the application with the Maven exec plugin:
+
+```
+$ mvn exec:java
+
+... service comes up ...
+```
+
+so in another terminal you can do this
+
+```
+$ curl localhost:8080/hello-world
+{"id":1,"content":"Hello, Stranger!"}
+```
 
 Building an executable JAR
 --------------------------
 
-Add the following to the <build><plugins> section of your pom.xml file:
+Add the following to your `pom.xml` file (keeping any existing properties or plugins intact):
 
 `pom.xml`
 ```xml
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-shade-plugin</artifactId>
-    <version>1.6</version>
-    <configuration>
-        <createDependencyReducedPom>true</createDependencyReducedPom>
-        <filters>
-            <filter>
-                <artifact>*:*</artifact>
-                <excludes>
-                    <exclude>META-INF/*.SF</exclude>
-                    <exclude>META-INF/*.DSA</exclude>
-                    <exclude>META-INF/*.RSA</exclude>
-                </excludes>
-            </filter>
-        </filters>
-    </configuration>
-    <executions>
-        <execution>
-            <phase>package</phase>
-            <goals>
-                <goal>shade</goal>
-            </goals>
-            <configuration>
-                <transformers>
-                    <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-                    <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                        <mainClass>hello.Main</mainClass>
-                    </transformer>
-                </transformers>
-            </configuration>
-        </execution>
-    </executions>
-</plugin>
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+        </plugin>
+    </plugins>
+</build>
 ```
 
 The following will produce a single executable JAR file containing all necessary dependency classes:
@@ -306,29 +251,12 @@ The following will produce a single executable JAR file containing all necessary
 $ mvn package
 ```
 
-> _**TODO:** this produces a bunch of the following. Fix?_
-> ```
-> [WARNING] We have a duplicate javax/el/ExpressionFactory$4.class in /Users/cbeams/.m2/repository/org/apache/> tomcat/tomcat-el-api/7.0.39/tomcat-el-api-7.0.39.jar
->```
->> It seems to be a quirk with the shade plugin and seems harmless. There is some advice online for removing
->> or minimizing the warnings by adding exclusions to the dependencies. But given that it seems harmless, I'm
->> unsure if we should dwell on this.
-
-
-Running the Service
--------------------------------------
-Now that the REST service code has been built into an executable JAR file, you can run it like this:
+Now you can run it from the jar as well, and distribute that as an executable artifact:
 
 ```
 $ java -jar target/gs-rest-service-0.0.1-SNAPSHOT.jar
 
 ... service comes up ...
-```
-
-Once the service starts, you can test it by pointing your web browser at http://localhost:8080/hello-world. Or you can consume it from the command line using curl:
-
-```sh
-$ curl http://localhost:8080/hello-world
 ```
 
 Congratulations! You have just developed a simple REST service using Spring. This is a basic foundation for building a complete REST API in Spring.
