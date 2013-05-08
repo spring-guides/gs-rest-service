@@ -5,7 +5,7 @@
 
 	<groupId>org.springframework</groupId>
 	<artifactId>gs-rest-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.springframework.bootstrap</groupId>
@@ -20,29 +20,13 @@
 		</dependency>
 	</dependencies>
 
-	<properties>
-		<!-- use UTF-8 for everything -->
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<start-class>hello.HelloWorldConfiguration</start-class>
-	</properties>
-
+	<!-- TODO: remove once bootstrap goes GA -->
 	<repositories>
 		<repository>
 			<id>spring-snapshots</id>
 			<name>Spring Snapshots</name>
 			<url>http://repo.springsource.org/snapshot</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>http://repo.springsource.org/milestone</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
+			<snapshots><enabled>true</enabled></snapshots>
 		</repository>
 	</repositories>
 

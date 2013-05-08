@@ -2,28 +2,49 @@
 
 Introduction
 ------------
-This Getting Started guide will walk you through the process of creating a simple REST service using Spring.
 
-To help you get started, we've provided an initial project structure as well as the completed project for you in GitHub:
+### What You'll Build
 
-```sh
-$ git clone https://github.com/springframework-meta/gs-rest-service.git
+This guide will take you through creating a "hello world" [RESTful web service](/understanding/REST) with Spring—literally, we'll build a service that accepts an HTTP GET request:
+```
+$ curl http://localhost:8080/hello-world
+```
+and responds with the following [JSON](/understanding/JSON):
+```
+{"id":1,"content":"Hello, World!"}
 ```
 
-In the `start` folder, you'll find a bare project, ready for you to copy-n-paste code snippets from this document. In the `complete` folder, you'll find the complete project code.
+### What You'll Need
 
-Before we can write the REST service itself, there's some initial project setup that's required. Or, you can skip straight to the [fun part](#creating-a-representation-class).
+ - About 15 minutes
+ - A favorite text editor or IDE
+ - [JDK 7](http://docs.oracle.com/javase/7/docs/webnotes/install/index.html) or better
+ - Your choice of Maven (3.0+) or Gradle (1.5+)
+
+### How to Complete this Guide
+
+Like all Spring's [Getting Started guides](/getting-started), you can choose to start from scratch and complete each step, or you can jump past basic setup steps that may already be familiar to you. Either way, you'll end up with working code.
+
+To **start from scratch**, just move on to the next section and start [setting up the project](#scratch).
+
+If you'd like to **skip the basics**, then do the following:
+
+ - [download][zip] and unzip the source repository for this guide—or clone it using [git](/understanding/git):
+`git clone https://github.com/springframework-meta/gs-rest-service.git`
+ - cd into `gs-rest-service/initial`
+ - jump ahead to [creating a representation class](#initial).
+
+And **when you're finished**, you can check your results against the the code in `gs-rest-service/complete`.
 
 
-Adding dependencies
--------------------
-First you'll need to set up a basic build script. You can use any build system you like, but we've included snippets for [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) here. If you're not familiar with either of these, you can refer to our [Getting Started with Maven](../gs-maven/README.md) or [Getting Started with Gradle](../gs-gradle/README.md) guides.
-
-Add the [Spring MVC](TODO) and [Jackson](http://jackson.codehaus.org) JSON libraries as dependencies:
+<a name="scratch"></a>
+Setting up the project
+----------------------
+First you'll need to set up a basic build script. You can use any build system you like when building apps with Spring, but we've included what you'll need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) here. If you're not familiar with either of these, you can refer to our [Getting Started with Maven](../gs-maven/README.md) or [Getting Started with Gradle](../gs-gradle/README.md) guides.
 
 ### Maven
 
-Create a `pom.xml` file with the following contents:
+Create a Maven POM that looks like this:
 
 `pom.xml`
 ```xml
@@ -33,13 +54,13 @@ Create a `pom.xml` file with the following contents:
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.springframework</groupId>
-    <artifactId>gs-rest-service-complete</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>gs-rest-service</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
     <parent>
         <groupId>org.springframework.bootstrap</groupId>
         <artifactId>spring-bootstrap-starters</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.5.0.BUILD-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -47,18 +68,28 @@ Create a `pom.xml` file with the following contents:
             <groupId>org.springframework.bootstrap</groupId>
             <artifactId>spring-bootstrap-web-starter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
     </dependencies>
+
+    <!-- TODO: remove once bootstrap goes GA -->
+    <repositories>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>http://repo.springsource.org/snapshot</url>
+            <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+    </repositories>
 
 </project>
 ```
 
+TODO: mention that we're using Spring Bootstrap's [_starter POMs_](../gs-bootstrap-starter) here.
+
 Experienced Maven users who feel nervous about using an external parent project: don't panic, you can take it out later, it's just there to reduce the amount of code you have to write to get started.
 
-### Gradle \[[copy complete `build.gradle` to clipboard](start/build.gradle)\]
+### Gradle
+
+TODO: paste complete build.gradle.
 
 Add the following within the `dependencies { }` section of your build.gradle file:
 
@@ -92,6 +123,8 @@ public class HelloWorldConfiguration {
 This class is concise, but there's plenty going on under the hood. [`@EnableWebMvc`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/servlet/config/annotation/EnableWebMvc.html) handles the registration of a number of components that enable Spring's support for annotation-based controllers—you'll build one of those in an upcoming step. And we've also annotated the configuration class with [`@ComponentScan`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/context/annotation/ComponentScan.html) which tells Spring to scan the `hello` package for those controllers (along with any other annotated component classes).
 
 
+<a name="initial"></a>
+
 Creating a Representation Class
 -------------------------------
 With the essential Spring MVC configuration out of the way, it's time to get to the nuts and bolts of our REST service by creating a resource representation class and an endpoint controller.
@@ -103,7 +136,7 @@ What we want is to handle GET requests for /hello-world, optionally with a name 
 ```json
 {
     "id": 1,
-    "content": "Hello, stranger!"
+    "content": "Hello, World!"
 }
 ```
     
@@ -201,32 +234,6 @@ public class HelloWorldConfiguration {
 
 The `@EnableAutoConfiguration` annotation has also been added: it provides a load of defaults (like the embedded servlet container) depending on the contents of your classpath, and other things.
 
-Running the Service
--------------------------------------
-
-Add the following to your `pom.xml`: 
-
-`pom.xml`
-```xml
-<properties>
-    <start-class>hello.HelloWorldConfiguration</start-class>
-</properties>
-```
-
-You can now run the application with the Maven exec plugin:
-
-```
-$ mvn exec:java
-
-... service comes up ...
-```
-
-so in another terminal you can do this
-
-```
-$ curl localhost:8080/hello-world
-{"id":1,"content":"Hello, Stranger!"}
-```
 
 Building an executable JAR
 --------------------------
@@ -251,6 +258,9 @@ The following will produce a single executable JAR file containing all necessary
 $ mvn package
 ```
 
+Running the Service
+-------------------------------------
+
 Now you can run it from the jar as well, and distribute that as an executable artifact:
 
 ```
@@ -259,13 +269,13 @@ $ java -jar target/gs-rest-service-0.0.1-SNAPSHOT.jar
 ... service comes up ...
 ```
 
-Congratulations! You have just developed a simple REST service using Spring. This is a basic foundation for building a complete REST API in Spring.
+Congratulations! You have just developed a simple RESTful service using Spring. This is a basic foundation for building a complete REST API in Spring.
 
 
 Related Resources
 -----------------
 
-There's more to building REST services than is covered here. You may want to continue your exploration of Spring and REST with the following Getting Started guides:
+There's more to building RESTful web services than is covered here. You may want to continue your exploration of Spring and REST with the following Getting Started guides:
 
 * Handling POST, PUT, and GET requests in REST services
 * Creating self-describing APIs with HATEOAS
@@ -275,3 +285,4 @@ There's more to building REST services than is covered here. You may want to con
 * Testing REST services
 
 
+[zip]: https://github.com/springframework-meta/gs-rest-service/archive/master.zip
