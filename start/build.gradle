@@ -3,16 +3,13 @@ apply plugin: 'eclipse-wtp'
 apply plugin: 'idea'
 apply plugin: 'application'
 
-mainClassName = "hello.Main"
+mainClassName = "hello.HelloWorlConfiguration"
 
 repositories { mavenCentral() }
 
 dependencies {
-	compile "org.springframework:spring-webmvc:3.2.2.RELEASE"
-	compile "com.fasterxml.jackson.core:jackson-databind:2.1.4"
-	compile "org.apache.tomcat:tomcat-catalina:7.0.39"
-	compile "org.apache.tomcat.embed:tomcat-embed-core:7.0.39"
-	compile "org.apache.tomcat:tomcat-jasper:7.0.39"
+	compile "org.springframework.bootstrap:spring-bootstrap-web-starter:0.0.1-SNAPSHOT"
+	compile "com.fasterxml.jackson.core:jackson-databind:2.2.0-"
 }
 
 task wrapper(type: Wrapper) {
