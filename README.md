@@ -50,52 +50,45 @@ Create a Maven POM that looks like this:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.springframework</groupId>
-	<artifactId>gs-rest-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+    <groupId>org.springframework</groupId>
+    <artifactId>gs-rest-service</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
-	<parent>
-		<groupId>org.springframework.bootstrap</groupId>
-		<artifactId>spring-bootstrap-starters</artifactId>
-		<version>0.5.0.BUILD-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>org.springframework.bootstrap</groupId>
+        <artifactId>spring-bootstrap-starters</artifactId>
+        <version>0.5.0.BUILD-SNAPSHOT</version>
+    </parent>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.bootstrap</groupId>
-			<artifactId>spring-bootstrap-web-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.bootstrap</groupId>
+            <artifactId>spring-bootstrap-web-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+    </dependencies>
 
-	<!-- TODO: remove once bootstrap goes GA -->
-	<repositories>
-		<repository>
-			<id>spring-snapshots</id>
-			<name>Spring Snapshots</name>
-			<url>http://repo.springsource.org/snapshot</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>spring-snapshots</id>
-			<name>Spring Snapshots</name>
-			<url>http://repo.springsource.org/snapshot</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
-
+    <!-- TODO: remove once bootstrap goes GA -->
+    <repositories>
+        <repository>
+            <id>spring-snapshots</id>
+            <url>http://repo.springsource.org/snapshot</url>
+            <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-snapshots</id>
+            <url>http://repo.springsource.org/snapshot</url>
+            <snapshots><enabled>true</enabled></snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
 ```
 
@@ -140,7 +133,6 @@ This class is concise, but there's plenty going on under the hood. [`@EnableWebM
 
 
 <a name="initial"></a>
-
 Creating a Representation Class
 -------------------------------
 With the essential Spring MVC configuration out of the way, it's time to get to the nuts and bolts of our REST service by creating a resource representation class and an endpoint controller.
@@ -181,7 +173,6 @@ public class Greeting {
     public String getContent() {
     return content;
     }
-
 }
 ```
 
@@ -204,15 +195,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/hello-world")
 public class HelloWorldController {
-    
+
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping(method=RequestMethod.GET)
-    public @ResponseBody Greeting sayHello(@RequestParam(value="name", required=false, defaultValue="Stranger") String name) {
+    public @ResponseBody Greeting sayHello(
+            @RequestParam(value="name", required=false, defaultValue="Stranger") String name) {
         return new Greeting(counter.incrementAndGet(), String.format(template, name));
     }
-    
 }
 ```
 
@@ -258,13 +249,6 @@ Add the following to your `pom.xml` file (keeping any existing properties or plu
 
 `pom.xml`
 ```xml
-<properties>
-	<!-- use UTF-8 for everything -->
-	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	<start-class>hello.HelloWorldConfiguration</start-class>
-</properties>
-
 <build>
     <plugins>
         <plugin>
@@ -276,7 +260,6 @@ Add the following to your `pom.xml` file (keeping any existing properties or plu
 ```
 
 The following will produce a single executable JAR file containing all necessary dependency classes:
-
 ```
 $ mvn package
 ```
@@ -285,9 +268,8 @@ Running the Service
 -------------------------------------
 
 Now you can run it from the jar as well, and distribute that as an executable artifact:
-
 ```
-$ java -jar target/gs-rest-service-0.0.1-SNAPSHOT.jar
+$ java -jar target/gs-rest-service-1.0-SNAPSHOT.jar
 
 ... service comes up ...
 ```
@@ -306,6 +288,5 @@ There's more to building RESTful web services than is covered here. You may want
 * Securing a REST service with OAuth
 * [Consuming REST services](https://github.com/springframework-meta/gs-consuming-rest-core/blob/master/README.md)
 * Testing REST services
-
 
 [zip]: https://github.com/springframework-meta/gs-rest-service/archive/master.zip

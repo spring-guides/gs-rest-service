@@ -9,3 +9,4 @@ bin
 build
 target
 dependency-reduced-pom.xml
+*.sublime-*
