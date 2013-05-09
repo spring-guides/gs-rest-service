@@ -15,9 +15,10 @@ public class HelloWorldController {
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
 	
-	@RequestMapping(method=RequestMethod.GET)
-	public @ResponseBody Greeting sayHello(@RequestParam(value="name", required=false, defaultValue="Stranger") String name) {
-		return new Greeting(counter.incrementAndGet(), String.format(template, name));
-	}
-	
+    @RequestMapping(method=RequestMethod.GET)
+    public @ResponseBody Greeting sayHello(
+            @RequestParam(value="name", required=false, defaultValue="World") String name) {
+        return new Greeting(counter.incrementAndGet(), String.format(template, name));
+    }
+
 }

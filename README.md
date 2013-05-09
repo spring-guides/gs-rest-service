@@ -1,5 +1,7 @@
 # Getting Started Building a RESTful Web Service
 
+[![Build Status](https://drone.io/github.com/springframework-meta/gs-rest-service/status.png)](https://drone.io/github.com/springframework-meta/gs-rest-service/latest)
+
 Introduction
 ------------
 
@@ -201,7 +203,7 @@ public class HelloWorldController {
 
     @RequestMapping(method=RequestMethod.GET)
     public @ResponseBody Greeting sayHello(
-            @RequestParam(value="name", required=false, defaultValue="Stranger") String name) {
+            @RequestParam(value="name", required=false, defaultValue="World") String name) {
         return new Greeting(counter.incrementAndGet(), String.format(template, name));
     }
 }
