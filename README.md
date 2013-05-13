@@ -57,7 +57,7 @@ Create a Maven POM that looks like this:
 
     <groupId>org.springframework</groupId>
     <artifactId>gs-rest-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
 
     <parent>
         <groupId>org.springframework.bootstrap</groupId>
@@ -149,7 +149,7 @@ What we want is to handle GET requests for /hello-world, optionally with a name 
     "content": "Hello, World!"
 }
 ```
-    
+
 The `id` field is a unique identifier for the greeting, and `content` is the textual representation of the greeting.
 
 To model the greeting representation, we’ll create a representation class:
@@ -164,16 +164,16 @@ public class Greeting {
     private final String content;
 
     public Greeting(long id, String content) {
-    this.id = id;
-    this.content = content;
+        this.id = id;
+        this.content = content;
     }
 
     public long getId() {
-    return id;
+        return id;
     }
 
     public String getContent() {
-    return content;
+        return content;
     }
 }
 ```
@@ -209,9 +209,9 @@ public class HelloWorldController {
 }
 ```
 
-The key difference between a human-facing controller and a REST endpoint controller is in how the response is created. Rather than rely on a view (such as JSP) to render model data in HTML, an endpoint controller simply returns the data to be written directly to the body of the response.
+The key difference between a human-facing controller and a REST endpoint controller is in how the response is created. Rather than rely on a view (such as a [JSP](/understanding/JSP)) to render model data in HTML, an endpoint controller simply returns the data to be written directly to the body of the response.
 
-The magic is in the [`@ResponseBody`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html) annotation. `@ResponseBody` tells Spring MVC to not render a model into a view, but rather to write the returned object into the response body. It does this by using one of Spring's message converters. Because Jackson 2 is in the classpath, this means that [`MappingJackson2HttpMessageConverter`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/http/converter/json/MappingJackson2HttpMessageConverter.html) will handle the conversion of Greeting to JSON if the request's `Accept` header specifies that JSON should be returned.
+The magic is in the [`@ResponseBody`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html) annotation. `@ResponseBody` tells Spring MVC to not render a model into a view, but rather to write the returned object into the response body. It does this by using one of Spring's message converters. Because Jackson 2 is on the classpath, Spring's [`MappingJackson2HttpMessageConverter`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/http/converter/json/MappingJackson2HttpMessageConverter.html) is automatically chosen to convert the Greeting instance to JSON.
 
 
 Creating an executable main class
@@ -251,6 +251,10 @@ Add the following to your `pom.xml` file (keeping any existing properties or plu
 
 `pom.xml`
 ```xml
+<properties>
+    <start-class>hello.HelloWorldConfiguration</start-class>
+</properties>
+
 <build>
     <plugins>
         <plugin>
@@ -271,7 +275,7 @@ Running the Service
 
 Now you can run it from the jar as well, and distribute that as an executable artifact:
 ```
-$ java -jar target/gs-rest-service-1.0-SNAPSHOT.jar
+$ java -jar target/gs-rest-service-1.0.jar
 
 ... service comes up ...
 ```
