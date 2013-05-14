@@ -1,11 +1,10 @@
-# Getting Started Building a RESTful Web Service
+# Getting Started: Building a RESTful Web Service
 
 [![Build Status](https://drone.io/github.com/springframework-meta/gs-rest-service/status.png)](https://drone.io/github.com/springframework-meta/gs-rest-service/latest)
 
-Introduction
-------------
 
-### What You'll Build
+What you'll build
+-----------------
 
 This guide will take you through creating a "hello world" [RESTful web service](/understanding/REST) with Spring—literally, we'll build a service that accepts an HTTP GET request:
 ```
@@ -16,14 +15,18 @@ and responds with the following [JSON](/understanding/JSON):
 {"id":1,"content":"Hello, World!"}
 ```
 
-### What You'll Need
+
+What you'll need
+----------------
 
  - About 15 minutes
  - A favorite text editor or IDE
- - [JDK 7](http://docs.oracle.com/javase/7/docs/webnotes/install/index.html) or better
+ - [JDK 7][jdk7] or better
  - Your choice of Maven (3.0+) or Gradle (1.5+)
 
-### How to Complete this Guide
+
+How to complete this guide
+--------------------------
 
 Like all Spring's [Getting Started guides](/getting-started), you can choose to start from scratch and complete each step, or you can jump past basic setup steps that may already be familiar to you. Either way, you'll end up with working code.
 
@@ -34,18 +37,17 @@ If you'd like to **skip the basics**, then do the following:
  - [download][zip] and unzip the source repository for this guide—or clone it using [git](/understanding/git):
 `git clone https://github.com/springframework-meta/gs-rest-service.git`
  - cd into `gs-rest-service/initial`
- - jump ahead to [creating a representation class](#initial).
+ - jump ahead to [create a representation class](#initial).
 
 And **when you're finished**, you can check your results against the the code in `gs-rest-service/complete`.
 
 
 <a name="scratch"></a>
-Setting up the project
-----------------------
+Set up the project
+------------------
 First you'll need to set up a basic build script. You can use any build system you like when building apps with Spring, but we've included what you'll need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) here. If you're not familiar with either of these, you can refer to our [Getting Started with Maven](../gs-maven/README.md) or [Getting Started with Gradle](../gs-gradle/README.md) guides.
 
-### Maven
-
+<span class="maven">
 Create a Maven POM that looks like this:
 
 `pom.xml`
@@ -97,22 +99,20 @@ Create a Maven POM that looks like this:
 TODO: mention that we're using Spring Bootstrap's [_starter POMs_](../gs-bootstrap-starter) here.
 
 Experienced Maven users who feel nervous about using an external parent project: don't panic, you can take it out later, it's just there to reduce the amount of code you have to write to get started.
+</span>
 
-### Gradle
-
-TODO: paste complete build.gradle.
-
-Add the following within the `dependencies { }` section of your build.gradle file:
-
+<span class="gradle">
 `build.gradle`
 ```groovy
+TODO: paste complete build.gradle.
 compile "org.springframework.bootstrap:spring-bootstrap-web-starter:0.0.1-SNAPSHOT"
 compile "com.fasterxml.jackson.core:jackson-databind:2.2.0-"
 ```
+</span>
 
 
-Creating a Configuration Class
-------------------------------
+Create a configuration class
+----------------------------
 The first step is to set up a simple Spring configuration class. It'll look like this:
 
 `src/main/java/hello/HelloWorldConfiguration.java`
@@ -135,8 +135,8 @@ This class is concise, but there's plenty going on under the hood. [`@EnableWebM
 
 
 <a name="initial"></a>
-Creating a Representation Class
--------------------------------
+Create a representation class
+-----------------------------
 With the essential Spring MVC configuration out of the way, it's time to get to the nuts and bolts of our REST service by creating a resource representation class and an endpoint controller.
 
 Before we get too carried away with building the endpoint controller, we need to give some thought to what our API will look like.
@@ -180,7 +180,8 @@ public class Greeting {
 
 Now that we've got our representation class, let's create the endpoint controller that will serve it.
 
-Creating a Resource Controller
+
+Create a resource controller
 ------------------------------
 In Spring, REST endpoints are just Spring MVC controllers. The following Spring MVC controller handles a GET request for /hello-world and returns our `Greeting` resource:
 
@@ -214,7 +215,7 @@ The key difference between a human-facing controller and a REST endpoint control
 The magic is in the [`@ResponseBody`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html) annotation. `@ResponseBody` tells Spring MVC to not render a model into a view, but rather to write the returned object into the response body. It does this by using one of Spring's message converters. Because Jackson 2 is on the classpath, Spring's [`MappingJackson2HttpMessageConverter`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/http/converter/json/MappingJackson2HttpMessageConverter.html) is automatically chosen to convert the Greeting instance to JSON.
 
 
-Creating an executable main class
+Create an executable main class
 ---------------------------------
 
 We can launch the application from a custom main class, or we can do that directly from one of the configuration classes.  The easiest way is to use the `SpringApplication` helper class:
@@ -244,9 +245,9 @@ public class HelloWorldConfiguration {
 The `@EnableAutoConfiguration` annotation has also been added: it provides a load of defaults (like the embedded servlet container) depending on the contents of your classpath, and other things.
 
 
-Building an executable JAR
---------------------------
-
+Build an executable JAR
+-----------------------
+<span class="maven">
 Add the following to your `pom.xml` file (keeping any existing properties or plugins intact):
 
 `pom.xml`
@@ -264,14 +265,27 @@ Add the following to your `pom.xml` file (keeping any existing properties or plu
     </plugins>
 </build>
 ```
+</span>
+<span class="gradle">
+```groovy
+TODO: gradle syntax
+```
+</span>
 
 The following will produce a single executable JAR file containing all necessary dependency classes:
+<span class="maven">
 ```
 $ mvn package
 ```
+</span>
+<span class="gradle">
+```
+$ gradle build
+```
+</span>
 
-Running the Service
--------------------------------------
+Run the service
+---------------
 
 Now you can run it from the jar as well, and distribute that as an executable artifact:
 ```
@@ -283,7 +297,8 @@ $ java -jar target/gs-rest-service-1.0.jar
 Congratulations! You have just developed a simple RESTful service using Spring. This is a basic foundation for building a complete REST API in Spring.
 
 
-Related Resources
+<span class="related">
+Related resources
 -----------------
 
 There's more to building RESTful web services than is covered here. You may want to continue your exploration of Spring and REST with the following Getting Started guides:
@@ -294,5 +309,7 @@ There's more to building RESTful web services than is covered here. You may want
 * Securing a REST service with OAuth
 * [Consuming REST services](https://github.com/springframework-meta/gs-consuming-rest-core/blob/master/README.md)
 * Testing REST services
+</span>
 
 [zip]: https://github.com/springframework-meta/gs-rest-service/archive/master.zip
+[jdk7]: http://docs.oracle.com/javase/7/docs/webnotes/install/index.html
