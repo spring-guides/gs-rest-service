@@ -21,7 +21,7 @@ What you'll need
 
  - About 15 minutes
  - A favorite text editor or IDE
- - [JDK 7][jdk7] or better
+ - [JDK 7][jdk7] or later
  - Your choice of Maven (3.0+) or Gradle (1.5+)
 
 
@@ -283,6 +283,7 @@ $ mvn package
 $ gradle build
 ```
 </span>
+
 
 Run the service
 ---------------
