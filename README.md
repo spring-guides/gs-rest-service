@@ -1,7 +1,6 @@
+<!-- See expanded [macro:...] values at https://github.com/springframework-meta/springframework.org/tree/master/doc/gs-macros.md -->
+
 # Getting Started: Building a RESTful Web Service
-
-[![Build Status](https://drone.io/github.com/springframework-meta/gs-rest-service/status.png)](https://drone.io/github.com/springframework-meta/gs-rest-service/latest)
-
 
 What you'll build
 -----------------
@@ -25,30 +24,16 @@ What you'll need
  - Your choice of Maven (3.0+) or Gradle (1.5+)
 
 
-How to complete this guide
---------------------------
-
-Like all Spring's [Getting Started guides](/getting-started), you can choose to start from scratch and complete each step, or you can jump past basic setup steps that may already be familiar to you. Either way, you'll end up with working code.
-
-To **start from scratch**, just move on to the next section and start [setting up the project](#scratch).
-
-If you'd like to **skip the basics**, then do the following:
-
- - [download][zip] and unzip the source repository for this guide—or clone it using [git](/understanding/git):
-`git clone https://github.com/springframework-meta/gs-rest-service.git`
- - cd into `gs-rest-service/initial`
- - jump ahead to [create a representation class](#initial).
-
-And **when you're finished**, you can check your results against the the code in `gs-rest-service/complete`.
+[macro:how-to-complete-this-guide]
 
 
 <a name="scratch"></a>
 Set up the project
 ------------------
-First you'll need to set up a basic build script. You can use any build system you like when building apps with Spring, but we've included what you'll need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) here. If you're not familiar with either of these, you can refer to our [Getting Started with Maven](../gs-maven/README.md) or [Getting Started with Gradle](../gs-gradle/README.md) guides.
+[macro:build-system-intro]
 
 <span class="maven">
-Create a Maven POM that looks like this:
+### Create a Maven POM
 
 `pom.xml`
 ```xml
@@ -96,12 +81,11 @@ Create a Maven POM that looks like this:
 </project>
 ```
 
-TODO: mention that we're using Spring Bootstrap's [_starter POMs_](../gs-bootstrap-starter) here.
-
-Experienced Maven users who feel nervous about using an external parent project: don't panic, you can take it out later, it's just there to reduce the amount of code you have to write to get started.
+[macro:bootstrap-starter-pom-disclaimer]
 </span>
 
 <span class="gradle">
+### Create a Gradle build script
 `build.gradle`
 ```groovy
 TODO: paste complete build.gradle.
@@ -135,8 +119,8 @@ This class is concise, but there's plenty going on under the hood. [`@EnableWebM
 
 
 <a name="initial"></a>
-Create a representation class
------------------------------
+Create a resource representation class
+--------------------------------------
 With the essential Spring MVC configuration out of the way, it's time to get to the nuts and bolts of our REST service by creating a resource representation class and an endpoint controller.
 
 Before we get too carried away with building the endpoint controller, we need to give some thought to what our API will look like.
@@ -152,7 +136,7 @@ What we want is to handle GET requests for /hello-world, optionally with a name 
 
 The `id` field is a unique identifier for the greeting, and `content` is the textual representation of the greeting.
 
-To model the greeting representation, we’ll create a representation class:
+To model the greeting representation, create a representation class:
 
 `src/main/java/hello/Greeting.java`
 ```java
@@ -296,21 +280,6 @@ $ java -jar target/gs-rest-service-1.0.jar
 ```
 
 Congratulations! You have just developed a simple RESTful service using Spring. This is a basic foundation for building a complete REST API in Spring.
-
-
-<span class="related">
-Related resources
------------------
-
-There's more to building RESTful web services than is covered here. You may want to continue your exploration of Spring and REST with the following Getting Started guides:
-
-* Handling POST, PUT, and GET requests in REST services
-* Creating self-describing APIs with HATEOAS
-* Securing a REST service with HTTP Basic
-* Securing a REST service with OAuth
-* [Consuming REST services](https://github.com/springframework-meta/gs-consuming-rest-core/blob/master/README.md)
-* Testing REST services
-</span>
 
 [zip]: https://github.com/springframework-meta/gs-rest-service/archive/master.zip
 [jdk7]: http://docs.oracle.com/javase/7/docs/webnotes/install/index.html
