@@ -276,10 +276,37 @@ Now you can run it from the jar as well, and distribute that as an executable ar
 ```
 $ java -jar target/gs-rest-service-1.0.jar
 
-... service comes up ...
+```
+
+
+Test the service
+----------------
+
+Once the service starts, you can test it by pointing your web browser at http://localhost:8080/hello-world. Or you can consume it from the command line using [`curl`][curl]:
+
+```
+$ curl http://localhost:8080/hello-world
+```
+
+Either way, the response should look like this:
+```
+{"id":1,"content":"Hello, World!"}
+```
+
+Now try providing a `name` query string parameter: http://localhost:8080/hello-world?name=User
+
+```
+$ curl http://localhost:8080/hello-world?name=User
+```
+
+And notice how the content changes:
+
+```
+{"id":1,"content":"Hello, User"}
 ```
 
 Congratulations! You have just developed a simple RESTful service using Spring. This is a basic foundation for building a complete REST API in Spring.
 
 [zip]: https://github.com/springframework-meta/gs-rest-service/archive/master.zip
 [jdk7]: http://docs.oracle.com/javase/7/docs/webnotes/install/index.html
+[curl]: http://curl.haxx.se/download.html
