@@ -293,7 +293,7 @@ Either way, the response should look like this:
 {"id":1,"content":"Hello, World!"}
 ```
 
-Now try providing a `name` query string parameter: http://localhost:8080/hello-world?name=User
+Now try providing a `name` query string parameter: [http://localhost:8080/hello-world?name=User]
 
 ```
 $ curl http://localhost:8080/hello-world?name=User
