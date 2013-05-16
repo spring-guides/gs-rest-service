@@ -282,7 +282,7 @@ $ java -jar target/gs-rest-service-1.0.jar
 Test the service
 ----------------
 
-Once the service starts, you can test it by pointing your web browser at http://localhost:8080/hello-world. Or you can consume it from the command line using [`curl`][curl]:
+Once the service starts, you can test it by pointing your web browser at [http://localhost:8080/hello-world](). Or you can consume it from the command line using [`curl`][curl]:
 
 ```
 $ curl http://localhost:8080/hello-world
@@ -293,7 +293,7 @@ Either way, the response should look like this:
 {"id":1,"content":"Hello, World!"}
 ```
 
-Now try providing a `name` query string parameter: [http://localhost:8080/hello-world?name=User]
+Now try providing a `name` query string parameter: [http://localhost:8080/hello-world?name=User]()
 
 ```
 $ curl http://localhost:8080/hello-world?name=User
