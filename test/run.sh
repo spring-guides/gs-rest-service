@@ -4,7 +4,7 @@ mvn package
 java -jar target/gs-rest-service-complete-1.0.jar &
 PID=$!
 sleep 3
-curl -s http://localhost:8080/hello-world > target/actual.json
+curl -s http://localhost:8080/greeting > target/actual.json
 kill -9 $PID
 
 if diff -w ../test/expected.json target/actual.json
