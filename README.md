@@ -183,7 +183,7 @@ This controller is concise and simple, but there's plenty going on under the hoo
 
 The `@RequestMapping` annotation ensures that HTTP requests to `/greeting` are mapped to the `greeting()` method.
 
-[admon:note] We have not explicitly specified `GET` vs. `PUT`, `POST`, etc. above, because `@RequestMapping` maps _all_ HTTP operations by default. Use `@RequestMapping(method=GET)` to narrow this down.
+> **Note:** We have not explicitly specified `GET` vs. `PUT`, `POST`, etc. above, because `@RequestMapping` maps _all_ HTTP operations by default. Use `@RequestMapping(method=GET)` to narrow this down.
 
 `@RequestParam` binds the value of the query string parameter `name` into the `name` parameter of the `greeting()` method. This query string parameter is not `required`, so if absent in the request the `defaultValue` of "World" will be used.
 
