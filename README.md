@@ -41,7 +41,12 @@ Set up the project
 
 ### Create the directory structure
 
-    mkdir -p src/main/java/hello
+In a project directory of your choosing, create the following subdirectory structure (e.g. with `mkdir -p src/main/java/hello` on *nix systems):
+
+    └── src
+        └── main
+            └── java
+                └── hello
 
 ### Create a Maven POM
 
