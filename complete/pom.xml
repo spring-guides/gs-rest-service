@@ -25,7 +25,7 @@
     </dependencies>
 
     <properties>
-        <start-class>hello.ServiceMain</start-class>
+        <start-class>hello.Application</start-class>
     </properties>
 
     <build>

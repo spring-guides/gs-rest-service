@@ -203,7 +203,7 @@ While it is possible to package this service up as a traditional _web applicatio
 
 ### Create a main class
 
-`src/main/java/hello/ServiceMain.java`
+`src/main/java/hello/Application.java`
 
 ```java
 package hello;
@@ -214,14 +214,14 @@ import org.springframework.context.annotation.ComponentScan;
 
 @ComponentScan
 @EnableAutoConfiguration
-public class ServiceMain {
+public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(ServiceMain.class, args);
+        SpringApplication.run(Application.class, args);
     }
 }
 ```
-The `main()` method defers to the [`SpringApplication`][] helper class, providing `ServiceMain.class` as an argument to its `run()` method. This tells Spring to read the annotation metadata from `ServiceMain` and to manage it as a component in the _[Spring application context][u-application-context]_.
+The `main()` method defers to the [`SpringApplication`][] helper class, providing `Application.class` as an argument to its `run()` method. This tells Spring to read the annotation metadata from `Application` and to manage it as a component in the _[Spring application context][u-application-context]_.
 
 The `@ComponentScan` annotation tells Spring to recursively search through the `hello` package and its children for classes marked directly or indirectly with Spring's [`@Component`][] annotation. This directive ensures that Spring will find and register our `GreetingController`, because it is marked with `@Controller`, which in turn is a kind of `@Component` annotation.
 
@@ -229,14 +229,14 @@ The [`@EnableAutoConfiguration`][] annotation has also been added: it switches o
 
 ### Build an executable JAR
 
-Now that we have our `ServiceMain` class ready to go, we simply need to instruct the build system to create a single, executable jar containing everything. This will make it dead simple to ship and version and deploy the service as an application throughout the development lifecycle, across different environments, etc.
+Now that we have our `Application` class ready to go, we simply need to instruct the build system to create a single, executable jar containing everything. This will make it dead simple to ship and version and deploy the service as an application throughout the development lifecycle, across different environments, etc.
 
 Add the following configuration to your existing Maven POM
 
 `pom.xml`
 ```xml
     <properties>
-        <start-class>hello.ServiceMain</start-class>
+        <start-class>hello.Application</start-class>
     </properties>
 
     <build>
@@ -249,7 +249,7 @@ Add the following configuration to your existing Maven POM
     </build>
 ```
 
-The `start-class` property tells Maven to create a `META-INF/MANIFEST.MF` file with a `Main-Class: hello.ServiceMain` entry. This is the key to being able to run the jar with `java -jar`.
+The `start-class` property tells Maven to create a `META-INF/MANIFEST.MF` file with a `Main-Class: hello.Application` entry. This is the key to being able to run the jar with `java -jar`.
 
 The [Maven Shade plugin][maven-shade-plugin] extracts classes from all the jars on the classpath and builds a single "über-jar". This makes it much more convenient to execute and transport your service.
 
