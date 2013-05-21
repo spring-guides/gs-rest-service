@@ -229,11 +229,7 @@ The [`@EnableAutoConfiguration`][] annotation switches on reasonable default beh
 
 ### Build an executable JAR
 
-<<<<<<< HEAD
-Now that your `ServiceMain` class is ready, you simply instruct the build system to create a single, executable jar containing everything. This makes it easy to ship, version, and deploy the service as an application throughout the development lifecycle, across different environments, and so forth.
-=======
 Now that we have our `Application` class ready to go, we simply need to instruct the build system to create a single, executable jar containing everything. This will make it dead simple to ship and version and deploy the service as an application throughout the development lifecycle, across different environments, etc.
->>>>>>> upstream/master
 
 Add the following configuration to your existing Maven POM:
 
