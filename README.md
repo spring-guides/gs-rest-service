@@ -5,7 +5,7 @@
 What you'll build
 -----------------
 
-This guide will walk you through creating a "hello world" [RESTful web service][u-rest] with Spring. The service will accept HTTP GET requests at:
+This guide walks you through creating a "hello world" [RESTful web service][u-rest] with Spring. The service will accept HTTP GET requests at:
 
     http://localhost:8080/greeting
 
@@ -13,11 +13,11 @@ and respond with a [JSON][u-json] representation of a greeting:
 
     {"id":1,"content":"Hello, World!"}
 
-You'll also be able to customize the greeting by providing an optional `name` parameter in the query string:
+You can customize the greeting with an optional `name` parameter in the query string:
 
     http://localhost:8080/greeting?name=User
 
-this will override the default value of "World" and be reflected in the response:
+The `name` parameter value overrides the default value of "World" and is reflected in the response:
 
     {"id":1,"content":"Hello, User!"}
 
@@ -41,7 +41,7 @@ Set up the project
 
 ### Create the directory structure
 
-In a project directory of your choosing, create the following subdirectory structure (e.g. with `mkdir -p src/main/java/hello` on *nix systems):
+In a project directory of your choosing, create the following subdirectory structure; for example, with `mkdir -p src/main/java/hello` on *nix systems:
 
     └── src
         └── main
@@ -105,11 +105,11 @@ In a project directory of your choosing, create the following subdirectory struc
 Create a resource representation class
 --------------------------------------
 
-With the basics of setting up the project and build system out of the way, it's time to get to the nuts and bolts of creating our service.
+Now that you've set up the project and build system, you can create your web service.
 
-It's best to begin this process by thinking about what interacting with the service will look like.
+Begin the process by thinking about service interactions.
 
-We want to handle `GET` requests for `/greeting`, optionally with a `name` parameter in the query string. In response to such a request, we'd like to send back a `200 OK` response with JSON in the body that represents a greeting. It should look something like this:
+The service will handle `GET` requests for `/greeting`, optionally with a `name` parameter in the query string. The `GET` request should return a `200 OK` response with JSON in the body that represents a greeting. It should look something like this:
 
     {
         "id": 1,
@@ -118,7 +118,7 @@ We want to handle `GET` requests for `/greeting`, optionally with a `name` param
 
 The `id` field is a unique identifier for the greeting, and `content` is the textual representation of the greeting.
 
-To model the greeting representation, we'll create a _resource representation class_. There's nothing fancy about this step—we're just creating a plain old java object with fields, constructors and accessors for the `id` and `content` data:
+To model the greeting representation, you create a _resource representation class_. To do this, you simply create a plain old java object with fields, constructors, and accessors for the `id` and `content` data:
 
 `src/main/java/hello/Greeting.java`
 ```java
@@ -144,15 +144,15 @@ public class Greeting {
 }
 ```
 
-As you'll see in a moment, Spring will the use _Jackson_ library to automatically marshal instances of type `Greeting` into JSON.
+As you'll see, Spring uses _Jackson_ library to automatically marshal instances of type `Greeting` into JSON.
 
-Now that we've got our representation class, let's create the resource controller that will serve it.
+Next you create the resource controller that will serve the resource representation class.
 
 
 Create a resource controller
 ------------------------------
 
-In Spring's approach to building RESTful web services, HTTP requests are handled by a _controller_. These components are are easily identified by the [`@Controller`][] annotation, and the `GreetingController` below handles `GET` requests for `/greeting` by returning a new instance of our `Greeting` class:
+In Spring's approach to building RESTful web services, HTTP requests are handled by a _controller_. These components are easily identified by the [`@Controller`][] annotation, and the `GreetingController` below handles `GET` requests for `/greeting` by returning a new instance of the `Greeting` class:
 
 `src/main/java/hello/GreetingController.java`
 ```java
@@ -183,23 +183,23 @@ This controller is concise and simple, but there's plenty going on under the hoo
 
 The `@RequestMapping` annotation ensures that HTTP requests to `/greeting` are mapped to the `greeting()` method.
 
-> **Note:** We have not explicitly specified `GET` vs. `PUT`, `POST`, etc. above, because `@RequestMapping` maps _all_ HTTP operations by default. Use `@RequestMapping(method=GET)` to narrow this down.
+> **Note:** The above example does not specify `GET` vs. `PUT`, `POST`, and so forth, because `@RequestMapping` maps _all_ HTTP operations by default. Use `@RequestMapping(method=GET)` to narrow this mapping.
 
-`@RequestParam` binds the value of the query string parameter `name` into the `name` parameter of the `greeting()` method. This query string parameter is not `required`, so if absent in the request the `defaultValue` of "World" will be used.
+`@RequestParam` binds the value of the query string parameter `name` into the `name` parameter of the `greeting()` method. This query string parameter is not `required`; if it is absent in the request, the `defaultValue` of "World" is used.
 
-The implementation of the method body is straightforward—create and return a new `Greeting` object with `id` and `content` attributes based on the next value from our `counter` and formatting the given `name` using our greeting `template`.
+The implementation of the method body creates and returns a new `Greeting` object with `id` and `content` attributes based on the next value from the `counter`, and formats the given `name` by using the greeting `template`.
 
-One key difference between a traditional MVC controller and the RESTful web service controller above is in the way the HTTP response body is created. Rather than relying on a view technology (such as [JSP][u-jsp]) to perform server-side rendering of our greeting data to HTML, this service controller simply populates and returns a `Greeting` object, with the goal that its data is written directly to the HTTP response as JSON.
+A key difference between a traditional MVC controller and the RESTful web service controller above is the way that the HTTP response body is created. Rather than relying on a view technology (such as [JSP][u-jsp]) to perform server-side rendering of the greeting data to HTML, this RESTful web service controller simply populates and returns a `Greeting` object. The object data is written directly to the HTTP response as JSON.
 
-The [`@ResponseBody`][] annotation helps make this happen. The presence of this annotation on the `greeting()` method tells Spring MVC that it does not need to render the greeting object through a server-side view layer, but that instead that the greeting object returned _is_ the response body, and should be written out directly.
+To accmplish this, the [`@ResponseBody`][] annotation on the `greeting()` method tells Spring MVC that it does not need to render the greeting object through a server-side view layer, but that instead that the greeting object returned _is_ the response body, and should be written out directly.
 
-The only step that remains is converting the `Greeting` object to JSON. And fortunately, thanks to Spring's _HTTP message converter_ support, we don't need to bother with doing this conversion by hand. Because [Jackson 2][jackson] is on the classpath, Spring's [`MappingJackson2HttpMessageConverter`][] is automatically chosen to convert the `Greeting` instance to JSON.
+The `Greeting` object must be converted to JSON. Thanks to Spring's _HTTP message converter_ support, you don't need to do this conversion manually. Because [Jackson 2][jackson] is on the classpath, Spring's [`MappingJackson2HttpMessageConverter`][] is automatically chosen to convert the `Greeting` instance to JSON.
 
 
 Make the application executable
 -------------------------------
 
-While it is possible to package this service up as a traditional _web application archive_ or [WAR][u-war] file for deployment to an external application server, we demonstrate below the simpler approach of creating a _standalone application_. You'll package everything up a single, executable JAR file, driven by a good old Java `main()` method. And along the way, we'll use Spring's support for embedding the [Tomcat][u-tomcat] servlet container as the HTTP runtime, instead of deploying to an external instance.
+Although it is possible to package this service as a traditional _web application archive_ or [WAR][u-war] file for deployment to an external application server, the simpler approach demonstrated below creates a _standalone application_. You package everything in a single, executable JAR file, driven by a good old Java `main()` method. And along the way, you use Spring support for embedding the [Tomcat][u-tomcat] servlet container as the HTTP runtime, instead of deploying to an external instance.
 
 ### Create a main class
 
@@ -223,15 +223,15 @@ public class Application {
 ```
 The `main()` method defers to the [`SpringApplication`][] helper class, providing `Application.class` as an argument to its `run()` method. This tells Spring to read the annotation metadata from `Application` and to manage it as a component in the _[Spring application context][u-application-context]_.
 
-The `@ComponentScan` annotation tells Spring to recursively search through the `hello` package and its children for classes marked directly or indirectly with Spring's [`@Component`][] annotation. This directive ensures that Spring will find and register our `GreetingController`, because it is marked with `@Controller`, which in turn is a kind of `@Component` annotation.
+The `@ComponentScan` annotation tells Spring to search recursively through the `hello` package and its children for classes marked directly or indirectly with Spring's [`@Component`][] annotation. This directive ensures that Spring finds and registers the `GreetingController`, because it is marked with `@Controller`, which in turn is a kind of `@Component` annotation.
 
-The [`@EnableAutoConfiguration`][] annotation has also been added: it switches on a number of reasonable default behaviors based on the content of your classpath. For example, because the application depends on the embeddable version of Tomcat (tomcat-embed-core.jar), a Tomcat server is set up and configured with reasonable defaults on your behalf. And because the application also depends on Spring MVC (spring-webmvc.jar), a Spring MVC [`DispatcherServlet`][] is configured and registered for you—no `web.xml` necessary! Auto-configuration is a powerful, flexible mechanism—See the [API documentation][`@EnableAutoConfiguration`] for further details.
+The [`@EnableAutoConfiguration`][] annotation switches on reasonable default behaviors based on the content of your classpath. For example, because the application depends on the embeddable version of Tomcat (tomcat-embed-core.jar), a Tomcat server is set up and configured with reasonable defaults on your behalf. And because the application also depends on Spring MVC (spring-webmvc.jar), a Spring MVC [`DispatcherServlet`][] is configured and registered for you — no `web.xml` necessary! Auto-configuration is a powerful, flexible mechanism. See the [API documentation][`@EnableAutoConfiguration`] for further details.
 
 ### Build an executable JAR
 
-Now that we have our `Application` class ready to go, we simply need to instruct the build system to create a single, executable jar containing everything. This will make it dead simple to ship and version and deploy the service as an application throughout the development lifecycle, across different environments, etc.
+Now that your `Application` class is ready, you simply instruct the build system to create a single, executable jar containing everything. This makes it easy to ship, version, and deploy the service as an application throughout the development lifecycle, across different environments, and so forth.
 
-Add the following configuration to your existing Maven POM
+Add the following configuration to your existing Maven POM:
 
 `pom.xml`
 ```xml
@@ -249,9 +249,9 @@ Add the following configuration to your existing Maven POM
     </build>
 ```
 
-The `start-class` property tells Maven to create a `META-INF/MANIFEST.MF` file with a `Main-Class: hello.Application` entry. This is the key to being able to run the jar with `java -jar`.
+The `start-class` property tells Maven to create a `META-INF/MANIFEST.MF` file with a `Main-Class: hello.Application` entry. This entry enables you to run the jar with `java -jar`.
 
-The [Maven Shade plugin][maven-shade-plugin] extracts classes from all the jars on the classpath and builds a single "über-jar". This makes it much more convenient to execute and transport your service.
+The [Maven Shade plugin][maven-shade-plugin] extracts classes from all the jars on the classpath and builds a single "über-jar", which makes it more convenient to execute and transport your service.
 
 Now run the following to produce a single executable JAR file containing all necessary dependency classes and resources:
 
@@ -261,33 +261,33 @@ Now run the following to produce a single executable JAR file containing all nec
 Run the service
 ---------------
 
-That's it! You're ready to run your service with `java -jar` at the command line:
+Run your service with `java -jar` at the command line:
 
     java -jar target/gs-rest-service-1.0.jar
 
-You'll see a bit of logging output, and the service should be up and running within a second or two.
+Logging output is displayed. The service should be up and running within a few seconds.
 
 
 Test the service
 ----------------
 
-Now that the service is up, visit <http://localhost:8080/greeting>, where you'll see
+Now that the service is up, visit <http://localhost:8080/greeting>, where you see:
 
     {"id":1,"content":"Hello, World!"}
 
-Try providing a `name` query string parameter with <http://localhost:8080/greeting?name=User>. Notice how the value of the `content` attribute changes from "Hello, World!" to "Hello User!":
+Provide a `name` query string parameter with <http://localhost:8080/greeting?name=User>. Notice how the value of the `content` attribute changes from "Hello, World!" to "Hello User!":
 
     {"id":2,"content":"Hello, User!"}
 
-This demonstrates that the `@RequestParam` arrangement in `GreetingController` is working as expected. The `name` parameter has been given a default value of "World", but can always be explicitly overridden through the query string.
+This change demonstrates that the `@RequestParam` arrangement in `GreetingController` is working as expected. The `name` parameter has been given a default value of "World", but can always be explicitly overridden through the query string.
 
-Notice also how the `id` attribute has changed from `1` to `2`. This proves that we're working against the same `GreetingController` instance across multiple requests, and that its `counter` field is being incremented on each call as expected.
+Notice also how the `id` attribute has changed from `1` to `2`. This proves that you are working against the same `GreetingController` instance across multiple requests, and that its `counter` field is being incremented on each call as expected.
 
 
 Summary
 -------
 
-Congrats! You've just developed your first RESTful web service using Spring. This of course is just the beginning, and there are many more features to explore and take advantage of. Be sure to check out Spring's support for [securing](TODO), [testing](TODO), [describing](TODO) and [managing](TODO) RESTful web services.
+Congrats! You've just developed a RESTful web service with Spring. This of course is just the beginning, and there are many more features to explore and implement. Be sure to check out Spring's support for [securing](TODO), [testing](TODO), [describing](TODO) and [managing](TODO) RESTful web services.
 
 
 [mvn]: http://maven.apache.org/download.cgi
