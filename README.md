@@ -287,7 +287,7 @@ Notice also how the `id` attribute has changed from `1` to `2`. This proves that
 Summary
 -------
 
-Congrats! You've just developed a RESTful web service with Spring. This of course is just the beginning, and there are many more features to explore and take advantage of. Be sure to check out Spring's support for [securing](TODO), [testing](TODO), [describing](TODO) and [managing](TODO) RESTful web services.
+Congrats! You've just developed a RESTful web service with Spring. This of course is just the beginning, and there are many more features to explore and take advantage of. Be sure to check out Spring's support for [securing](TODO), [describing](TODO) [managing](TODO), [testing](TODO) and [consuming](/gs-consuming-rest) RESTful web services.
 
 
 [mvn]: http://maven.apache.org/download.cgi
