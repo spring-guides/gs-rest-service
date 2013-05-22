@@ -144,9 +144,9 @@ public class Greeting {
 }
 ```
 
-As you'll see, Spring uses _Jackson_ library to automatically marshal instances of type `Greeting` into JSON.
+**Note:** As you'll see in steps below, Spring will use the _Jackson_ JSON library to automatically marshal instances of type `Greeting` into JSON.
 
-Next you create the resource controller that will serve the resource representation class.
+Next you create the resource controller that will serve these greetings.
 
 
 Create a resource controller
@@ -189,9 +189,15 @@ The `@RequestMapping` annotation ensures that HTTP requests to `/greeting` are m
 
 The implementation of the method body creates and returns a new `Greeting` object with `id` and `content` attributes based on the next value from the `counter`, and formats the given `name` by using the greeting `template`.
 
+<<<<<<< HEAD
 A key difference between a traditional MVC controller and the RESTful web service controller above is the way that the HTTP response body is created. Rather than relying on a view technology (such as [JSP][u-jsp]) to perform server-side rendering of the greeting data to HTML, this RESTful web service controller simply populates and returns a `Greeting` object. The object data is written directly to the HTTP response as JSON.
 
 To accmplish this, the [`@ResponseBody`][] annotation on the `greeting()` method tells Spring MVC that it does not need to render the greeting object through a server-side view layer, but that instead that the greeting object returned _is_ the response body, and should be written out directly.
+=======
+A key difference between a traditional MVC controller and the RESTful web service controller above is the way that the HTTP response body is created. Rather than relying on a view technology (such as [JSP][u-jsp]) to perform server-side rendering of the greeting data to HTML, this RESTful web service controller simply populates and returns a `Greeting` object. The object data will be written directly to the HTTP response as JSON.
+
+To accomplish this, the [`@ResponseBody`][] annotation on the `greeting()` method tells Spring MVC that it does not need to render the greeting object through a server-side view layer, but that instead that the greeting object returned _is_ the response body, and should be written out directly.
+>>>>>>> upstream/master
 
 The `Greeting` object must be converted to JSON. Thanks to Spring's _HTTP message converter_ support, you don't need to do this conversion manually. Because [Jackson 2][jackson] is on the classpath, Spring's [`MappingJackson2HttpMessageConverter`][] is automatically chosen to convert the `Greeting` instance to JSON.
 
@@ -199,7 +205,11 @@ The `Greeting` object must be converted to JSON. Thanks to Spring's _HTTP messag
 Make the application executable
 -------------------------------
 
+<<<<<<< HEAD
 Although it is possible to package this service as a traditional _web application archive_ or [WAR][u-war] file for deployment to an external application server, the simpler approach demonstrated below creates a _standalone application_. You package everything in a single, executable JAR file, driven by a good old Java `main()` method. And along the way, you use Spring support for embedding the [Tomcat][u-tomcat] servlet container as the HTTP runtime, instead of deploying to an external instance.
+=======
+Although it is possible to package this service as a traditional _web application archive_ or [WAR][u-war] file for deployment to an external application server, the simpler approach demonstrated below creates a _standalone application_. You package everything in a single, executable JAR file, driven by a good old Java `main()` method. And along the way, you use Spring's support for embedding the [Tomcat][u-tomcat] servlet container as the HTTP runtime, instead of deploying to an external instance.
+>>>>>>> upstream/master
 
 ### Create a main class
 
@@ -229,7 +239,7 @@ The [`@EnableAutoConfiguration`][] annotation switches on reasonable default beh
 
 ### Build an executable JAR
 
-Now that we have our `Application` class ready to go, we simply need to instruct the build system to create a single, executable jar containing everything. This will make it dead simple to ship and version and deploy the service as an application throughout the development lifecycle, across different environments, etc.
+Now that your `Application` class is ready, you simply instruct the build system to create a single, executable jar containing everything. This makes it easy to ship, version, and deploy the service as an application throughout the development lifecycle, across different environments, and so forth.
 
 Add the following configuration to your existing Maven POM:
 
@@ -249,7 +259,7 @@ Add the following configuration to your existing Maven POM:
     </build>
 ```
 
-The `start-class` property tells Maven to create a `META-INF/MANIFEST.MF` file with a `Main-Class: hello.Application` entry. This is the key to being able to run the jar with `java -jar`.
+The `start-class` property tells Maven to create a `META-INF/MANIFEST.MF` file with a `Main-Class: hello.Application` entry. This entry enables you to run the jar with `java -jar`.
 
 The [Maven Shade plugin][maven-shade-plugin] extracts classes from all the jars on the classpath and builds a single "über-jar", which makes it more convenient to execute and transport your service.
 
@@ -287,7 +297,11 @@ Notice also how the `id` attribute has changed from `1` to `2`. This proves that
 Summary
 -------
 
+<<<<<<< HEAD
 Congrats! You've just developed a RESTful web service with Spring. This of course is just the beginning, and there are many more features to explore and implement. Be sure to check out Spring's support for [securing](TODO), [testing](TODO), [describing](TODO) and [managing](TODO) RESTful web services.
+=======
+Congrats! You've just developed a RESTful web service with Spring. This of course is just the beginning, and there are many more features to explore and take advantage of. Be sure to check out Spring's support for [securing](TODO), [describing](TODO) [managing](TODO), [testing](TODO) and [consuming](/gs-consuming-rest) RESTful web services.
+>>>>>>> upstream/master
 
 
 [mvn]: http://maven.apache.org/download.cgi
