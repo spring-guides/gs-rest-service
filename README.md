@@ -26,11 +26,9 @@ What you'll need
 ----------------
 
  - About 15 minutes
- - A favorite text editor or IDE
- - [JDK 6][jdk] or later
- - [Maven 3.0][mvn] or later
+ - [macro:prereq-editor-jdk-buildtools]
 
-[macro:how-to-complete-this-guide]
+## [macro:how-to-complete-this-guide]
 
 
 <a name="scratch"></a>
@@ -39,14 +37,7 @@ Set up the project
 
 [macro:build-system-intro]
 
-### Create the directory structure
-
-In a project directory of your choosing, create the following subdirectory structure; for example, with `mkdir -p src/main/java/hello` on *nix systems:
-
-    └── src
-        └── main
-            └── java
-                └── hello
+[macro:create-directory-structure-hello]
 
 ### Create a Maven POM
 
@@ -227,35 +218,7 @@ The `@ComponentScan` annotation tells Spring to search recursively through the `
 
 The [`@EnableAutoConfiguration`][] annotation switches on reasonable default behaviors based on the content of your classpath. For example, because the application depends on the embeddable version of Tomcat (tomcat-embed-core.jar), a Tomcat server is set up and configured with reasonable defaults on your behalf. And because the application also depends on Spring MVC (spring-webmvc.jar), a Spring MVC [`DispatcherServlet`][] is configured and registered for you — no `web.xml` necessary! Auto-configuration is a powerful, flexible mechanism. See the [API documentation][`@EnableAutoConfiguration`] for further details.
 
-### Build an executable JAR
-
-Now that your `Application` class is ready, you simply instruct the build system to create a single, executable jar containing everything. This makes it easy to ship, version, and deploy the service as an application throughout the development lifecycle, across different environments, and so forth.
-
-Add the following configuration to your existing Maven POM:
-
-`pom.xml`
-```xml
-    <properties>
-        <start-class>hello.Application</start-class>
-    </properties>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-```
-
-The `start-class` property tells Maven to create a `META-INF/MANIFEST.MF` file with a `Main-Class: hello.Application` entry. This entry enables you to run the jar with `java -jar`.
-
-The [Maven Shade plugin][maven-shade-plugin] extracts classes from all the jars on the classpath and builds a single "über-jar", which makes it more convenient to execute and transport your service.
-
-Now run the following to produce a single executable JAR file containing all necessary dependency classes and resources:
-
-    mvn package
+### [macro:build-an-executable-jar]
 
 
 Run the service
@@ -290,9 +253,7 @@ Summary
 Congrats! You've just developed a RESTful web service with Spring. This of course is just the beginning, and there are many more features to explore and take advantage of. Be sure to check out Spring's support for [securing](TODO), [describing](TODO) [managing](TODO), [testing](TODO) and [consuming](/gs-consuming-rest) RESTful web services.
 
 
-[mvn]: http://maven.apache.org/download.cgi
 [zip]: https://github.com/springframework-meta/gs-rest-service/archive/master.zip
-[jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
 [u-rest]: /understanding/rest
 [u-json]: /understanding/json
 [u-jsp]: /understanding/jsp
@@ -300,7 +261,6 @@ Congrats! You've just developed a RESTful web service with Spring. This of cours
 [u-war]: /understanding/war
 [u-tomcat]: /understanding/tomcat
 [u-application-context]: /understanding/application-context
-[maven-shade-plugin]: https://maven.apache.org/plugins/maven-shade-plugin
 [`@Controller`]: http://static.springsource.org/spring/docs/current/javadoc-api/org/springframework/stereotype/Controller.html
 [`SpringApplication`]: http://static.springsource.org/spring-bootstrap/docs/0.5.0.BUILD-SNAPSHOT/javadoc-api/org/springframework/bootstrap/SpringApplication.html
 [`@EnableAutoConfiguration`]: http://static.springsource.org/spring-bootstrap/docs/0.5.0.BUILD-SNAPSHOT/javadoc-api/org/springframework/bootstrap/context/annotation/SpringApplication.html
