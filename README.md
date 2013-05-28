@@ -50,7 +50,7 @@ Set up the project
 
     <groupId>org.springframework</groupId>
     <artifactId>gs-rest-service</artifactId>
-    <version>1.0</version>
+    <version>0.1.0</version>
 
     <parent>
         <groupId>org.springframework.bootstrap</groupId>
@@ -224,7 +224,7 @@ Run the service
 
 Run your service with `java -jar` at the command line:
 
-    java -jar target/gs-rest-service-1.0.jar
+    java -jar target/gs-rest-service-0.1.0.jar
 
 Logging output is displayed. The service should be up and running within a few seconds.
 
