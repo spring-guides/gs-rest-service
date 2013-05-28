@@ -30,8 +30,8 @@ What you'll need
 
 
 <a name="scratch"></a>
-Set up the project
-------------------
+## Set up the project
+
 
 {!snippet:build-system-intro}
 
@@ -91,8 +91,7 @@ Set up the project
 
 
 <a name="initial"></a>
-Create a resource representation class
---------------------------------------
+## Create a resource representation class
 
 Now that you've set up the project and build system, you can create your web service.
 
