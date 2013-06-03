@@ -24,74 +24,31 @@ What you'll need
 ----------------
 
  - About 15 minutes
- - {!snippet:prereq-editor-jdk-buildtools}
+ - {!include#prereq-editor-jdk-buildtools}
 
-## {!snippet:how-to-complete-this-guide}
+## {!include#how-to-complete-this-guide}
 
 
 <a name="scratch"></a>
-## Set up the project
+Set up the project
+------------------
 
+{!include#build-system-intro}
 
-{!snippet:build-system-intro}
-
-{!snippet:create-directory-structure-hello}
+{!include#create-directory-structure-hello}
 
 ### Create a Maven POM
 
-{!snippet:maven-project-setup-options}
+{!include#maven-project-setup-options}
 
-`pom.xml`
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+    {!include:initial/pom.xml}
 
-    <groupId>org.springframework</groupId>
-    <artifactId>gs-rest-service</artifactId>
-    <version>0.1.0</version>
-
-    <parent>
-        <groupId>org.springframework.bootstrap</groupId>
-        <artifactId>spring-bootstrap-starters</artifactId>
-        <version>0.5.0.BUILD-SNAPSHOT</version>
-    </parent>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.bootstrap</groupId>
-            <artifactId>spring-bootstrap-web-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-    </dependencies>
-
-    <!-- TODO: remove once bootstrap goes GA -->
-    <repositories>
-        <repository>
-            <id>spring-snapshots</id>
-            <url>http://repo.springsource.org/snapshot</url>
-            <snapshots><enabled>true</enabled></snapshots>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-snapshots</id>
-            <url>http://repo.springsource.org/snapshot</url>
-            <snapshots><enabled>true</enabled></snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-</project>
-```
-
-{!snippet:bootstrap-starter-pom-disclaimer}
+{!include#bootstrap-starter-pom-disclaimer}
 
 
 <a name="initial"></a>
-## Create a resource representation class
+Create a resource representation class
+--------------------------------------
 
 Now that you've set up the project and build system, you can create your web service.
 
@@ -108,29 +65,7 @@ The `id` field is a unique identifier for the greeting, and `content` is the tex
 
 To model the greeting representation, you create a _resource representation class_. To do this, you simply create a plain old java object with fields, constructors, and accessors for the `id` and `content` data:
 
-`src/main/java/hello/Greeting.java`
-```java
-package hello;
-
-public class Greeting {
-
-    private final long id;
-    private final String content;
-
-    public Greeting(long id, String content) {
-        this.id = id;
-        this.content = content;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-}
-```
+    {!include:complete/src/main/java/hello/Greeting.java}
 
 > **Note:** As you'll see in steps below, Spring will use the _Jackson_ JSON library to automatically marshal instances of type `Greeting` into JSON.
 
@@ -142,30 +77,7 @@ Create a resource controller
 
 In Spring's approach to building RESTful web services, HTTP requests are handled by a _controller_. These components are easily identified by the [`@Controller`][] annotation, and the `GreetingController` below handles `GET` requests for `/greeting` by returning a new instance of the `Greeting` class:
 
-`src/main/java/hello/GreetingController.java`
-```java
-package hello;
-
-import java.util.concurrent.atomic.AtomicLong;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-@Controller
-public class GreetingController {
-
-    private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
-
-    @RequestMapping("/greeting")
-    public @ResponseBody Greeting greeting(
-            @RequestParam(value="name", required=false, defaultValue="World") String name) {
-        return new Greeting(counter.incrementAndGet(),
-                            String.format(template, name));
-    }
-}
-```
+    {!include:complete/src/main/java/hello/GreetingController.java}
 
 This controller is concise and simple, but there's plenty going on under the hood. Let's break it down step by step.
 
@@ -190,31 +102,16 @@ Make the application executable
 Although it is possible to package this service as a traditional _web application archive_ or [WAR][u-war] file for deployment to an external application server, the simpler approach demonstrated below creates a _standalone application_. You package everything in a single, executable JAR file, driven by a good old Java `main()` method. And along the way, you use Spring's support for embedding the [Tomcat][u-tomcat] servlet container as the HTTP runtime, instead of deploying to an external instance.
 
 ### Create a main class
+
+    {!include:complete/src/main/java/hello/Application.java}
+
 The `main()` method defers to the [`SpringApplication`][] helper class, providing `Application.class` as an argument to its `run()` method. This tells Spring to read the annotation metadata from `Application` and to manage it as a component in the _[Spring application context][u-application-context]_.
 
-`src/main/java/hello/Application.java`
-
-```java
-package hello;
-
-import org.springframework.bootstrap.SpringApplication;
-import org.springframework.bootstrap.context.annotation.EnableAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
-
-@ComponentScan
-@EnableAutoConfiguration
-public class Application {
-
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-}
-```
 The `@ComponentScan` annotation tells Spring to search recursively through the `hello` package and its children for classes marked directly or indirectly with Spring's [`@Component`][] annotation. This directive ensures that Spring finds and registers the `GreetingController`, because it is marked with `@Controller`, which in turn is a kind of `@Component` annotation.
 
 The [`@EnableAutoConfiguration`][] annotation switches on reasonable default behaviors based on the content of your classpath. For example, because the application depends on the embeddable version of Tomcat (tomcat-embed-core.jar), a Tomcat server is set up and configured with reasonable defaults on your behalf. And because the application also depends on Spring MVC (spring-webmvc.jar), a Spring MVC [`DispatcherServlet`][] is configured and registered for you — no `web.xml` necessary! Auto-configuration is a powerful, flexible mechanism. See the [API documentation][`@EnableAutoConfiguration`] for further details.
 
-### {!snippet:build-an-executable-jar}
+### {!include#build-an-executable-jar}
 
 
 Run the service
