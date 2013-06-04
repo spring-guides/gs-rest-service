@@ -40,6 +40,17 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<dependencies>
+					<dependency>
+						<groupId>org.springframework.bootstrap</groupId>
+						<artifactId>spring-bootstrap-tomcat-starter</artifactId>
+						<version>${spring.bootstrap.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 		</plugins>
 	</build>
 
