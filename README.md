@@ -25,7 +25,7 @@ What you'll need
 
  - About 15 minutes
  - A favorite text editor or IDE
- - [JDK 6][jdk] or better
+ - [JDK 6][jdk] or later
  - [Maven 3.0][mvn] or later
 
 [jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
@@ -52,7 +52,7 @@ To **skip the basics**, do the following:
 Set up the project
 ------------------
 
-First you set up a basic build script. You can use any build system you like when building apps with Spring, but the code you need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) is included here. If you're not familiar with either, refer to our [Getting Started with Maven](../gs-maven/README.md) or [Getting Started with Gradle](../gs-gradle/README.md) guides.
+First you set up a basic build script. You can use any build system you like when building apps with Spring, but the code you need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) is included here. If you're not familiar with either, refer to [Getting Started with Maven](../gs-maven/README.md) or [Getting Started with Gradle](../gs-gradle/README.md).
 
 ### Create the directory structure
 
@@ -64,8 +64,6 @@ In a project directory of your choosing, create the following subdirectory struc
                 └── hello
 
 ### Create a Maven POM
-
-> **ERROR:** Section 'maven-project-setup-options' not found
 
 `pom.xml`
 ```xml

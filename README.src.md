@@ -39,8 +39,6 @@ Set up the project
 
 ### Create a Maven POM
 
-{!include#maven-project-setup-options}
-
     {!include:initial/pom.xml}
 
 {!include#bootstrap-starter-pom-disclaimer}
