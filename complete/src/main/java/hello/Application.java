@@ -2,15 +2,15 @@ package hello;
 
 import org.springframework.bootstrap.SpringApplication;
 import org.springframework.bootstrap.context.annotation.EnableAutoConfiguration;
-import org.springframework.bootstrap.web.BootstrapServletInitializer;
+import org.springframework.bootstrap.web.SpringServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 
 @ComponentScan
 @EnableAutoConfiguration
-public class Application extends BootstrapServletInitializer {
+public class Application extends SpringServletInitializer {
 
 	@Override
-	protected Class<?>[] getServletConfigClasses() {
+	protected Class<?>[] getConfigClasses() {
 		return new Class<?>[] { Application.class };
 	}
 
