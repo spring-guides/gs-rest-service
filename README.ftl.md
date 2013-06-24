@@ -1,3 +1,5 @@
+<#assign project_id="gs-rest-service">
+
 # Getting Started: Building a RESTful Web Service
 
 What you'll build
@@ -24,9 +26,10 @@ What you'll need
 ----------------
 
  - About 15 minutes
-<@prereq_editor_jdk_buildtools/>
+ - <@prereq_editor_jdk_buildtools/>
 
-<@how_to_complete_this_guide/>
+
+## <@how_to_complete_this_guide/>
 
 
 <a name="scratch"></a>
@@ -39,7 +42,7 @@ Set up the project
 
 ### Create a Maven POM
 
-<@snippet path="pom.xml" prefix="initial"/>
+    <@snippet path="pom.xml" prefix="initial"/>
 
 <@bootstrap_starter_pom_disclaimer/>
 
@@ -63,7 +66,7 @@ The `id` field is a unique identifier for the greeting, and `content` is the tex
 
 To model the greeting representation, you create a _resource representation class_. To do this, you simply create a plain old java object with fields, constructors, and accessors for the `id` and `content` data:
 
-<@snippet path="src/main/java/hello/Greeting.java" prefix="complete"/>
+    <@snippet path="src/main/java/hello/Greeting.java" prefix="complete"/>
 
 > **Note:** As you'll see in steps below, Spring will use the _Jackson_ JSON library to automatically marshal instances of type `Greeting` into JSON.
 
@@ -75,7 +78,7 @@ Create a resource controller
 
 In Spring's approach to building RESTful web services, HTTP requests are handled by a _controller_. These components are easily identified by the [`@Controller`][] annotation, and the `GreetingController` below handles `GET` requests for `/greeting` by returning a new instance of the `Greeting` class:
 
-<@snippet path="src/main/java/hello/GreetingController.java" prefix="complete"/>
+    <@snippet path="src/main/java/hello/GreetingController.java" prefix="complete"/>
 
 This controller is concise and simple, but there's plenty going on under the hood. Let's break it down step by step.
 
@@ -101,7 +104,7 @@ Although it is possible to package this service as a traditional _web applicatio
 
 ### Create a main class
 
-<@snippet path="src/main/java/hello/Application.java" prefix="complete"/>
+    <@snippet path="src/main/java/hello/Application.java" prefix="complete"/>
 
 The `main()` method defers to the [`SpringApplication`][] helper class, providing `Application.class` as an argument to its `run()` method. This tells Spring to read the annotation metadata from `Application` and to manage it as a component in the _[Spring application context][u-application-context]_.
 
@@ -109,7 +112,7 @@ The `@ComponentScan` annotation tells Spring to search recursively through the `
 
 The [`@EnableAutoConfiguration`][] annotation switches on reasonable default behaviors based on the content of your classpath. For example, because the application depends on the embeddable version of Tomcat (tomcat-embed-core.jar), a Tomcat server is set up and configured with reasonable defaults on your behalf. And because the application also depends on Spring MVC (spring-webmvc.jar), a Spring MVC [`DispatcherServlet`][] is configured and registered for you — no `web.xml` necessary! Auto-configuration is a powerful, flexible mechanism. See the [API documentation][`@EnableAutoConfiguration`] for further details.
 
-<@build_an_executable_jar/>
+### <@build_an_executable_jar/>
 
 
 Run the service
