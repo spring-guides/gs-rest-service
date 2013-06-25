@@ -25,7 +25,7 @@ What you'll need
 ----------------
 
  - About 15 minutes
- -  - A favorite text editor or IDE
+ - A favorite text editor or IDE
  - [JDK 6][jdk] or later
  - [Maven 3.0][mvn] or later
 
@@ -33,8 +33,7 @@ What you'll need
 [mvn]: http://maven.apache.org/download.cgi
 
 
-
-## How to complete this guide
+How to complete this guide
 --------------------------
 
 Like all Spring's [Getting Started guides](/getting-started), you can start from scratch and complete each step, or you can bypass basic setup steps that are already familiar to you. Either way, you end up with working code.
@@ -49,7 +48,6 @@ To **skip the basics**, do the following:
  - Jump ahead to [Create a resource representation class](#initial).
 
 **When you're finished**, you can check your results against the code in `gs-rest-service/complete`.
-
 
 
 <a name="scratch"></a>
@@ -246,7 +244,7 @@ The `@ComponentScan` annotation tells Spring to search recursively through the `
 
 The [`@EnableAutoConfiguration`][] annotation switches on reasonable default behaviors based on the content of your classpath. For example, because the application depends on the embeddable version of Tomcat (tomcat-embed-core.jar), a Tomcat server is set up and configured with reasonable defaults on your behalf. And because the application also depends on Spring MVC (spring-webmvc.jar), a Spring MVC [`DispatcherServlet`][] is configured and registered for you — no `web.xml` necessary! Auto-configuration is a powerful, flexible mechanism. See the [API documentation][`@EnableAutoConfiguration`] for further details.
 
-### ### Build an executable JAR
+### Build an executable JAR
 
 Now that your `Application` class is ready, you simply instruct the build system to create a single, executable jar containing everything. This makes it easy to ship, version, and deploy the service as an application throughout the development lifecycle, across different environments, and so forth.
 
@@ -277,7 +275,6 @@ Now run the following to produce a single executable JAR file containing all nec
     mvn package
 
 [maven-shade-plugin]: https://maven.apache.org/plugins/maven-shade-plugin
-
 
 
 Run the service
