@@ -1,6 +1,6 @@
-### Related Resources
+## Related Resources
 
-There's more to building RESTful web services than is covered here. You may want to continue your exploration of Spring and REST with the following
+Do more with Spring and RESTful web services:
 
 ### Getting Started Guides
 
