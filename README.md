@@ -48,6 +48,7 @@ To **skip the basics**, do the following:
  - Jump ahead to [Create a resource representation class](#initial).
 
 **When you're finished**, you can check your results against the code in `gs-rest-service/complete`.
+[zip]: https://github.com/springframework-meta/gs-rest-service/archive/master.zip
 
 
 <a name="scratch"></a>
@@ -309,7 +310,6 @@ Summary
 Congrats! You've just developed a RESTful web service with Spring. This of course is just the beginning, and there are many more features to explore and take advantage of. Be sure to check out Spring's support for [securing](TODO), [describing](TODO) [managing](TODO), [testing](TODO) and [consuming](/gs-consuming-rest) RESTful web services.
 
 
-[zip]: https://github.com/springframework-meta/gs-rest-service/archive/master.zip
 [u-rest]: /understanding/rest
 [u-json]: /understanding/json
 [u-jsp]: /understanding/jsp

@@ -120,7 +120,7 @@ Run the service
 
 Run your service with `java -jar` at the command line:
 
-    java -jar target/gs-rest-service-0.1.0.jar
+    java -jar target/${project_id}-0.1.0.jar
 
 Logging output is displayed. The service should be up and running within a few seconds.
 
@@ -147,7 +147,6 @@ Summary
 Congrats! You've just developed a RESTful web service with Spring. This of course is just the beginning, and there are many more features to explore and take advantage of. Be sure to check out Spring's support for [securing](TODO), [describing](TODO) [managing](TODO), [testing](TODO) and [consuming](/gs-consuming-rest) RESTful web services.
 
 
-[zip]: https://github.com/springframework-meta/gs-rest-service/archive/master.zip
 [u-rest]: /understanding/rest
 [u-json]: /understanding/json
 [u-jsp]: /understanding/jsp
