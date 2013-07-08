@@ -277,13 +277,13 @@ Now run the following to produce a single executable JAR file containing all nec
 
 [maven-shade-plugin]: https://maven.apache.org/plugins/maven-shade-plugin
 
-
 Run the service
----------------
-
+-------------------
 Run your service with `java -jar` at the command line:
 
     java -jar target/gs-rest-service-0.1.0.jar
+
+
 
 Logging output is displayed. The service should be up and running within a few seconds.
 
