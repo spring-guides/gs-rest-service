@@ -114,13 +114,7 @@ The [`@EnableAutoConfiguration`][] annotation switches on reasonable default beh
 
 ### <@build_an_executable_jar/>
 
-
-Run the service
----------------
-
-Run your service with `java -jar` at the command line:
-
-    java -jar target/gs-rest-service-0.1.0.jar
+<@run_the_application module="service"/>
 
 Logging output is displayed. The service should be up and running within a few seconds.
 
@@ -149,7 +143,6 @@ Congratulations! You've just developed a RESTful web service with Spring.
 To see what else you can do with Spring and RESTful web services, see [Related Resources](TODO).
 
 
-[zip]: https://github.com/springframework-meta/gs-rest-service/archive/master.zip
 [u-rest]: /understanding/rest
 [u-json]: /understanding/json
 [u-jsp]: /understanding/jsp
