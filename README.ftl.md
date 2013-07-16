@@ -102,7 +102,7 @@ Make the application executable
 
 Although it is possible to package this service as a traditional [WAR][u-war] file for deployment to an external application server, the simpler approach demonstrated below creates a standalone application. You package everything in a single, executable JAR file, driven by a good old Java `main()` method. Along the way, you use Spring's support for embedding the [Tomcat][u-tomcat] servlet container as the HTTP runtime, instead of deploying to an external instance.
 
-### Create a main class
+### Create an Application class
 
     <@snippet path="src/main/java/hello/Application.java" prefix="complete"/>
 
@@ -112,7 +112,9 @@ The `@ComponentScan` annotation tells Spring to search recursively through the `
 
 The [`@EnableAutoConfiguration`][] annotation switches on reasonable default behaviors based on the content of your classpath. For example, because the application depends on the embeddable version of Tomcat (tomcat-embed-core.jar), a Tomcat server is set up and configured with reasonable defaults on your behalf. And because the application also depends on Spring MVC (spring-webmvc.jar), a Spring MVC [`DispatcherServlet`][] is configured and registered for you — no `web.xml` necessary! Auto-configuration is a powerful, flexible mechanism. See the [API documentation][`@EnableAutoConfiguration`] for further details.
 
-### <@build_an_executable_jar/>
+<@build_an_executable_jar_subhead/>
+
+<@build_an_executable_jar/>
 
 <@run_the_application module="service"/>
 
@@ -140,7 +142,6 @@ Summary
 
 Congratulations! You've just developed a RESTful web service with Spring. 
 
-To see what else you can do with Spring and RESTful web services, see [Related Resources](TODO).
 
 
 [u-rest]: /understanding/rest
