@@ -11,7 +11,9 @@ This guide walks you through creating a "hello world" [RESTful web service][u-re
 
 and respond with a [JSON][u-json] representation of a greeting:
 
-    {"id":1,"content":"Hello, World!"}
+```json
+{"id":1,"content":"Hello, World!"}
+```
 
 You can customize the greeting with an optional `name` parameter in the query string:
 
@@ -19,7 +21,9 @@ You can customize the greeting with an optional `name` parameter in the query st
 
 The `name` parameter value overrides the default value of "World" and is reflected in the response:
 
-    {"id":1,"content":"Hello, User!"}
+```json
+{"id":1,"content":"Hello, User!"}
+```
 
 
 What you'll need
@@ -57,10 +61,12 @@ Begin the process by thinking about service interactions.
 
 The service will handle `GET` requests for `/greeting`, optionally with a `name` parameter in the query string. The `GET` request should return a `200 OK` response with JSON in the body that represents a greeting. It should look something like this:
 
-    {
-        "id": 1,
-        "content": "Hello, World!"
-    }
+```json
+{
+    "id": 1,
+    "content": "Hello, World!"
+}
+```
 
 The `id` field is a unique identifier for the greeting, and `content` is the textual representation of the greeting.
 
@@ -126,11 +132,15 @@ Test the service
 
 Now that the service is up, visit <http://localhost:8080/greeting>, where you see:
 
-    {"id":1,"content":"Hello, World!"}
+```json
+{"id":1,"content":"Hello, World!"}
+```
 
 Provide a `name` query string parameter with <http://localhost:8080/greeting?name=User>. Notice how the value of the `content` attribute changes from "Hello, World!" to "Hello User!":
 
-    {"id":2,"content":"Hello, User!"}
+```json
+{"id":2,"content":"Hello, User!"}
+```
 
 This change demonstrates that the `@RequestParam` arrangement in `GreetingController` is working as expected. The `name` parameter has been given a default value of "World", but can always be explicitly overridden through the query string.
 
