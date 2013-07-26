@@ -1,7 +1,7 @@
 cd $(dirname $0)
 cd ../complete
 mvn package
-java -jar target/gs-rest-service-complete-0.1.0.jar &
+java -jar target/gs-rest-service-0.1.0.jar &
 PID=$!
 sleep 3
 curl -s http://localhost:8080/greeting > target/actual.json
