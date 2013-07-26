@@ -1,7 +1,5 @@
 <#assign project_id="gs-rest-service">
 
-# Getting Started: Building a RESTful Web Service
-
 What you'll build
 -----------------
 
