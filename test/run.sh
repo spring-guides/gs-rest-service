@@ -7,7 +7,8 @@ sleep 3
 curl -s http://localhost:8080/greeting > target/actual.json
 kill -9 $PID
 
-cat target/actual.json
+echo "Let's look at the actual results: `cat target/actual.json`"
+echo "And compare it to: `cat ../test/expected.json`"
 
 if diff -w ../test/expected.json target/actual.json
 	then
