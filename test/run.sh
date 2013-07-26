@@ -1,6 +1,6 @@
 cd $(dirname $0)
 cd ../complete
-mvn package
+mvn clean package
 java -jar target/gs-rest-service-0.1.0.jar &
 PID=$!
 sleep 3
