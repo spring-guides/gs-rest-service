@@ -1,6 +1,3 @@
-
-# Getting Started: Building a RESTful Web Service
-
 What you'll build
 -----------------
 
