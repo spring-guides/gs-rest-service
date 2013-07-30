@@ -8,15 +8,15 @@
     <version>0.1.0</version>
 
     <parent>
-        <groupId>org.springframework.zero</groupId>
-        <artifactId>spring-starter-parent</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-up-parent</artifactId>
         <version>0.5.0.BUILD-SNAPSHOT</version>
     </parent>
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.zero</groupId>
-            <artifactId>spring-starter-web</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-up-web</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
