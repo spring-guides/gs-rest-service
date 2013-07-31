@@ -83,14 +83,14 @@ In a project directory of your choosing, create the following subdirectory struc
 
     <parent>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-up-parent</artifactId>
+        <artifactId>spring-boot-starter-parent</artifactId>
         <version>0.5.0.BUILD-SNAPSHOT</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-up-web</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -116,7 +116,7 @@ In a project directory of your choosing, create the following subdirectory struc
 </project>
 ```
 
-TODO: mention that we're using Spring Boot's [_starter POMs_](../gs-bootstrap-starter) here.
+This guide is using [Spring Boot's starter POMs](/guides/gs/spring-boot/content).
 
 Note to experienced Maven users who are unaccustomed to using an external parent project: you can take it out later, it's just there to reduce the amount of code you have to write to get started.
 
