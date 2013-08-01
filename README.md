@@ -271,7 +271,7 @@ Add the following configuration to your existing Maven POM:
     </build>
 ```
 
-The `start-class` property tells Maven to create a `META-INF/MANIFEST.MF` file with a `Main-Class: hello.Application` entry. This entry enables you to run the jar with `java -jar`.
+The `start-class` property tells Maven to create a `META-INF/MANIFEST.MF` file with a `Main-Class: hello.Application` entry. This entry enables you to run it with `mvn spring-boot:run` (or simply run the jar itself with `java -jar`).
 
 The [Spring Boot maven plugin][spring-boot-maven-plugin] collects all the jars on the classpath and builds a single "über-jar", which makes it more convenient to execute and transport your service.
 
@@ -281,21 +281,16 @@ Now run the following command to produce a single executable JAR file containing
 $ mvn package
 ```
 
-To run the package, run this:
-```sh
-$ mvn spring-boot:run
-```
-
 [spring-boot-maven-plugin]: https://github.com/SpringSource/spring-boot/tree/master/spring-boot-maven-plugin
 
 > **Note:** The procedure above will create a runnable JAR. You can also opt to [build a classic WAR file](/guides/gs/convert-jar-to-war/content) instead.
 
 Run the service
 -------------------
-Run your service with `java -jar` at the command line:
+Run your service using the spring-boot plugin at the command line:
 
 ```sh
-$ java -jar target/gs-rest-service-0.1.0.jar
+$ mvn spring-boot:run
 ```
 
 
