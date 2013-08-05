@@ -1,4 +1,3 @@
-
 What you'll build
 -----------------
 
@@ -321,7 +320,6 @@ Summary
 -------
 
 Congratulations! You've just developed a RESTful web service with Spring. 
-
 
 
 [u-rest]: /understanding/rest
