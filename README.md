@@ -1,3 +1,4 @@
+
 What you'll build
 -----------------
 
@@ -97,7 +98,6 @@ In a project directory of your choosing, create the following subdirectory struc
         </dependency>
     </dependencies>
 
-    <!-- TODO: remove once bootstrap goes GA -->
     <repositories>
         <repository>
             <id>spring-snapshots</id>
@@ -320,6 +320,7 @@ Summary
 -------
 
 Congratulations! You've just developed a RESTful web service with Spring. 
+
 
 
 [u-rest]: /understanding/rest
