@@ -11,13 +11,37 @@ echo "Let's look at the actual results: `cat target/actual.json`"
 echo "And compare it to: `cat ../test/expected.json`"
 
 if diff -w ../test/expected.json target/actual.json
-	then
-		echo SUCCESS
-		let ret=0
-	else
-		echo FAIL
-		let ret=255
+    then
+        echo SUCCESS
+        let ret=0
+    else
+        echo FAIL
+        let ret=255
+        exit $ret
 fi
-
 rm -rf target
+
+./gradlew build
+ret=$?
+if [ $ret -ne 0 ]; then
 exit $ret
+fi
+rm -rf build
+
+cd ../initial
+
+mvn clean package
+ret=$?
+if [ $ret -ne 0 ]; then
+exit $ret
+fi
+rm -rf target
+
+./gradlew build
+ret=$?
+if [ $ret -ne 0 ]; then
+exit $ret
+fi
+rm -rf build
+
+exit
