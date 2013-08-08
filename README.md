@@ -1,8 +1,9 @@
+This guide walks you through creating a "hello world" [RESTful web service][u-rest] with Spring.
 
 What you'll build
 -----------------
 
-This guide walks you through creating a "hello world" [RESTful web service][u-rest] with Spring. The service will accept HTTP GET requests at:
+The service will accept HTTP GET requests at:
 
     http://localhost:8080/greeting
 
@@ -57,7 +58,7 @@ To **skip the basics**, do the following:
 Set up the project
 ------------------
 
-First you set up a basic build script. You can use any build system you like when building apps with Spring, but the code you need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) is included here. If you're not familiar with either, refer to [Building Java Projects with Maven](/guides/gs/maven/) or [Building Java Projects with Gradle](/guides/gs/gradle/).
+First you set up a basic build script. You can use any build system you like when building apps with Spring, but the code you need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) is included here. If you're not familiar with either, refer to [Building Java Projects with Maven](/guides/gs/maven) or [Building Java Projects with Gradle](/guides/gs/gradle/).
 
 ### Create the directory structure
 
