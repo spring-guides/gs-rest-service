@@ -10,11 +10,11 @@ There's more to building RESTful web services than is covered here. You can cont
 * [Consuming XML from a REST Web Service with Spring for Android][gs-consuming-rest-xml-android]
 * [Building a RESTful Web Service with Spring Bootstrap Actuator][gs-actuator-service]
 
-[gs-consuming-rest]: /guides/gs/consuming-rest/content
-[gs-consuming-rest-android]: /guides/gs/consuming-rest-android/content
-[gs-rest-hateoas]: /guides/gs/rest-hateoas/content
-[gs-consuming-rest-xml-android]: /guides/gs/consuming-rest-xml-android/content
-[gs-actuator-service]: /guides/gs/actuator-service/content
+[gs-consuming-rest]: /guides/gs/consuming-rest/
+[gs-consuming-rest-android]: /guides/gs/consuming-rest-android/
+[gs-rest-hateoas]: /guides/gs/rest-hateoas/
+[gs-consuming-rest-xml-android]: /guides/gs/consuming-rest-xml-android/
+[gs-actuator-service]: /guides/gs/actuator-service/
 
 ### Tutorials
 
