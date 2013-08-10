@@ -333,12 +333,12 @@ Congratulations! You've just developed a RESTful web service with Spring.
 
 
 
-[u-rest]: /understanding/rest
-[u-json]: /understanding/json
-[u-jsp]: /understanding/jsp
+[u-rest]: /understanding/REST
+[u-json]: /understanding/JSON
+[u-jsp]: /understanding/JSP
 [jackson]: http://wiki.fasterxml.com/JacksonHome
-[u-war]: /understanding/war
-[u-tomcat]: /understanding/tomcat
+[u-war]: /understanding/WAR
+[u-tomcat]: /understanding/Tomcat
 [u-application-context]: /understanding/application-context
 [`@Controller`]: http://static.springsource.org/spring/docs/current/javadoc-api/org/springframework/stereotype/Controller.html
 [`SpringApplication`]: http://static.springsource.org/spring-bootstrap/docs/0.5.0.BUILD-SNAPSHOT/javadoc-api/org/springframework/bootstrap/SpringApplication.html
