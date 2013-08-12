@@ -95,7 +95,7 @@ The `@RequestMapping` annotation ensures that HTTP requests to `/greeting` are m
 
 The implementation of the method body creates and returns a new `Greeting` object with `id` and `content` attributes based on the next value from the `counter`, and formats the given `name` by using the greeting `template`.
 
-A key difference between a traditional MVC controller and the RESTful web service controller above is the way that the HTTP response body is created. Rather than relying on a view technology (such as [JSP][u-jsp]) to perform server-side rendering of the greeting data to HTML, this RESTful web service controller simply populates and returns a `Greeting` object. The object data will be written directly to the HTTP response as JSON.
+A key difference between a traditional MVC controller and the RESTful web service controller above is the way that the HTTP response body is created. Rather than relying on a [view technology][u-view-templates] to perform server-side rendering of the greeting data to HTML, this RESTful web service controller simply populates and returns a `Greeting` object. The object data will be written directly to the HTTP response as JSON.
 
 To accomplish this, the [`@ResponseBody`][] annotation on the `greeting()` method tells Spring MVC that it does not need to render the greeting object through a server-side view layer, but that instead that the greeting object returned _is_ the response body, and should be written out directly.
 
@@ -155,7 +155,7 @@ Congratulations! You've just developed a RESTful web service with Spring.
 
 [u-rest]: /understanding/REST
 [u-json]: /understanding/JSON
-[u-jsp]: /understanding/JSP
+[u-view-templates]: /understanding/view-templates
 [jackson]: http://wiki.fasterxml.com/JacksonHome
 [u-war]: /understanding/WAR
 [u-tomcat]: /understanding/Tomcat
