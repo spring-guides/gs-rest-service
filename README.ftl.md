@@ -1,10 +1,10 @@
 <#assign project_id="gs-rest-service">
-This guide walks you through creating a "hello world" [RESTful web service][u-rest] with Spring.
+This guide walks you through the process of creating a "hello world" [RESTful web service][u-rest] with Spring.
 
 What you'll build
 -----------------
 
-The service will accept HTTP GET requests at:
+You'll build a service that will accept HTTP GET requests at:
 
     http://localhost:8080/greeting
 
