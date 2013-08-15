@@ -2,7 +2,7 @@
 
 There's more to building RESTful web services than is covered here. You can continue your exploration of Spring and REST with the following resources.
 
-### Getting Started Guides
+### Getting Started guides
 
 * [Consuming a RESTful Web Service][gs-consuming-rest]
 * [Building a Hypermedia-Driven REST Web Service][gs-rest-hateoas]
