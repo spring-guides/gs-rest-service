@@ -1,4 +1,6 @@
 <#assign project_id="gs-rest-service">
+<#assign spring_version="3.2.4.RELEASE">
+<#assign spring_boot_version="0.5.0.BUILD-SNAPSHOT">
 This guide walks you through the process of creating a "hello world" [RESTful web service][u-rest] with Spring.
 
 What you'll build
@@ -160,10 +162,10 @@ Congratulations! You've just developed a RESTful web service with Spring.
 <@u_war/>
 <@u_tomcat/>
 <@u_application_context/>
-[`@Controller`]: http://static.springsource.org/spring/docs/current/javadoc-api/org/springframework/stereotype/Controller.html
-[`SpringApplication`]: http://static.springsource.org/spring-bootstrap/docs/0.5.0.BUILD-SNAPSHOT/javadoc-api/org/springframework/bootstrap/SpringApplication.html
-[`@EnableAutoConfiguration`]: http://static.springsource.org/spring-bootstrap/docs/0.5.0.BUILD-SNAPSHOT/javadoc-api/org/springframework/bootstrap/context/annotation/SpringApplication.html
-[`@Component`]: http://static.springsource.org/spring/docs/current/javadoc-api/org/springframework/stereotype/Component.html
-[`@ResponseBody`]: http://static.springsource.org/spring/docs/current/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html
-[`MappingJackson2HttpMessageConverter`]: http://static.springsource.org/spring/docs/current/javadoc-api/org/springframework/http/converter/json/MappingJackson2HttpMessageConverter.html
-[`DispatcherServlet`]: http://static.springsource.org/spring/docs/current/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
+[`@Controller`]: http://static.springsource.org/spring/docs/${spring_version}/javadoc-api/org/springframework/stereotype/Controller.html
+[`SpringApplication`]: http://static.springsource.org/spring-bootstrap/docs/${spring_boot_version}/javadoc-api/org/springframework/bootstrap/SpringApplication.html
+[`@EnableAutoConfiguration`]: http://static.springsource.org/spring-bootstrap/docs/${spring_boot_version}/javadoc-api/org/springframework/bootstrap/context/annotation/SpringApplication.html
+[`@Component`]: http://static.springsource.org/spring/docs/${spring_version}/javadoc-api/org/springframework/stereotype/Component.html
+[`@ResponseBody`]: http://static.springsource.org/spring/docs/${spring_version}/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html
+[`MappingJackson2HttpMessageConverter`]: http://static.springsource.org/spring/docs/${spring_version}/javadoc-api/org/springframework/http/converter/json/MappingJackson2HttpMessageConverter.html
+[`DispatcherServlet`]: http://static.springsource.org/spring/docs/${spring_version}/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
