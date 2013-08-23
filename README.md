@@ -71,7 +71,9 @@ In a project directory of your choosing, create the following subdirectory struc
             └── java
                 └── hello
 
+
 ### Create a Gradle build file
+Below is the [initial Gradle build file](https://github.com/springframework-meta/gs-rest-service/blob/master/initial/build.gradle). But you can also use Maven. The pom.xml file is included [right here](https://github.com/springframework-meta/gs-rest-service/blob/master/initial/pom.xml).
 
 `build.gradle`
 ```gradle
@@ -106,6 +108,8 @@ task wrapper(type: Wrapper) {
     gradleVersion = '1.7'
 }
 ```
+    
+    
 
 This guide is using [Spring Boot's starter POMs](/guides/gs/spring-boot/).
 
@@ -242,6 +246,8 @@ The [`@EnableAutoConfiguration`][] annotation switches on reasonable default beh
 
 Now that your `Application` class is ready, you simply instruct the build system to create a single, executable jar containing everything. This makes it easy to ship, version, and deploy the service as an application throughout the development lifecycle, across different environments, and so forth.
 
+Below are the Gradle steps, but if you are using Maven, you can find the updated pom.xml [right here](https://github.com/springframework-meta/gs-rest-service/blob/master/complete/pom.xml) and build it by typing `mvn clean package`.
+
 Update your Gradle `build.gradle` file's `buildscript` section, so that it looks like this:
 
 ```groovy
@@ -261,6 +267,7 @@ Further down inside `build.gradle`, add the following to the list of applied plu
 ```groovy
 apply plugin: 'spring-boot'
 ```
+You can see the final version of `build.gradle` [right here]((https://github.com/springframework-meta/gs-rest-service/blob/master/complete/build.gradle).
 
 The [Spring Boot gradle plugin][spring-boot-gradle-plugin] collects all the jars on the classpath and builds a single "über-jar", which makes it more convenient to execute and transport your service.
 It also searches for the `public static void main()` method to flag as a runnable class.
@@ -271,10 +278,16 @@ Now run the following command to produce a single executable JAR file containing
 $ ./gradlew build
 ```
 
-Now you can run the JAR by typing:
+If you are using Gradle, you can run the JAR by typing:
 
 ```sh
 $ java -jar build/libs/gs-rest-service-0.1.0.jar
+```
+
+If you are using Maven, you can run the JAR by typing:
+
+```sh
+$ java -jar target/gs-rest-service-0.1.0.jar
 ```
 
 [spring-boot-gradle-plugin]: https://github.com/SpringSource/spring-boot/tree/master/spring-boot-tools/spring-boot-gradle-plugin
@@ -283,11 +296,13 @@ $ java -jar build/libs/gs-rest-service-0.1.0.jar
 
 Run the service
 -------------------
-Run your service at the command line:
+If you are using Gradle, you can run your service at the command line this way:
 
 ```sh
 $ ./gradlew clean build && java -jar build/libs/gs-rest-service-0.1.0.jar
 ```
+
+> **Note:** If you are using Maven, you can run your service by typing `mvn clean package && java -jar target/gs-rest-service-0.1.0.jar`.
 
 
 Logging output is displayed. The service should be up and running within a few seconds.
