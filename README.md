@@ -73,8 +73,9 @@ In a project directory of your choosing, create the following subdirectory struc
             └── java
                 └── hello
 
-
-<span data-type="gradle">
+<script type="text/html">
+    <div class="gradle">
+</script>
 
 ### Create a Gradle build file
 Below is the [initial Gradle build file](https://github.com/spring-guides/gs-rest-service/blob/master/initial/build.gradle). But you can also use Maven. The pom.xml file is included [right here](https://github.com/spring-guides/gs-rest-service/blob/master/initial/pom.xml). If you are using [Spring Tool Suite (STS)][gs-sts], you can import the guide directly.
@@ -113,17 +114,29 @@ task wrapper(type: Wrapper) {
 }
 ```
 
-</span>
+<script type="text/html">
+    </div>
+</script>
 
-<span class="maven">
+
+
+<script type="text/html">
+    <div class="maven">
+</script>
 ### Maven stuff
 This is Maven stuff
-</span>
+<script type="text/html">
+    </div>
+</script>
 
-<span class="sts">
+<script type="text/html">
+    <div class="sts">
+</script>
 ### STS stuff
 This is STS stuff
-</span>
+<script type="text/html">
+    </div>
+</script>
 
 [gs-sts]: /guides/gs/sts    
 
