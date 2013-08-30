@@ -74,6 +74,7 @@ In a project directory of your choosing, create the following subdirectory struc
                 └── hello
 
 
+<a name="" class="gradle-begin"></a>
 ### Create a Gradle build file
 Below is the [initial Gradle build file](https://github.com/spring-guides/gs-rest-service/blob/master/initial/build.gradle). But you can also use Maven. The pom.xml file is included [right here](https://github.com/spring-guides/gs-rest-service/blob/master/initial/pom.xml). If you are using [Spring Tool Suite (STS)][gs-sts], you can import the guide directly.
 
@@ -110,7 +111,18 @@ task wrapper(type: Wrapper) {
     gradleVersion = '1.7'
 }
 ```
-    
+<a name="" class="gradle-end"></a>
+
+<a name="" class="maven-begin"></a>
+### Maven stuff
+This is Maven stuff
+<a name="" class="maven-end"></a>
+
+<a name="" class="sts-begin"></a>
+### STS stuff
+This is STS stuff
+<a name="" class="sts-end"></a>
+
 [gs-sts]: /guides/gs/sts    
 
 This guide is using [Spring Boot's starter POMs](/guides/gs/spring-boot/).
