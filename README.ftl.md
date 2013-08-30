@@ -1,6 +1,6 @@
 <#assign project_id="gs-rest-service">
 <#assign spring_version="3.2.4.RELEASE">
-<#assign spring_boot_version="0.5.0.BUILD-SNAPSHOT">
+<#assign spring_boot_version="0.5.0.M2">
 This guide walks you through the process of creating a "hello world" [RESTful web service][u-rest] with Spring.
 
 What you'll build
