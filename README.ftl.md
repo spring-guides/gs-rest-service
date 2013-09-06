@@ -162,8 +162,8 @@ Congratulations! You've just developed a RESTful web service with Spring.
 <@u_tomcat/>
 <@u_application_context/>
 [`@Controller`]: http://static.springsource.org/spring/docs/${spring_version}/javadoc-api/org/springframework/stereotype/Controller.html
-[`SpringApplication`]: http://static.springsource.org/spring-bootstrap/docs/${spring_boot_version}/javadoc-api/org/springframework/bootstrap/SpringApplication.html
-[`@EnableAutoConfiguration`]: http://static.springsource.org/spring-bootstrap/docs/${spring_boot_version}/javadoc-api/org/springframework/bootstrap/context/annotation/SpringApplication.html
+[`SpringApplication`]: http://docs.spring.io/spring-boot/docs/0.5.0.M3/api/org/springframework/boot/SpringApplication.html
+[`@EnableAutoConfiguration`]: http://docs.spring.io/spring-boot/docs/0.5.0.M3/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html
 [`@Component`]: http://static.springsource.org/spring/docs/${spring_version}/javadoc-api/org/springframework/stereotype/Component.html
 [`@ResponseBody`]: http://static.springsource.org/spring/docs/${spring_version}/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html
 [`MappingJackson2HttpMessageConverter`]: http://static.springsource.org/spring/docs/${spring_version}/javadoc-api/org/springframework/http/converter/json/MappingJackson2HttpMessageConverter.html
