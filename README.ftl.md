@@ -161,10 +161,11 @@ Congratulations! You've just developed a RESTful web service with Spring.
 <@u_war/>
 <@u_tomcat/>
 <@u_application_context/>
-[`@Controller`]: http://static.springsource.org/spring/docs/${spring_version}/javadoc-api/org/springframework/stereotype/Controller.html
+[`@Controller`]: http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Controller.html
 [`SpringApplication`]: http://docs.spring.io/spring-boot/docs/0.5.0.M3/api/org/springframework/boot/SpringApplication.html
 [`@EnableAutoConfiguration`]: http://docs.spring.io/spring-boot/docs/0.5.0.M3/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html
-[`@Component`]: http://static.springsource.org/spring/docs/${spring_version}/javadoc-api/org/springframework/stereotype/Component.html
-[`@ResponseBody`]: http://static.springsource.org/spring/docs/${spring_version}/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html
-[`MappingJackson2HttpMessageConverter`]: http://static.springsource.org/spring/docs/${spring_version}/javadoc-api/org/springframework/http/converter/json/MappingJackson2HttpMessageConverter.html
-[`DispatcherServlet`]: http://static.springsource.org/spring/docs/${spring_version}/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
+[`@Component`]: http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Component.html
+[`@ResponseBody`]: http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/bind/annotation/ResponseBody.html
+[`MappingJackson2HttpMessageConverter`]: http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/http/converter/json/MappingJackson2HttpMessageConverter.html
+[`DispatcherServlet`]: http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
+
