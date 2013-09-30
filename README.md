@@ -30,7 +30,7 @@ What you'll need
  - About 15 minutes
  - A favorite text editor or IDE
  - [JDK 6][jdk] or later
- - [Gradle 1.7+][gradle] or [Maven 3.0+][mvn]
+ - [Gradle 1.8+][gradle] or [Maven 3.0+][mvn]
  - You can also import the code from this guide as well as view the web page directly into [Spring Tool Suite (STS)][gs-sts] and work your way through it from there.
 
 [jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
@@ -107,7 +107,7 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.7'
+    gradleVersion = '1.8'
 }
 ```
     
