@@ -255,7 +255,7 @@ Update your Gradle `build.gradle` file's `buildscript` section, so that it looks
 ```groovy
 buildscript {
     repositories {
-        maven { url "http://repo.springsource.org/libs-snapshot" }
+        maven { url "http://repo.spring.io/libs-snapshot" }
         mavenLocal()
     }
     dependencies {
@@ -292,7 +292,7 @@ If you are using Maven, you can run the JAR by typing:
 $ java -jar target/gs-rest-service-0.1.0.jar
 ```
 
-[spring-boot-gradle-plugin]: https://github.com/SpringSource/spring-boot/tree/master/spring-boot-tools/spring-boot-gradle-plugin
+[spring-boot-gradle-plugin]: https://github.com/spring-projects/spring-boot/tree/master/spring-boot-tools/spring-boot-gradle-plugin
 
 > **Note:** The procedure above will create a runnable JAR. You can also opt to [build a classic WAR file](/guides/gs/convert-jar-to-war/) instead.
 
