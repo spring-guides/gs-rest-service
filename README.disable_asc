@@ -77,6 +77,7 @@ The `id` field is a unique identifier for the greeting, and `content` is the tex
 
 To model the greeting representation, you create a resource representation class. Provide a plain old java object with fields, constructors, and accessors for the `id` and `content` data:
 
+.src/main/java/hello/Greeting.java
 [source,java]
 ----
 include::complete/src/main/java/hello/Greeting.java[]
@@ -91,6 +92,7 @@ Next you create the resource controller that will serve these greetings.
 
 In Spring's approach to building RESTful web services, HTTP requests are handled by a controller. These components are easily identified by the http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Controller.html[`@Controller`] annotation, and the `GreetingController` below handles `GET` requests for `/greeting` by returning a new instance of the `Greeting` class:
 
+.src/main/java/hello/GreetingController.java
 [source,java]
 ----
 include::complete/src/main/java/hello/GreetingController.java[]
@@ -118,6 +120,7 @@ The `Greeting` object must be converted to JSON. Thanks to Spring's HTTP message
 Although it is possible to package this service as a traditional link:/understanding/WAR[WAR] file for deployment to an external application server, the simpler approach demonstrated below creates a standalone application. You package everything in a single, executable JAR file, driven by a good old Java `main()` method. Along the way, you use Spring's support for embedding the link:/understanding/Tomcat[Tomcat] servlet container as the HTTP runtime, instead of deploying to an external instance.
 
 
+.src/main/java/hello/Application.java
 [source,java]
 ----
 include::complete/src/main/java/hello/Application.java[]
