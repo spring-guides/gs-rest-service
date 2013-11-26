@@ -1,5 +1,5 @@
 ---
-categories: rest,json,jackson,springmvc
+categories: [rest,json,jackson,springmvc]
 ---
 :toc:
 :project_id: gs-rest-service
