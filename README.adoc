@@ -39,21 +39,21 @@ The `name` parameter value overrides the default value of "World" and is reflect
 
 == What you'll need
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master//prereq_editor_jdk_buildtools.adoc[]
+include::https://raw.github.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
 
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master//how_to_complete_this_guide.adoc[]
+include::https://raw.github.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
 
 
 [[scratch]]
 == Set up the project
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master//build_system_intro.adoc[]
+include::https://raw.github.com/spring-guides/getting-started-macros/master/build_system_intro.adoc[]
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master//create_directory_structure_hello.adoc[]
+include::https://raw.github.com/spring-guides/getting-started-macros/master/create_directory_structure_hello.adoc[]
 
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master//create_both_builds.adoc[]
+include::https://raw.github.com/spring-guides/getting-started-macros/master/create_both_builds.adoc[]
 `build.gradle`
 // AsciiDoc source formatting doesn't support groovy, so using java instead
 [source,java]
@@ -61,7 +61,7 @@ include::https://raw.github.com/spring-guides/getting-started-macros/master//cre
 include::initial/build.gradle[]
 ----
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master//bootstrap_starter_pom_disclaimer.adoc[]
+include::https://raw.github.com/spring-guides/getting-started-macros/master/bootstrap_starter_pom_disclaimer.adoc[]
 
 
 [[initial]]
@@ -140,12 +140,12 @@ The `@ComponentScan` annotation tells Spring to search recursively through the `
 
 The http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html[`@EnableAutoConfiguration`] annotation switches on reasonable default behaviors based on the content of your classpath. For example, because the application depends on the embeddable version of Tomcat (tomcat-embed-core.jar), a Tomcat server is set up and configured with reasonable defaults on your behalf. And because the application also depends on Spring MVC (spring-webmvc.jar), a Spring MVC http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html[`DispatcherServlet`] is configured and registered for you — no `web.xml` necessary! Auto-configuration is a powerful, flexible mechanism. See the http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html[API documentation] for further details.
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master//build_an_executable_jar_subhead.adoc[]
+include::https://raw.github.com/spring-guides/getting-started-macros/master/build_an_executable_jar_subhead.adoc[]
 
-include::https://raw.github.com/spring-guides/getting-started-macros/master//build_an_executable_jar_with_both.adoc[]
+include::https://raw.github.com/spring-guides/getting-started-macros/master/build_an_executable_jar_with_both.adoc[]
 
 :module: service
-include::https://raw.github.com/spring-guides/getting-started-macros/master//run_the_application_with_both.adoc[]
+include::https://raw.github.com/spring-guides/getting-started-macros/master/run_the_application_with_both.adoc[]
 
 Logging output is displayed. The service should be up and running within a few seconds.
 
