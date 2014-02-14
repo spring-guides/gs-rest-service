@@ -2,11 +2,11 @@
 tags: [rest]
 projects: [spring-framework]
 ---
-:spring_version: 4.0.0.RC1
+:spring_version: current
 :toc:
 :project_id: gs-rest-service
 :spring_version: 3.2.4.RELEASE
-:spring_boot_version: 0.5.0.M4
+:spring_boot_version: 1.0.0.RC3
 :icons: font
 :source-highlighter: prettify
 
