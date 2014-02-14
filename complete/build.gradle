@@ -4,7 +4,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.0.0.RC2")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.0.0.RC3")
     }
 }
 
@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web:1.0.0.RC2")
+    compile("org.springframework.boot:spring-boot-starter-web:1.0.0.RC3")
     compile("com.fasterxml.jackson.core:jackson-databind")
     testCompile("junit:junit")
 }
