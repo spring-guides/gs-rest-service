@@ -3,11 +3,15 @@ buildscript {
         maven { url "http://repo.spring.io/libs-snapshot" }
         mavenLocal()
     }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.0.0.RC3")
+    }
 }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
+apply plugin: 'spring-boot'
 
 jar {
     baseName = 'gs-rest-service'
