@@ -37,7 +37,7 @@ exit $ret
 fi
 rm -rf target
 
-./gradlew build
+./gradlew compileJava
 ret=$?
 if [ $ret -ne 0 ]; then
 exit $ret
