@@ -6,7 +6,7 @@ projects: [spring-framework]
 :toc:
 :project_id: gs-rest-service
 :spring_version: current
-:spring_boot_version: 1.0.0.RC4
+:spring_boot_version: 1.0.0.RC5
 :icons: font
 :source-highlighter: prettify
 
