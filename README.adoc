@@ -12,6 +12,181 @@ projects: [spring-framework]
 
 This guide walks you through the process of creating a "hello world" link:/understanding/REST[RESTful web service] with Spring.
 
+++++
+<!-- customize code to show and hide different parts -->
+<script>
+    function forEach(array, callback, scope) {
+        for (var i = 0; i < array.length; i++) {
+            callback.call(scope, i, array[i]); // passes back stuff we need
+        }
+    }
+
+
+    var classRx, trimLeadingRx, splitClassNamesRx;
+    var body = document.querySelector('body');
+    var guidePreferences = '_guide_preferences';
+
+    classRx = '(\\s+|^)(classNames)(\\b(?![\\-_])|$)';
+    trimLeadingRx = /^\s+/;
+    splitClassNamesRx = /(\b\s+\b)|(\s+)/g;
+
+    function addClass (className, str) {
+        var newClass;
+
+        if(!className) {
+            return str;
+        }
+
+        newClass = removeClass(className, str);
+
+        if(newClass && className) {
+            newClass += ' ';
+        }
+
+        return newClass + className;
+    }
+
+    function removeClass (removes, tokens) {
+        var rx;
+
+        if (!removes) {
+            return tokens;
+        }
+
+        // convert space-delimited tokens with bar-delimited (regexp `or`)
+        removes = removes.replace(splitClassNamesRx,
+                function (m, inner, edge) {
+                    // only replace inner spaces with |
+                    return edge ? '' : '|';
+                }
+        );
+
+        // create one-pass regexp
+        rx = new RegExp(classRx.replace('classNames', removes), 'g');
+
+        // remove all tokens in one pass (wish we could trim leading
+        // spaces in the same pass! at least the trim is not a full
+        // scan of the string)
+        return tokens.replace(rx, '').replace(trimLeadingRx, '');
+    }
+
+    var docCookies = {
+        getItem: function (sKey) {
+            return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
+        },
+        setItem: function (sKey, sValue, vEnd, sPath, sDomain, bSecure) {
+            if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) { return false; }
+            var sExpires = "";
+            if (vEnd) {
+                switch (vEnd.constructor) {
+                    case Number:
+                        sExpires = vEnd === Infinity ? "; expires=Fri, 31 Dec 9999 23:59:59 GMT" : "; max-age=" + vEnd;
+                        break;
+                    case String:
+                        sExpires = "; expires=" + vEnd;
+                        break;
+                    case Date:
+                        sExpires = "; expires=" + vEnd.toUTCString();
+                        break;
+                }
+            }
+            document.cookie = encodeURIComponent(sKey) + "=" + encodeURIComponent(sValue) + sExpires + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "") + (bSecure ? "; secure" : "");
+            return true;
+        },
+        removeItem: function (sKey, sPath, sDomain) {
+            if (!sKey || !this.hasItem(sKey)) { return false; }
+            document.cookie = encodeURIComponent(sKey) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" + ( sDomain ? "; domain=" + sDomain : "") + ( sPath ? "; path=" + sPath : "");
+            return true;
+        },
+        hasItem: function (sKey) {
+            return (new RegExp("(?:^|;\\s*)" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=")).test(document.cookie);
+        },
+        keys: /* optional method: you can safely remove it! */ function () {
+            var aKeys = document.cookie.replace(/((?:^|\s*;)[^\=]+)(?=;|$)|^\s*|\s*(?:\=[^;]*)?(?:\1|$)/g, "").split(/\s*(?:\=[^;]*)?;\s*/);
+            for (var nIdx = 0; nIdx < aKeys.length; nIdx++) { aKeys[nIdx] = decodeURIComponent(aKeys[nIdx]); }
+            return aKeys;
+        }
+    };
+
+    function revealGradle() {
+        body.className = removeClass("show-gradle show-maven show-sts", body.className);
+        body.className = addClass("show-gradle", body.className);
+        docCookies.setItem(guidePreferences, 'gradle', Infinity);
+
+    }
+
+    function revealMaven() {
+        body.className = removeClass("show-gradle show-maven show-sts", body.className);
+        body.className = addClass("show-maven", body.className);
+        docCookies.setItem(guidePreferences, 'maven', Infinity);
+    }
+
+    function revealSTS() {
+        body.className = removeClass("show-gradle show-maven show-sts", body.className);
+        body.className = addClass("show-sts", body.className);
+        docCookies.setItem(guidePreferences, 'sts', Infinity);
+    }
+
+    function hideBuildSteps() {
+        body.className = removeClass("show-gradle show-maven show-sts", body.className);
+        docCookies.setItem(guidePreferences, 'none', Infinity);
+    }
+
+    function registerBuildSwitches() {
+        document.querySelector('.reveal-gradle').addEventListener('click', revealGradle);
+        document.querySelector('.reveal-maven').addEventListener('click', revealMaven);
+        document.querySelector('.reveal-sts').addEventListener('click', revealSTS);
+
+        document.querySelector('.use-gradle').addEventListener('click', hideBuildSteps);
+        document.querySelector('.use-maven').addEventListener('click', hideBuildSteps);
+        document.querySelector('.use-sts').addEventListener('click', hideBuildSteps);
+    }
+
+    document.addEventListener('DOMContentLoaded', registerBuildSwitches);
+</script>
+<style>
+    .use-gradle {
+        display: none;
+    }
+    .use-maven {
+        display: none;
+    }
+    .use-sts {
+        display: none;
+    }
+
+    .reveal-gradle {
+        display: inherit;
+    }
+    .reveal-maven {
+        display: inherit;
+    }
+    .reveal-sts {
+        display: inherit;
+    }
+
+    .show-gradle .use-gradle {
+        display: inherit;
+    }
+    .show-maven .use-maven {
+        display: inherit;
+    }
+    .show-sts .use-sts {
+        display: inherit;
+    }
+
+    .show-gradle .reveal-gradle {
+        display: none;
+    }
+    .show-maven .reveal-maven {
+        display: none;
+    }
+    .show-sts .reveal-sts {
+        display: none;
+    }
+</style>
+++++
+
 == What you'll build
 
 You'll build a service that will accept HTTP GET requests at:
@@ -49,15 +224,19 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
 
 
+[.reveal-gradle]
+== Build with Gradle
+
 [[scratch]]
-== Set up the project
+[.use-gradle]
+== Build with Gradle
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_system_intro.adoc[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/create_directory_structure_hello.adoc[]
 
-
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/create_both_builds.adoc[]
+
 `build.gradle`
 // AsciiDoc source formatting doesn't support groovy, so using java instead
 [source,java]
@@ -67,6 +246,29 @@ include::initial/build.gradle[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-gradle-plugin.adoc[]
 
+[.reveal-maven] 
+== Build with Maven
+
+[.use-maven]
+== Build with Maven
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_system_intro_maven.adoc[]
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/create_directory_structure_hello.adoc[]
+
+`pom.xml`
+[source,xml]
+----
+include::initial/pom.xml[]
+----
+
+[.reveal-sts]
+== Build with Spring Tool Suite
+
+[.use-sts]
+== Build with Spring Tool Suite
+
+If you have Spring Tool Suite, then you can simply link:/guides/gs/sts/[import this guide directly].
 
 [[initial]]
 == Create a resource representation class
