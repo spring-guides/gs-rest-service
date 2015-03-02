@@ -17,6 +17,17 @@ jar {
     version =  '0.1.0'
 }
 
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+eclipse {
+    //See https://issues.gradle.org/browse/GRADLE-3100 
+    classpath {
+         containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+         containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7'
+    }
+}
+
 repositories {
     mavenCentral()
 }
