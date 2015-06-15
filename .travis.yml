@@ -3,6 +3,10 @@ jdk:
 - oraclejdk8
 script:
 - test/run.sh
+cache:
+  directories:
+  - $HOME/.gradle
+  - $HOME/.m2
 notifications:
   slack:
     secure: I64/3SPZwp02C3GuZ768nvFSRtaf0ErT9zyPeNHXvtcqytrAdtWARiI3ogn/87wQfFbF1lbr5zM1qa6ji1t3QLkkqJCFEd/eAA3rJIOfFGsxDhXA2QE2lzR1CeNbtQY1bF6I8DeEnXZlbV9SjPe9nUn87+98zuSPTiTgn/sSZ+k=
