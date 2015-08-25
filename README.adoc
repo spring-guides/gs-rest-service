@@ -171,6 +171,4 @@ Notice also how the `id` attribute has changed from `1` to `2`. This proves that
 
 Congratulations! You've just developed a RESTful web service with Spring. 
 
-
-
-
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
