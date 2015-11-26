@@ -1,7 +1,7 @@
 ---
 applications:
 - name: gs-rest-service
-  memory: 128M
+  memory: 256M
   instances: 1
   host: rest-service
   domain: guides.spring.io
