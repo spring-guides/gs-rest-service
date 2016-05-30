@@ -10,6 +10,9 @@ projects: [spring-framework]
 :icons: font
 :source-highlighter: prettify
 
+image:http://beta.codenvy.com/factory/resources/codenvy-contribute.svg["Codenvy Developer Workspace", link="http://beta.codenvy.com/f?id=9fq0busbm3tz7i8c"]
+
+
 This guide walks you through the process of creating a "hello world" link:/understanding/REST[RESTful web service] with Spring.
 
 == What you'll build
