@@ -1,7 +1,7 @@
 ---
 tags: [rest]
 projects: [spring-framework]
-experimental: Try the code inside your browser -> image:http://beta.codenvy.com/factory/resources/codenvy-contribute.svg["Codenvy Developer Workspace", link="http://beta.codenvy.com/f?id=9fq0busbm3tz7i8c"]
+experimental: Try the code inside your browser with -> http://beta.codenvy.com/f?id=9fq0busbm3tz7i8c
 ---
 :spring_version: current
 :toc:
