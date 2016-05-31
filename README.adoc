@@ -51,7 +51,7 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 
 or
 
-* Just click the http://beta.codenvy.com/f?id=9fq0busbm3tz7i8c[link at the top of the guide], and you can work with this guide's code inside your browser.
+* Just click the http://beta.codenvy.com/f?id=9fq0busbm3tz7i8c[link at the top of the guide], and you can work with this guide's code inside your browser. 
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
 
