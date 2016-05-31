@@ -17,24 +17,6 @@ rm -rf build
 
 cd ../complete
 mvn clean package
-java -jar target/gs-rest-service-0.1.0.jar &
-PID=$!
-sleep 10
-curl -s http://localhost:8080/greeting > target/actual.json
-kill -9 $PID
-
-echo "Let's look at the actual results: `cat target/actual.json`"
-echo "And compare it to: `cat ../test/expected.json`"
-
-if diff -w ../test/expected.json target/actual.json
-    then
-        echo SUCCESS
-        let ret=0
-    else
-        echo FAIL
-        let ret=255
-        exit $ret
-fi
 
 if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; 
   then 
