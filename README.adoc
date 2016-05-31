@@ -47,9 +47,11 @@ The `name` parameter value overrides the default value of "World" and is reflect
 == What you'll need
 
 :java_version: 1.8
-:java_version: 1.8
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
 
+or
+
+* Just click the link at the top of the guide, and you can work with the guide at codenvy's site.
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
 
