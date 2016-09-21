@@ -106,7 +106,7 @@ The `@RequestMapping` annotation ensures that HTTP requests to `/greeting` are m
 
 NOTE: The above example does not specify `GET` vs. `PUT`, `POST`, and so forth, because `@RequestMapping` maps all HTTP operations by default. Use `@RequestMapping(method=GET)` to narrow this mapping.
 
-`@RequestParam` binds the value of the query string parameter `name` into the `name` parameter of the `greeting()` method. This query string parameter is optional (`required=false` by default): if it is absent in the request, the `defaultValue` of "World" is used.
+`@RequestParam` binds the value of the query string parameter `name` into the `name` parameter of the `greeting()` method. This query string parameter is explicitly marked as optional (`required=true` by default): if it is absent in the request, the `defaultValue` of "World" is used.
 
 The implementation of the method body creates and returns a new `Greeting` object with `id` and `content` attributes based on the next value from the `counter`, and formats the given `name` by using the greeting `template`.
 
