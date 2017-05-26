@@ -12,6 +12,10 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.5.3.RELEASE</version>
     </parent>
+    
+    <properties>
+        <java.version>1.7</java.version>
+    </properties>
 
     <dependencies>
         <dependency>
