@@ -47,12 +47,14 @@ public class FakeZincController {
 
     private final AtomicLong counter = new AtomicLong();
 
+    @SuppressWarnings("unused")
     @RequestMapping("/greeting")
     public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
         return new Greeting(counter.incrementAndGet(),
                 String.format(template, name));
     }
 
+    @SuppressWarnings("unused")
     @RequestMapping(
             value = "/order/{request_id}",
             method = RequestMethod.GET,
@@ -62,6 +64,7 @@ public class FakeZincController {
         return GET_ORDER_RESPONSE;
     }
 
+    @SuppressWarnings("unused")
     @RequestMapping(
             value = "/order",
             method = RequestMethod.POST,
