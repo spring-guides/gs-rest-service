@@ -28,7 +28,7 @@ public class FakeZincController {
             "      \"merchant_order_id\" : \"112-1234567-7272727\",\n" +
             "      \"merchant\" : \"amazon\",\n" +
             "      \"account\" : \"timbeaver@gmail.com\",\n" +
-            "      \"placed_at\" : ISODate(\"2014-07-02T23:51:08.366Z\")\n" +
+            "      \"placed_at\" : \"2014-07-02T23:51:08.366Z\"\n" +
             "    }\n" +
             "  ],\n" +
             "  \"tracking\" : [\n" +
@@ -36,7 +36,7 @@ public class FakeZincController {
             "      \"merchant_order_id\" : \"112-1234567-7272727\",\n" +
             "      \"carrier\" : \"Fedex\",\n" +
             "      \"tracking_number\" : \"9261290100129790891234\",\n" +
-            "      \"obtained_at\" : ISODate(\"2014-07-03T23:22:48.165Z\")\n" +
+            "      \"obtained_at\" : \"2014-07-03T23:22:48.165Z\"\n" +
             "    }\n" +
             "  ]\n" +
             "}";
