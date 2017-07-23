@@ -1,5 +1,6 @@
 package fr.sayasoft.fake.zinc;
 
+import fr.sayasoft.zinc.sdk.pogo.OrderRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,7 +71,7 @@ public class FakeZincController {
             method = RequestMethod.POST,
             produces = "application/json; charset=UTF-8"
     )
-    public ResponseEntity<?> postOrder(@RequestBody Object requestBody) {
+    public ResponseEntity<?> postOrder(@RequestBody OrderRequest requestBody) {
         return new ResponseEntity<>(POST_ORDER_RESPONSE, HttpStatus.CREATED);
     }
 }
