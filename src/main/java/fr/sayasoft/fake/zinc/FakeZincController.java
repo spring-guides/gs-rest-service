@@ -1,6 +1,9 @@
 package fr.sayasoft.fake.zinc;
 
 import fr.sayasoft.zinc.sdk.domain.OrderRequest;
+import lombok.extern.log4j.Log4j;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
+@Log4j
 public class FakeZincController {
 
     private static final String template = "Hello, %s!";
@@ -42,8 +46,9 @@ public class FakeZincController {
             "  ]\n" +
             "}";
 
+    public static final String POST_ORDER_RESPONSE_TO_BE_REPLACED = "XXX";
     public static final String POST_ORDER_RESPONSE = "{\n" +
-            "  \"request_id\": \"3f1c939065cf58e7b9f0aea70640dffc\"\n" +
+            "  \"request_id\": \"fakeRequestIdStart-" + POST_ORDER_RESPONSE_TO_BE_REPLACED + "-fakeRequestIdEnd\"\n" +
             "}";
 
     private final AtomicLong counter = new AtomicLong();
@@ -57,7 +62,7 @@ public class FakeZincController {
 
     @SuppressWarnings("unused")
     @RequestMapping(
-            value = "/order/{request_id}",
+            value = "/v1/order/{request_id}",
             method = RequestMethod.GET,
             produces = "application/json; charset=UTF-8"
     )
@@ -67,11 +72,19 @@ public class FakeZincController {
 
     @SuppressWarnings("unused")
     @RequestMapping(
-            value = "/order",
+            value = "/v1/order",
             method = RequestMethod.POST,
             produces = "application/json; charset=UTF-8"
     )
-    public ResponseEntity<?> postOrder(@RequestBody OrderRequest requestBody) {
+    public ResponseEntity<?> postOrder(@RequestBody OrderRequest orderRequest) {
+// FIXME: at this point, the orderRequest, for an unknown reason, is not well deserialized
+        // (except the field 'retailer'). But it *was* well serialized on the client side...
+
+//        if (log.isDebugEnabled()) {
+//            log.debug(ToStringBuilder.reflectionToString(orderRequest));
+//        }
+        System.out.println(ToStringBuilder.reflectionToString(orderRequest, ToStringStyle.MULTI_LINE_STYLE));
         return new ResponseEntity<>(POST_ORDER_RESPONSE, HttpStatus.CREATED);
+//        return new ResponseEntity<>(POST_ORDER_RESPONSE.replace(POST_ORDER_RESPONSE_TO_BE_REPLACED, orderRequest.getIdempotencyKey()), HttpStatus.CREATED);
     }
 }

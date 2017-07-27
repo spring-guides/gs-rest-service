@@ -40,6 +40,7 @@ public class FakeZincControllerUnitTest {
 
     public static final String POST_ORDER_REQUEST = "{\n" +
             "  \"client_token\": \"public\",\n" +
+            "  \"idempotency_key\": \"XXX\", \n" +
             "  \"retailer\": \"amazon\",\n" +
             "  \"products\": [{\"product_id\": \"0923568964\", \"quantity\": 1}],\n" +
             "  \"max_price\": 2300,\n" +
@@ -110,7 +111,7 @@ public class FakeZincControllerUnitTest {
     @Test
     public void getOrder() throws Exception {
 
-        this.mockMvc.perform(get("/order/1234546"))
+        this.mockMvc.perform(get("/v1/order/1234546"))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(FakeZincController.GET_ORDER_RESPONSE));
     }
@@ -120,7 +121,7 @@ public class FakeZincControllerUnitTest {
         MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
                 MediaType.APPLICATION_JSON.getSubtype(),
                 Charset.forName("utf8"));
-        this.mockMvc.perform(post("/order")
+        this.mockMvc.perform(post("/v1/order")
                 .contentType(contentType)
                 .content(POST_ORDER_REQUEST))
                 .andDo(print())
