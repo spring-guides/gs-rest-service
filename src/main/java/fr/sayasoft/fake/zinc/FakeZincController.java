@@ -101,8 +101,13 @@ public class FakeZincController {
             return new ResponseEntity<>(
                     zincError,
                     HttpStatus.BAD_REQUEST); // TODO check and confirm the actual API returns an error code 400
+        } catch (IllegalArgumentException e) {
+            // nothing to do
+            if (log.isInfoEnabled()){
+                log.info("received clientNotes: " + orderRequest.getClientNotes() + " ; will go on");
+            }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("An error occured", e);
         }
 
         return new ResponseEntity<>(
