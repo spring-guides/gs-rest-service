@@ -1,9 +1,10 @@
 package fr.sayasoft.fake.zinc;
 
+import com.google.gson.Gson;
 import fr.sayasoft.zinc.sdk.domain.OrderRequest;
+import fr.sayasoft.zinc.sdk.domain.ZincError;
+import fr.sayasoft.zinc.sdk.enums.ZincErrorCode;
 import lombok.extern.log4j.Log4j;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,21 +71,42 @@ public class FakeZincController {
         return GET_ORDER_RESPONSE;
     }
 
+    /**
+     * Fake method to test order posting
+     * Conventions for testing:
+     * <ul>
+     * <li>if the unmarshalled OrderRequest has a field clientNotes that is a ZincErrorCode, then a ZincError will be returned.</li>
+     * <li>else a response with the idemPotency in the requestId is returned</li>
+     * </ul>
+     */
     @SuppressWarnings("unused")
     @RequestMapping(
             value = "/v1/order",
             method = RequestMethod.POST,
             produces = "application/json; charset=UTF-8"
     )
-    public ResponseEntity<?> postOrder(@RequestBody OrderRequest orderRequest) {
-// FIXME: at this point, the orderRequest, for an unknown reason, is not well deserialized
-        // (except the field 'retailer'). But it *was* well serialized on the client side...
+    public ResponseEntity<?> postOrder(@RequestBody String json) {
+        final Gson gson = new Gson();
+        final OrderRequest orderRequest = gson.fromJson(json, OrderRequest.class);
 
-//        if (log.isDebugEnabled()) {
-//            log.debug(ToStringBuilder.reflectionToString(orderRequest));
-//        }
-        System.out.println(ToStringBuilder.reflectionToString(orderRequest, ToStringStyle.MULTI_LINE_STYLE));
-        return new ResponseEntity<>(POST_ORDER_RESPONSE, HttpStatus.CREATED);
-//        return new ResponseEntity<>(POST_ORDER_RESPONSE.replace(POST_ORDER_RESPONSE_TO_BE_REPLACED, orderRequest.getIdempotencyKey()), HttpStatus.CREATED);
+        try {
+            final ZincErrorCode zincErrorCode;
+            zincErrorCode = ZincErrorCode.valueOf(orderRequest.getClientNotes().toString());
+            final ZincError zincError = new ZincError(
+                    zincErrorCode,
+                    zincErrorCode.getMeaning(),
+                    orderRequest.getIdempotencyKey()
+            );
+            log.info("Received request to generate error code, returning: " + zincError);
+            return new ResponseEntity<>(
+                    zincError,
+                    HttpStatus.BAD_REQUEST); // TODO check and confirm the actual API returns an error code 400
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(
+                POST_ORDER_RESPONSE.replace(POST_ORDER_RESPONSE_TO_BE_REPLACED, orderRequest.getIdempotencyKey()),
+                HttpStatus.CREATED);
     }
 }
