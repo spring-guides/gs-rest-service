@@ -98,9 +98,13 @@ public class FakeZincController {
                     orderRequest.getIdempotencyKey()
             );
             log.info("Received request to generate error code, returning: " + zincError);
+            /*
+            Precision obtained from Zinc support: although an error message is returned, the HTTP header is a 200
+            (and not 4XX as may be assumed)
+            */
             return new ResponseEntity<>(
                     zincError,
-                    HttpStatus.BAD_REQUEST); // TODO check and confirm the actual API returns an error code 400
+                    HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             // nothing to do
             if (log.isInfoEnabled()){

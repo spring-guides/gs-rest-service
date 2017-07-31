@@ -211,7 +211,7 @@ public class FakeZincControllerUnitTest {
                 .contentType(contentType)
                 .content(new Gson().toJson(orderRequest)))
                 .andDo(print())
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().is2xxSuccessful())
                 .andExpect(content().string("{\"code\":\"invalid_quantity\"," +
                         "\"message\":\"The quantity for one of the products does not match the one available on the retailer.\"," +
                         "\"data\":\"Ursa-Major-Î³-Ursae-Majoris-Phecda\"" +
