@@ -63,7 +63,7 @@ public class FakeZincController {
 
     @SuppressWarnings("unused")
     @RequestMapping(
-            value = "/v1/order/{request_id}",
+            value = "/v1/orders/{request_id}",
             method = RequestMethod.GET,
             produces = "application/json; charset=UTF-8"
     )
@@ -81,7 +81,7 @@ public class FakeZincController {
      */
     @SuppressWarnings("unused")
     @RequestMapping(
-            value = "/v1/order",
+            value = "/v1/orders",
             method = RequestMethod.POST,
             produces = "application/json; charset=UTF-8"
     )

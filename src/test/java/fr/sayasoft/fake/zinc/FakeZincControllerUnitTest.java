@@ -110,7 +110,7 @@ public class FakeZincControllerUnitTest {
     @Test
     public void getOrder() throws Exception {
 
-        this.mockMvc.perform(get("/order/1234546"))
+        this.mockMvc.perform(get("/orders/1234546"))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(FakeZincController.GET_ORDER_RESPONSE));
     }

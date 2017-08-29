@@ -170,14 +170,14 @@ public class FakeZincControllerUnitTest {
     @Test
     public void getOrder() throws Exception {
 
-        this.mockMvc.perform(get("/v1/order/1234546"))
+        this.mockMvc.perform(get("/v1/orders/1234546"))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(FakeZincController.GET_ORDER_RESPONSE));
     }
 
     @Test
     public void postOrder_withString() throws Exception {
-        this.mockMvc.perform(post("/v1/order")
+        this.mockMvc.perform(post("/v1/orders")
                 .contentType(contentType)
                 .content(POST_ORDER_REQUEST))
                 .andDo(print())
@@ -189,7 +189,7 @@ public class FakeZincControllerUnitTest {
     public void postOrder_withObject() throws Exception {
         final String idempotencyKey = "Carina-Î²-Carinae-Miaplacidus";
         orderRequest.setIdempotencyKey(idempotencyKey);
-        this.mockMvc.perform(post("/v1/order")
+        this.mockMvc.perform(post("/v1/orders")
                 .contentType(contentType)
                 .content(new Gson().toJson(orderRequest)))
                 .andDo(print())
@@ -207,7 +207,7 @@ public class FakeZincControllerUnitTest {
         final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
                 MediaType.APPLICATION_JSON.getSubtype(),
                 Charset.forName("utf8"));
-        this.mockMvc.perform(post("/v1/order")
+        this.mockMvc.perform(post("/v1/orders")
                 .contentType(contentType)
                 .content(new Gson().toJson(orderRequest)))
                 .andDo(print())
