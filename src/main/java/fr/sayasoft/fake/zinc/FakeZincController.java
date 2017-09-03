@@ -81,7 +81,7 @@ public class FakeZincController {
      */
     @SuppressWarnings("unused")
     @RequestMapping(
-            value = "/v1/orders",
+            value = "/v1/order",
             method = RequestMethod.POST,
             produces = "application/json; charset=UTF-8"
     )
@@ -92,11 +92,12 @@ public class FakeZincController {
         try {
             final ZincErrorCode zincErrorCode;
             zincErrorCode = ZincErrorCode.valueOf(orderRequest.getClientNotes().toString());
-            final ZincError zincError = new ZincError(
-                    zincErrorCode,
-                    zincErrorCode.getMeaning(),
-                    orderRequest.getIdempotencyKey()
-            );
+            final ZincError zincError = ZincError.builder()
+                    .code(zincErrorCode)
+                    .message(zincErrorCode.getMeaning())
+                    .orderRequest(orderRequest)
+                    .build()
+                    ;
             log.info("Received request to generate error code, returning: " + zincError);
             /*
             Precision obtained from Zinc support: although an error message is returned, the HTTP header is a 200
