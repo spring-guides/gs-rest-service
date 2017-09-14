@@ -15,6 +15,17 @@
  */
 package fr.sayasoft.fake.zinc;
 
+import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import fr.sayasoft.zinc.sdk.domain.OrderRequest;
+import fr.sayasoft.zinc.sdk.domain.PaymentMethod;
+import fr.sayasoft.zinc.sdk.domain.Product;
+import fr.sayasoft.zinc.sdk.domain.RetailerCredentials;
+import fr.sayasoft.zinc.sdk.domain.ZincAddress;
+import fr.sayasoft.zinc.sdk.enums.ShippingMethod;
+import fr.sayasoft.zinc.sdk.enums.ZincErrorCode;
+
+import org.hamcrest.core.StringContains;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +37,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.nio.charset.Charset;
 
+import static fr.sayasoft.fake.zinc.FakeZincController.POST_ORDER_RESPONSE;
+import static fr.sayasoft.fake.zinc.FakeZincController.POST_ORDER_RESPONSE_TO_BE_REPLACED;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -37,9 +50,58 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class FakeZincControllerUnitTest {
+    private final OrderRequest orderRequest = OrderRequest.builder()
+            .retailer("amazon")
+            .products(Lists.newArrayList(new Product("0923568964")))
+            .shippingAddress(
+                    ZincAddress.builder()
+                            .firstName("John Hannibal")
+                            .lastName("Smith")
+                            .addressLine1("1234 Main Street")
+                            .addressLine2("above the bar")
+                            .zipCode("11907")
+                            .city("Brooklyn")
+                            .state("NY")
+                            .country("US")
+                            .phoneNumber("123-123-1234")
+                            .build()
+            ).shippingMethod(ShippingMethod.cheapest) // TODO
+            .billingAddress( // TODO parametrize
+                    ZincAddress.builder()
+                            .firstName("John Hannibal")
+                            .lastName("Smith")
+                            .addressLine1("1234 Main Street")
+                            .addressLine2("above the bar")
+                            .zipCode("11907")
+                            .city("Brooklyn")
+                            .state("NY")
+                            .country("US")
+                            .phoneNumber("123-123-1234")
+                            .build()
+            )
+            .paymentMethod(
+                    PaymentMethod.builder()
+                            .nameOnCard("Hello World")
+                            .number("0000000000000000")
+                            .securityCode("000")
+                            .expirationMonth(12)
+                            .expirationYear(2020)
+                            .useGift(false)
+                            .build()
+            )
+            .retailerCredentials(new RetailerCredentials("test@test.fr", "password")) // TODO
+            .maxPrice(0) // TODO
+            .giftMessage("Here is your package") // TODO
+            .isGift(true)
+            .build();
+
+    private final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
+            MediaType.APPLICATION_JSON.getSubtype(),
+            Charset.forName("utf8"));
 
     public static final String POST_ORDER_REQUEST = "{\n" +
             "  \"client_token\": \"public\",\n" +
+            "  \"idempotency_key\": \"XXX\", \n" +
             "  \"retailer\": \"amazon\",\n" +
             "  \"products\": [{\"product_id\": \"0923568964\", \"quantity\": 1}],\n" +
             "  \"max_price\": 2300,\n" +
@@ -110,22 +172,53 @@ public class FakeZincControllerUnitTest {
     @Test
     public void getOrder() throws Exception {
 
-        this.mockMvc.perform(get("/orders/1234546"))
+        this.mockMvc.perform(get("/v1/orders/1234546"))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(FakeZincController.GET_ORDER_RESPONSE));
     }
 
     @Test
-    public void postOrder() throws Exception {
-        MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
-                MediaType.APPLICATION_JSON.getSubtype(),
-                Charset.forName("utf8"));
-        this.mockMvc.perform(post("/order")
+    public void postOrder_withString() throws Exception {
+        this.mockMvc.perform(post("/v1/order")
                 .contentType(contentType)
                 .content(POST_ORDER_REQUEST))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(content().string(FakeZincController.POST_ORDER_RESPONSE));
+                .andExpect(content().string(POST_ORDER_RESPONSE));
+    }
+
+    @Test
+    public void postOrder_withObject() throws Exception {
+        final String idempotencyKey = "Carina-Î²-Carinae-Miaplacidus";
+        orderRequest.setIdempotencyKey(idempotencyKey);
+        this.mockMvc.perform(post("/v1/order")
+                .contentType(contentType)
+                .content(new Gson().toJson(orderRequest)))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(content().string(POST_ORDER_RESPONSE.replace(POST_ORDER_RESPONSE_TO_BE_REPLACED, idempotencyKey)));
+    }
+
+    @Test
+    public void postOrder_KO() throws Exception {
+        final String idempotencyKey = "Ursa-Major-Ursae-Majoris-Phecda";
+        final String clientNotes = ZincErrorCode.invalid_quantity.name();
+        orderRequest.setIdempotencyKey(idempotencyKey);
+        orderRequest.setClientNotes(clientNotes);
+
+        final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
+                MediaType.APPLICATION_JSON.getSubtype(),
+                Charset.forName("utf8"));
+        this.mockMvc.perform(post("/v1/order")
+                .contentType(contentType)
+                .content(new Gson().toJson(orderRequest)))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().string(StringContains.containsString("\"code\":\"invalid_quantity\"")))
+                .andExpect(content().string(StringContains.containsString("\"message\":\"The quantity for one of the products does not match the one available on the retailer.\"")))
+                .andExpect(content().string(StringContains.containsString("\"data\":\"{'fakeField': 'Ursa-Major-Ursae-Majoris-Phecda'}\"")))
+                .andExpect(content().string(StringContains.containsString("\"_type\":\"error\"")))
+                ;
     }
 
 }

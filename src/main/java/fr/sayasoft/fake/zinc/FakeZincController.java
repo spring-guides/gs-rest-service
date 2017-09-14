@@ -2,6 +2,7 @@ package fr.sayasoft.fake.zinc;
 
 import com.google.gson.Gson;
 import fr.sayasoft.zinc.sdk.domain.OrderRequest;
+import fr.sayasoft.zinc.sdk.domain.ZincConstants;
 import fr.sayasoft.zinc.sdk.domain.ZincError;
 import fr.sayasoft.zinc.sdk.enums.ZincErrorCode;
 import lombok.extern.log4j.Log4j;
@@ -76,7 +77,7 @@ public class FakeZincController {
      * Conventions for testing:
      * <ul>
      * <li>if the unmarshalled OrderRequest has a field clientNotes that is a ZincErrorCode, then a ZincError will be returned.</li>
-     * <li>else a response with the idemPotency in the requestId is returned</li>
+     * <li>else a response containing the idemPotency in the requestId is returned</li>
      * </ul>
      */
     @SuppressWarnings("unused")
@@ -88,12 +89,15 @@ public class FakeZincController {
     public ResponseEntity<?> postOrder(@RequestBody String json) {
         final Gson gson = new Gson();
         final OrderRequest orderRequest = gson.fromJson(json, OrderRequest.class);
+        // can be null
+        final String idempotencyKey = orderRequest.getIdempotencyKey();
 
         try {
-            final ZincErrorCode zincErrorCode;
-            zincErrorCode = ZincErrorCode.valueOf(orderRequest.getClientNotes().toString());
+            final ZincErrorCode zincErrorCode = ZincErrorCode.valueOf(orderRequest.getClientNotes().toString());
             final ZincError zincError = ZincError.builder()
+                    .type(ZincConstants.error)
                     .code(zincErrorCode)
+                    .data("{'fakeField': '" + idempotencyKey + "'}") // TODO replace with a fake Map<>
                     .message(zincErrorCode.getMeaning())
                     .orderRequest(orderRequest)
                     .build()
@@ -116,7 +120,8 @@ public class FakeZincController {
         }
 
         return new ResponseEntity<>(
-                POST_ORDER_RESPONSE.replace(POST_ORDER_RESPONSE_TO_BE_REPLACED, orderRequest.getIdempotencyKey()),
+                POST_ORDER_RESPONSE.replace(POST_ORDER_RESPONSE_TO_BE_REPLACED, idempotencyKey),
                 HttpStatus.CREATED);
+        // TODO call the webhooks if present
     }
 }
