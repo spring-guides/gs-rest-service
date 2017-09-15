@@ -145,9 +145,9 @@ public class FakeZincControllerUnitTest {
             "    \"password\": \"myAmazonPassword\"\n" +
             "  },\n" +
             "  \"webhooks\": {\n" +
-            "    \"order_placed\": \"http://mywebsite.com/zinc/order_placed\",\n" +
-            "    \"order_failed\": \"http://mywebsite.com/zinc/order_failed\",\n" +
-            "    \"tracking_obtained\": \"http://mywebsite.com/zinc/tracking_obtained\"\n" +
+//            "    \"order_placed\": \"http://mywebsite.com/zinc/order_placed\",\n" +
+//            "    \"order_failed\": \"http://mywebsite.com/zinc/order_failed\",\n" +
+//            "    \"tracking_obtained\": \"http://mywebsite.com/zinc/tracking_obtained\"\n" +
             "  },\n" +
             "  \"client_notes\": {\n" +
             "    \"our_internal_order_id\": \"abc123\"\n" +
@@ -207,12 +207,14 @@ public class FakeZincControllerUnitTest {
         final String idempotencyKey = "Carina-Î²-Carinae-Miaplacidus";
         orderRequest.setIdempotencyKey(idempotencyKey);
         orderRequest.setWebhooks(new HashMap<>(2));
-        orderRequest.getWebhooks().put(ZincWebhookType.statusUpdated, "http://localhost:8080/hook/zinc?eventType=statusUpdated&uuid=abcd");
-        orderRequest.getWebhooks().put(ZincWebhookType.requestSucceeded, "http://localhost:8080/hook/zinc?eventType=requestSucceeded&uuid=abcd");
-        this.mockMvc.perform(post("/v1/order")
-                .contentType(contentType)
-                .content(new Gson().toJson(orderRequest)))
-                .andDo(print())
+        orderRequest.getWebhooks().put(ZincWebhookType.statusUpdated, "http://localhost:9090/webhook/statusUpdated/abcd");
+        orderRequest.getWebhooks().put(ZincWebhookType.requestSucceeded, "http://localhost:9090/webhook/requestSucceeded/abcd");
+        this.mockMvc.perform(
+                post(
+                        "/v1/order")
+                        .contentType(contentType)
+                        .content(new Gson().toJson(orderRequest))
+        ).andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(content().string(POST_ORDER_RESPONSE.replace(POST_ORDER_RESPONSE_TO_BE_REPLACED, idempotencyKey)));
     }
@@ -236,7 +238,7 @@ public class FakeZincControllerUnitTest {
                 .andExpect(content().string(StringContains.containsString("\"message\":\"The quantity for one of the products does not match the one available on the retailer.\"")))
                 .andExpect(content().string(StringContains.containsString("\"data\":\"{'fakeField': 'Ursa-Major-Ursae-Majoris-Phecda'}\"")))
                 .andExpect(content().string(StringContains.containsString("\"_type\":\"error\"")))
-                ;
+        ;
     }
 
 }

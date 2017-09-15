@@ -4,8 +4,10 @@ import com.google.gson.Gson;
 import fr.sayasoft.zinc.sdk.domain.OrderRequest;
 import fr.sayasoft.zinc.sdk.domain.OrderResponse;
 import fr.sayasoft.zinc.sdk.domain.ZincConstants;
+import static fr.sayasoft.zinc.sdk.domain.ZincConstants.requestId;
 import fr.sayasoft.zinc.sdk.domain.ZincError;
 import fr.sayasoft.zinc.sdk.enums.ZincErrorCode;
+import fr.sayasoft.zinc.sdk.enums.ZincWebhookType;
 import lombok.extern.log4j.Log4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -149,4 +152,16 @@ public class FakeZincController {
                         }
                 );
     }
+
+    /* eg http://localhost:9090/webhook/statusUpdated/12345 */
+    @RequestMapping(value = "/webhook/{webhookType}/{requestId}", method = RequestMethod.POST)
+    @ResponseBody
+    public String webhook(@PathVariable("webhookType") ZincWebhookType zincWebhookType,
+                       @PathVariable("requestId") String requestId,
+                       @RequestBody String json) {
+        log.info("hook with request parameters: " + zincWebhookType + ", " + requestId);
+        log.info("and request body            : " + json);
+        return "OK";
+    }
+
 }
