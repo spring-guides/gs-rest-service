@@ -202,13 +202,11 @@ public class FakeZincControllerUnitTest {
     }
 
     @Test
-    @Ignore
+    @Ignore("Run this test only when a webserver can receive and handle the request")
     public void postOrder_withWebHooks() throws Exception {
         final String idempotencyKey = "Carina-Î²-Carinae-Miaplacidus";
         orderRequest.setIdempotencyKey(idempotencyKey);
         orderRequest.setWebhooks(new HashMap<>(2));
-//        orderRequest.getWebhooks().put(ZincWebhookType.statusUpdated, "https://reqres.in/api/users");
-//        orderRequest.getWebhooks().put(ZincWebhookType.requestSucceeded, "https://reqres.in/api/users");
         orderRequest.getWebhooks().put(ZincWebhookType.statusUpdated, "http://localhost:8080/hook/zinc?eventType=statusUpdated&uuid=abcd");
         orderRequest.getWebhooks().put(ZincWebhookType.requestSucceeded, "http://localhost:8080/hook/zinc?eventType=requestSucceeded&uuid=abcd");
         this.mockMvc.perform(post("/v1/order")

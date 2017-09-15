@@ -75,11 +75,13 @@ public class FakeZincController {
     }
 
     /**
-     * Fake method to test order posting
+     * Fake method to test order posting.<br/>
      * Conventions for testing:
      * <ul>
      * <li>if the unmarshalled OrderRequest has a field clientNotes that is a ZincErrorCode, then a ZincError will be returned.</li>
      * <li>else a response containing the idemPotency in the requestId is returned</li>
+     * <li>when webhooks are given in the OrderRequest in parameter, then these webhooks are called in the order they are written, with a pause
+     * (<code>Thread.sleep</code>) of 30 seconds</li>
      * </ul>
      */
     @SuppressWarnings("unused")
@@ -138,6 +140,11 @@ public class FakeZincController {
         orderRequest.getWebhooks()
                 .forEach((zincWebhookType, url) -> {
                             log.info("Calling webhook for zincWebhookType: " + zincWebhookType + " and URL: " + url);
+                            try {
+                                Thread.sleep(30000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                             restTemplate.postForObject(url, orderResponse, String.class);
                         }
                 );
