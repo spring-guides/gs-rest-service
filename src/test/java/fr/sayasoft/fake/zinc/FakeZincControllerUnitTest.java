@@ -24,8 +24,9 @@ import fr.sayasoft.zinc.sdk.domain.RetailerCredentials;
 import fr.sayasoft.zinc.sdk.domain.ZincAddress;
 import fr.sayasoft.zinc.sdk.enums.ShippingMethod;
 import fr.sayasoft.zinc.sdk.enums.ZincErrorCode;
-
+import fr.sayasoft.zinc.sdk.enums.ZincWebhookType;
 import org.hamcrest.core.StringContains;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.nio.charset.Charset;
+import java.util.HashMap;
 
 import static fr.sayasoft.fake.zinc.FakeZincController.POST_ORDER_RESPONSE;
 import static fr.sayasoft.fake.zinc.FakeZincController.POST_ORDER_RESPONSE_TO_BE_REPLACED;
@@ -191,6 +193,24 @@ public class FakeZincControllerUnitTest {
     public void postOrder_withObject() throws Exception {
         final String idempotencyKey = "Carina-Î²-Carinae-Miaplacidus";
         orderRequest.setIdempotencyKey(idempotencyKey);
+        this.mockMvc.perform(post("/v1/order")
+                .contentType(contentType)
+                .content(new Gson().toJson(orderRequest)))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(content().string(POST_ORDER_RESPONSE.replace(POST_ORDER_RESPONSE_TO_BE_REPLACED, idempotencyKey)));
+    }
+
+    @Test
+    @Ignore
+    public void postOrder_withWebHooks() throws Exception {
+        final String idempotencyKey = "Carina-Î²-Carinae-Miaplacidus";
+        orderRequest.setIdempotencyKey(idempotencyKey);
+        orderRequest.setWebhooks(new HashMap<>(2));
+//        orderRequest.getWebhooks().put(ZincWebhookType.statusUpdated, "https://reqres.in/api/users");
+//        orderRequest.getWebhooks().put(ZincWebhookType.requestSucceeded, "https://reqres.in/api/users");
+        orderRequest.getWebhooks().put(ZincWebhookType.statusUpdated, "http://localhost:8080/hook/zinc?eventType=statusUpdated&uuid=abcd");
+        orderRequest.getWebhooks().put(ZincWebhookType.requestSucceeded, "http://localhost:8080/hook/zinc?eventType=requestSucceeded&uuid=abcd");
         this.mockMvc.perform(post("/v1/order")
                 .contentType(contentType)
                 .content(new Gson().toJson(orderRequest)))

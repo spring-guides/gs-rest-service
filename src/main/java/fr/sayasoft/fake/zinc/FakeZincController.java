@@ -2,6 +2,7 @@ package fr.sayasoft.fake.zinc;
 
 import com.google.gson.Gson;
 import fr.sayasoft.zinc.sdk.domain.OrderRequest;
+import fr.sayasoft.zinc.sdk.domain.OrderResponse;
 import fr.sayasoft.zinc.sdk.domain.ZincConstants;
 import fr.sayasoft.zinc.sdk.domain.ZincError;
 import fr.sayasoft.zinc.sdk.enums.ZincErrorCode;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -93,35 +95,51 @@ public class FakeZincController {
         final String idempotencyKey = orderRequest.getIdempotencyKey();
 
         try {
-            final ZincErrorCode zincErrorCode = ZincErrorCode.valueOf(orderRequest.getClientNotes().toString());
-            final ZincError zincError = ZincError.builder()
-                    .type(ZincConstants.error)
-                    .code(zincErrorCode)
-                    .data("{'fakeField': '" + idempotencyKey + "'}") // TODO replace with a fake Map<>
-                    .message(zincErrorCode.getMeaning())
-                    .orderRequest(orderRequest)
-                    .build()
-                    ;
-            log.info("Received request to generate error code, returning: " + zincError);
+            if (null != orderRequest.getClientNotes()) {
+                final ZincErrorCode zincErrorCode = ZincErrorCode.valueOf(orderRequest.getClientNotes().toString());
+                final ZincError zincError = ZincError.builder()
+                        .type(ZincConstants.error)
+                        .code(zincErrorCode)
+                        .data("{'fakeField': '" + idempotencyKey + "'}") // TODO replace with a fake Map<>
+                        .message(zincErrorCode.getMeaning())
+                        .orderRequest(orderRequest)
+                        .build();
+                log.info("Received request to generate error code, returning: " + zincError);
             /*
             Precision obtained from Zinc support: although an error message is returned, the HTTP header is a 200
             (and not 4XX as may be assumed)
             */
-            return new ResponseEntity<>(
-                    zincError,
-                    HttpStatus.OK);
+                return new ResponseEntity<>(
+                        zincError,
+                        HttpStatus.OK);
+            }
         } catch (IllegalArgumentException e) {
             // nothing to do
-            if (log.isInfoEnabled()){
+            if (log.isInfoEnabled()) {
                 log.info("received clientNotes: " + orderRequest.getClientNotes() + " ; will go on");
             }
         } catch (Exception e) {
             log.error("An error occured", e);
         }
 
+        if (!orderRequest.getWebhooks().isEmpty()) {
+            callbackWebHooks(orderRequest);
+        }
+
         return new ResponseEntity<>(
                 POST_ORDER_RESPONSE.replace(POST_ORDER_RESPONSE_TO_BE_REPLACED, idempotencyKey),
                 HttpStatus.CREATED);
         // TODO call the webhooks if present
+    }
+
+    protected void callbackWebHooks(OrderRequest orderRequest) {
+        final RestTemplate restTemplate = new RestTemplate();
+        final OrderResponse orderResponse = OrderResponse.builder().orderRequest(orderRequest).build();
+        orderRequest.getWebhooks()
+                .forEach((zincWebhookType, url) -> {
+                            log.info("Calling webhook for zincWebhookType: " + zincWebhookType + " and URL: " + url);
+                            restTemplate.postForObject(url, orderResponse, String.class);
+                        }
+                );
     }
 }
