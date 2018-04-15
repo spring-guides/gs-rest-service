@@ -36,12 +36,12 @@ public class Fields {
         this.regon = regon;
         this.postcode = postcode;
     }
-
+/**
     public void validateMail() {
         if(this.mail.length() < 5) {
 
         }
-    }
+    }*/
 
     public long getId() {
         return id;

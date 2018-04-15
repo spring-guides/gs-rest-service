@@ -30,4 +30,28 @@ public class FormController {
         }
         return true;
     }
+
+    @RequestMapping(value = "/verifyPESEL", method = RequestMethod.POST)
+    public boolean verifyPESEL(@RequestParam Long pesel) {
+        if (String.valueOf(pesel).length() != 11) {
+            return false;
+        }
+        return true;
+    }
+
+    @RequestMapping(value = "/verifyREGON", method = RequestMethod.POST)
+    public boolean verifyREGON(@RequestParam Long regon) {
+        if (String.valueOf(regon).length() == 9 || String.valueOf(regon).length() == 14) {
+            return true;
+        }
+        return false;
+    }
+
+    @RequestMapping(value = "/verifyPostcode", method = RequestMethod.POST)
+    public boolean verifyPostcode(@RequestParam String postcode) {
+        if (postcode.length() == 6) {
+            return true;
+        }
+        return false;
+    }
 }
