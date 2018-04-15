@@ -10,33 +10,37 @@ import javax.validation.constraints.Size;
 public class Fields {
     private long id;
 
-    @Size(min = 5, message = "E-mail must follow the pattern: address@example.com")
+    //@Size(min = 5, message = "E-mail must follow the pattern: address@example.com")
     private String mail;
 
-    @Size(min = 10, max = 10, message = "NIP value must contain 10 digits")
+    //@Size(min = 10, max = 10, message = "NIP value must contain 10 digits")
     private long nip;
 
-    @Size(min = 11, max = 11, message = "PESEL value must contain 11 digits")
+    //@Size(min = 11, max = 11, message = "PESEL value must contain 11 digits")
     private long pesel;
 
-    @Size(min = 9, max = 14, message = "REGON value must contain 9 or 14 digits")
+    //@Size(min = 9, max = 14, message = "REGON value must contain 9 or 14 digits")
     private long regon;
 
-    @Size(min = 6, max = 6, message = "Postcode must follow the pattern: XX-XXX")
+    //@Size(min = 6, max = 6, message = "Postcode must follow the pattern: XX-XXX")
     private String postcode;
 
     public Fields() {
-        super();
     }
 
     public Fields(long id, String mail, long nip, long pesel, long regon, String postcode) {
-        super();
         this.id = id;
         this.mail = mail;
         this.nip = nip;
         this.pesel = pesel;
         this.regon = regon;
         this.postcode = postcode;
+    }
+
+    public void validateMail() {
+        if(this.mail.length() < 5) {
+
+        }
     }
 
     public long getId() {

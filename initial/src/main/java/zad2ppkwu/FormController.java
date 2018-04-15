@@ -14,4 +14,20 @@ public class FormController {
     public Fields fields(@RequestParam Fields fields) {
         return new Fields(1, "jankowalski@example.com", Long.parseLong("0123456789"), 12123423456L, Long.parseLong("098472839"), "01-100");
     }
+
+    @RequestMapping(value = "/verifyMail", method = RequestMethod.POST)
+    public boolean verifyMail(@RequestParam String mail) {
+        if(mail.length() < 5) {
+            return false;
+        }
+        return true;
+    }
+
+    @RequestMapping(value = "/verifyNIP", method = RequestMethod.POST)
+    public boolean verifyNIP(@RequestParam Long nip) {
+        if (String.valueOf(nip).length() < 10) {
+            return false;
+        }
+        return true;
+    }
 }
