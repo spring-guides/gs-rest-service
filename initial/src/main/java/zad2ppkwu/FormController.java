@@ -17,10 +17,10 @@ public class FormController {
 
     @RequestMapping(value = "/verifyMail", method = RequestMethod.POST)
     public boolean verifyMail(@RequestParam String mail) {
-        if(mail.length() < 5) {
-            return false;
+        if(mail.length() >= 5 && mail.contains("@") && mail.contains(".")) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     @RequestMapping(value = "/verifyNIP", method = RequestMethod.POST)
@@ -49,7 +49,7 @@ public class FormController {
 
     @RequestMapping(value = "/verifyPostcode", method = RequestMethod.POST)
     public boolean verifyPostcode(@RequestParam String postcode) {
-        if (postcode.length() == 6) {
+        if (postcode.length() == 6 && postcode.contains("-")) {
             return true;
         }
         return false;
