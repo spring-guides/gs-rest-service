@@ -12,7 +12,9 @@ A word is defined to be an anagram of a palindrome if its letters can be rearran
 A small suite of tests has been created called WordControllerTests. Your code must pass these tests.
 
 ## Exercise
-You must fork this repository, implement the `/words/{word}` endpoint, and commit your code.
+This repository contains a class called `WordController` in the `hello` package.
+
+You must fork this repository, implement the `/words/{word}` endpoint inside the `WordController`, and commit your code.
 
 The endpoint must take a word as a paramater and return a response of the form:
 ```
