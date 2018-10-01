@@ -9,7 +9,7 @@ A word is defined to be a palindrome if it is spelt the same backwards as it is 
 
 A word is defined to be an anagram of a palindrome if its letters can be rearranged to form a palindrome (a sequence of characters that is the same backwards as it is forwards), for example, 'bzzubu' can be arranged to spell 'buzzub', which is a palindrome.
 
-A small suite of tests has been created called WordControllerTests. Your code must pass these tests.
+A small suite of tests has been created called `WordControllerTests`. Your code must pass these tests.
 
 ## Exercise
 This repository contains a class called `WordController` in the `hello` package.
