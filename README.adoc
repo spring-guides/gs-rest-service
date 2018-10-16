@@ -80,7 +80,7 @@ To model the greeting representation, you create a resource representation class
 include::complete/src/main/java/hello/Greeting.java[]
 ----
 
-NOTE: As you see in steps below, Spring uses the http://wiki.fasterxml.com/JacksonHome[Jackson JSON] library to automatically marshal instances of type `Greeting` into JSON.
+NOTE: As you see in steps below, Spring uses the https://github.com/FasterXML/jackson[Jackson JSON] library to automatically marshal instances of type `Greeting` into JSON.
 
 Next you create the resource controller that will serve these greetings.
 
