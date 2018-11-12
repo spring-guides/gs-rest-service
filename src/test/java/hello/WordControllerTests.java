@@ -36,7 +36,8 @@ import java.util.List;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class WordControllerTests {
-    @Autowired
+   
+	@Autowired
     private MockMvc mockMvc;
 
     @Test
