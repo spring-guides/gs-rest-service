@@ -35,7 +35,11 @@ public class ContactController {
     @RequestMapping(value = "/all" , method = RequestMethod.GET)
     public List<Contact> getAllContacts(){
 
-        return contactService.getContacts();
+        List<Contact> contacts = contactService.getContacts();
+
+        //todo remove log , only for test
+        logger.info("All contacts : {} ", contacts);
+        return contacts;
 
     }
 
@@ -43,7 +47,7 @@ public class ContactController {
     public Contact getContact(@RequestParam("mobileNumber") String mobileNumber){
 
         Contact contact = contactService.getContactByMobileNumber(mobileNumber);
-
+        logger.info("Contact associated with mobilNumber : {} is : {} ", mobileNumber, contact);
         return contact;
     }
 
@@ -73,6 +77,7 @@ public class ContactController {
 
         contact = contactService.updateNameAndEmail(mobileNumber, name, email);
 
+        logger.info("Contact after update : {} ", contact);
         return new ResponseEntity<>(contact, HttpStatus.OK);
     }
 
@@ -105,6 +110,7 @@ public class ContactController {
         }
 
         List<Contact> contacts = contactService.searchByNameAndEmail(name, email, pageNumber);
+        logger.info("Contacts by name : {} and email : {} is : {} ", name, email, contacts);
 
         return contacts;
     }
