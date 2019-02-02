@@ -30,6 +30,7 @@ public class ContactRepositoryCustomImpl implements ContactRepositoryCustom {
 
         Criteria criteria = Criteria.where("_id").is(mobileNumber);
         Query query = new Query(criteria);
+        logger.info("findByMobile query : {} ", query);
         Contact contact = mongoOperations.findOne(query, Contact.class ,"contact");
         return contact;
 
@@ -47,9 +48,10 @@ public class ContactRepositoryCustomImpl implements ContactRepositoryCustom {
             update.set("email", email);
         }
 
-        Query q = new Query(criteria);
+        Query query = new Query(criteria);
 
-        Contact contact = mongoOperations.findAndModify(q, update, FindAndModifyOptions.options().returnNew(true), Contact.class);
+        logger.info("update Name and Email Query : {} ", query);
+        Contact contact = mongoOperations.findAndModify(query, update, FindAndModifyOptions.options().returnNew(true), Contact.class);
         logger.info("Id : {} updated with name : {} and email : {} contact :  {} ", id, name, email, contact);
         return contact;
     }
@@ -69,6 +71,7 @@ public class ContactRepositoryCustomImpl implements ContactRepositoryCustom {
         query.addCriteria((new Criteria()).andOperator((Criteria[])criteria.toArray(new Criteria[criteria.size()])));
         query.skip(pageNo);
         query.limit(pageLimit);
+        logger.info("findByName and email query : {} ", query);
         List<Contact> contacts = mongoOperations.find(query, Contact.class, "contact");
 
         logger.info("Contacts found with name : {} email : {} is : {} ", name, email, contacts);
