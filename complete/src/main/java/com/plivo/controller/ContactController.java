@@ -26,16 +26,6 @@ public class ContactController {
     ContactRepository contactRepository;
 
     public static final Logger logger = LoggerFactory.getLogger(ContactController.class);
-/*
-    private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
-
-    @RequestMapping("/greeting")
-    public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
-        return new Greeting(counter.incrementAndGet(),
-                String.format(template, name));
-    }
-*/
 
     @RequestMapping("/health")
     public String health(){
@@ -48,7 +38,6 @@ public class ContactController {
         return contactService.getContacts();
 
     }
-
 
     @RequestMapping(value = "" , method = RequestMethod.GET)
     public Contact getContact(@RequestParam("mobileNumber") String mobileNumber){
