@@ -14,6 +14,9 @@ service with Spring.
 You will build a service that will accept HTTP GET requests at
 `http://localhost:8080/greeting`.
 
+You will build a service that will accept HTTP GET requests at
+`http://localhost:8080/greeting`.
+
 It will respond with a JSON representation of a greeting, as the following listing shows:
 
 ====
