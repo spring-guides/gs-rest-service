@@ -162,10 +162,11 @@ provide a plain old Java object with fields, constructors, and accessors for the
 ----
 include::complete/src/main/java/com/example/restservice/Greeting.java[]
 ----
-====
 
+====
 NOTE: Spring uses the https://github.com/FasterXML/jackson[Jackson JSON] library to
 automatically marshal instances of type `Greeting` into JSON.
+====
 
 == Create a Resource Controller
 
