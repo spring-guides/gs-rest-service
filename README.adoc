@@ -109,7 +109,7 @@ A key difference between a traditional MVC controller and the RESTful web servic
 
 This code uses Spring 4's new https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/RestController.html[`@RestController`] annotation, which marks the class as a controller where every method returns a domain object instead of a view. It's shorthand for `@Controller` and `@ResponseBody` rolled together.
 
-The `Greeting` object must be converted to JSON. Thanks to Spring's HTTP message converter support, you don't need to do this conversion manually. Because https://wiki.fasterxml.com/JacksonHome[Jackson 2] is on the classpath, Spring's https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/http/converter/json/MappingJackson2HttpMessageConverter.html[`MappingJackson2HttpMessageConverter`] is automatically chosen to convert the `Greeting` instance to JSON.
+The `Greeting` object must be converted to JSON. Thanks to Spring's HTTP message converter support, you don't need to do this conversion manually. Because https://github.com/FasterXML/jackson[Jackson 2] is on the classpath, Spring's https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/http/converter/json/MappingJackson2HttpMessageConverter.html[`MappingJackson2HttpMessageConverter`] is automatically chosen to convert the `Greeting` instance to JSON.
 
 
 == Make the application executable
