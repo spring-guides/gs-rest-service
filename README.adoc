@@ -164,8 +164,8 @@ include::complete/src/main/java/com/example/restservice/Greeting.java[]
 ----
 
 ====
-NOTE: Spring uses the https://github.com/FasterXML/jackson[Jackson JSON] library to
-automatically marshal instances of type `Greeting` into JSON.
+NOTE: This application uses the https://github.com/FasterXML/jackson[Jackson JSON] library to
+automatically marshal instances of type `Greeting` into JSON. Jackson is included by default by the web starter.
 ====
 
 == Create a Resource Controller
