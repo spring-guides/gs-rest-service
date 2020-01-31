@@ -82,53 +82,6 @@ include::initial/build.gradle[]
 ----
 ====
 
-=== Adding a JSON Library
-
-Because you will use JSON to send and receive information, you need a JSON library. In
-this guide, you will use the Jayway JsonPath library.
-
-To include the library in a Maven build, add the following dependency to your `pom.xml`
-file:
-
-====
-[source,xml]
-----
-<dependency>
-  <groupId>com.jayway.jsonpath</groupId>
-  <artifactId>json-path</artifactId>
-  <scope>test</scope>
-</dependency>
-----
-====
-
-The following listing shows the finished `pom.xml` file:
-
-====
-[source,xml]
-----
-include::complete/pom.xml[]
-----
-====
-
-To include the libary in a Gradle build, add the following dependency to your
-`build.gradle` file:
-
-====
-[source,text]
-----
-testCompile 'com.jayway.jsonpath:json-path'
-----
-====
-
-The following listing shows the finished `build.gradle` file:
-
-====
-[source,text]
-----
-include::complete/build.gradle[]
-----
-====
-
 [[initial]]
 == Create a Resource Representation Class
 
