@@ -8,32 +8,6 @@
 		<version>2.2.2.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<profiles>
-        <profile>
-            <repositories>
-                <repository>
-                    <snapshots>
-                        <enabled>true</enabled>
-                    </snapshots>
-                    <id>central</id>
-                    <name>bintray</name>
-                    <url>https://jcenter.bintray.com</url>
-                </repository>
-            </repositories>
-            <pluginRepositories>
-                <pluginRepository>
-                    <snapshots>
-                        <enabled>true</enabled>
-                    </snapshots>
-                    <id>central</id>
-                    <name>bintray-plugins</name>
-                    <url>https://jcenter.bintray.com</url>
-                </pluginRepository>
-			</pluginRepositories>
-			<activation><activeByDefault>true</activeByDefault></activation>
-            <id>bintray</id>
-        </profile>
-    </profiles>
 	<groupId>com.example</groupId>
 	<artifactId>rest-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -64,13 +38,11 @@
 			<groupId>com.microsoft.graph</groupId>
 			<artifactId>microsoft-graph</artifactId>
 			<version>1.7.1</version>
-			<type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>com.microsoft.graph</groupId>
 			<artifactId>microsoft-graph-core</artifactId>
-			<version>1.0.1</version>
-			<type>pom</type>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 
