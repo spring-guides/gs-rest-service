@@ -11,12 +11,16 @@ sourceCompatibility = '1.8'
 repositories {
 	mavenCentral()
 	jcenter()
+		jcenter{
+        url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
+		}
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.microsoft.graph:microsoft-graph:1.7.1'
 	implementation 'com.microsoft.graph:microsoft-graph-core:1.0.1'
+	compile('com.microsoft.graph:microsoft-graph-auth:0.1.0-SNAPSHOT')
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
