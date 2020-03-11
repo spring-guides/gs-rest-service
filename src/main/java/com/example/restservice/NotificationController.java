@@ -13,6 +13,8 @@ import com.microsoft.graph.auth.confidentialClient.*;
 import com.microsoft.graph.models.extensions.*;
 import com.microsoft.graph.auth.enums.*;
 import com.microsoft.graph.authentication.*;
+import com.microsoft.graph.httpcore.*;
+import org.springframework.http.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Calendar;
@@ -35,26 +37,32 @@ public class NotificationController {
             this.tenantId,
             this.endpoint);
 
-        GraphServiceClient graphClient = GraphServiceClient
+        IGraphServiceClient graphClient = GraphServiceClient
                             .builder()
                             .authenticationProvider(authProvider)
                             .buildClient();
         Subscription subscription = new Subscription();
         subscription.changeType = "updated";
-        subscription.notificationUrl = "https://webhook.azurewebsites.net/api/send/myNotifyClient";
-        subscription.resource = "me/mailFolders('Inbox')/messages";
+        subscription.notificationUrl = "https://94801ddb.ngrok.io/notification";
+        subscription.resource = "users/vincent@baywet.onmicrosoft.com/mailFolders('Inbox')/messages";
         subscription.expirationDateTime = Calendar.getInstance();
         subscription.clientState = "secretClientValue";
         
-        graphClient.subscriptions()
+        subscription.expirationDateTime.add(Calendar.HOUR, 1);
+        
+        subscription = graphClient.subscriptions()
             .buildRequest()
             .post(subscription);
-        return "Subscribed to entity with subscription id";
+        return "Subscribed to entity with subscription id " + subscription.id;
+    }
+    @PostMapping(value="/notification", headers = {"content-type=text/plain"})
+    @ResponseBody
+    public ResponseEntity<String> handleValidation(@RequestParam(value = "validationToken") String validationToken){
+        return ResponseEntity.ok().contentType(MediaType.TEXT_PLAIN).body(validationToken);
     }
     @PostMapping("/notification")
     @ResponseBody
-	public String handleNotification(@RequestParam(value = "validationToken", defaultValue = "") String validationToken, @RequestBody(required=false) ChangeNotificationsCollection notifications) {
-
-		return validationToken;
+	public ResponseEntity<String> handleNotification(@RequestBody() ChangeNotificationsCollection notifications) {
+        return ResponseEntity.ok().body("");
 	}
 }
