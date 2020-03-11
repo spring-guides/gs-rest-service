@@ -18,6 +18,30 @@
 	</properties>
 	<profiles>
 		<profile>
+            <repositories>
+                <repository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>bintray-microsoftgraph-Maven</id>
+                    <name>bintray</name>
+                    <url>https://dl.bintray.com/microsoftgraph/Maven</url>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>bintray-microsoftgraph-Maven</id>
+                    <name>bintray-plugins</name>
+                    <url>https://dl.bintray.com/microsoftgraph/Maven</url>
+                </pluginRepository>
+			</pluginRepositories>
+			<activation><activeByDefault>true</activeByDefault></activation>
+            <id>bintray</id>
+        </profile>
+		<profile>
 		   <id>allow-snapshots</id>
 			  <activation><activeByDefault>true</activeByDefault></activation>
 		   <repositories>
@@ -56,7 +80,12 @@
 		<dependency>
 			<groupId>com.microsoft.graph</groupId>
 			<artifactId>microsoft-graph-core</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.oltu.oauth2</groupId>
+			<artifactId>org.apache.oltu.oauth2.client</artifactId>
+			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.microsoft.graph</groupId>
