@@ -35,8 +35,8 @@ public class NotificationController {
     private String tenantId = "bd4c6c31-c49c-4ab6-a0aa-742e07c20232";
 //endregion
 //region subscription information
-    private String publicUrl = "https://94801ddb.ngrok.io";
-    private String resource = "teams/01b4b70e-2ea6-432f-a3d7-eefd826c2a8e/channels/19:81cf89b7ecef4e7994a84ee2cfb3248a@thread.skype/messages";
+    private String publicUrl = "https://e7ff1771.ngrok.io";
+    private String resource = "teams/9c05f27f-f866-4cc0-b4c2-6225a4568bc5/channels/19:015c392a3030451f8b52fac6084be56d@thread.skype/messages";
 //endregion
 //region certificate information
     private String storename = "JKSkeystore.jks";
@@ -63,7 +63,7 @@ public class NotificationController {
                             .buildClient();
         graphClient.setServiceRoot("https://graph.microsoft.com/beta");
         Subscription subscription = new Subscription();
-        subscription.changeType = "updated";
+        subscription.changeType = "created";
         subscription.notificationUrl = this.publicUrl + "/notification";
         subscription.resource = this.resource;
         subscription.expirationDateTime = Calendar.getInstance();
@@ -71,12 +71,12 @@ public class NotificationController {
         
         subscription.expirationDateTime.add(Calendar.HOUR, 1);
         
-        if (true) { //TODO update condition for teams
+        if (this.resource.startsWith("teams")) {
             subscription.additionalDataManager().put("includeResourceData", new JsonPrimitive(true));
-            subscription.additionalDataManager().put("encryptionCertificate",   new JsonPrimitive(GetBase64EncodedKey()));
+            subscription.additionalDataManager().put("encryptionCertificate",   new JsonPrimitive(GetBase64EncodedCertificate()));
             subscription.additionalDataManager().put("encryptionCertificateId", new JsonPrimitive(this.alias));
-            LOGGER.warn("cert public key");
-            LOGGER.info(GetBase64EncodedKey());
+            LOGGER.warn("encoded cert");
+            LOGGER.info(GetBase64EncodedCertificate());
         }
 
         subscription = graphClient.subscriptions()
@@ -84,20 +84,11 @@ public class NotificationController {
             .post(subscription);
         return "Subscribed to entity with subscription id " + subscription.id;
     }
-    private String GetBase64EncodedKey() throws KeyStoreException, FileNotFoundException, IOException, CertificateException, NoSuchAlgorithmException  {
+    private String GetBase64EncodedCertificate() throws KeyStoreException, FileNotFoundException, IOException, CertificateException, NoSuchAlgorithmException  {
         KeyStore ks = KeyStore.getInstance("JKS");
         ks.load(new FileInputStream(this.storename), this.storepass.toCharArray());
-        java.security.cert.Certificate[] cchain = ks.getCertificateChain(this.alias);
-        List mylist = new ArrayList();
-        for (int i = 0; i < cchain.length; i++) {
-            mylist.add(cchain[i]);
-        }
-        CertificateFactory cf = CertificateFactory.getInstance("X.509");
-        CertPath cp = cf.generateCertPath(mylist);
-        java.security.cert.Certificate certificate = cp.getCertificates().get(0);
-        PublicKey publicKey = certificate.getPublicKey();
-        byte[] encodedPublicKey = publicKey.getEncoded();
-        return new String(Base64.encodeBase64(encodedPublicKey));
+        java.security.cert.Certificate cert = ks.getCertificate(this.alias);
+        return new String(Base64.encodeBase64(cert.getEncoded()));
     }
     @PostMapping(value="/notification", headers = {"content-type=text/plain"})
     @ResponseBody
