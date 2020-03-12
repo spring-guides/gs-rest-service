@@ -27,6 +27,7 @@ import java.security.*;
 import java.security.cert.*;
 import org.apache.commons.codec.binary.Base64;
 import javax.crypto.*;
+import javax.crypto.spec.*;
 
 @RestController
 public class NotificationController {
@@ -103,6 +104,15 @@ public class NotificationController {
         cipher.init(Cipher.DECRYPT_MODE, asymmetricKey);
         return cipher.doFinal(encryptedSymetricKey);
     }
+    private boolean IsDataSignatureValid(byte[] encryptionKey, String encryptedData, String comparisonSignature) throws NoSuchAlgorithmException, InvalidKeyException {
+        byte[] decodedEncryptedData = Base64.decodeBase64(encryptedData);
+        Mac mac = Mac.getInstance("HMACSHA256");
+        SecretKey skey = new SecretKeySpec(encryptionKey, "HMACSHA256");
+        mac.init(skey);
+        byte[] hashedData = mac.doFinal(decodedEncryptedData);
+        String encodedHashedData = new String(Base64.encodeBase64(hashedData));
+        return comparisonSignature.equals(encodedHashedData);
+    }
     @PostMapping(value="/notification", headers = {"content-type=text/plain"})
     @ResponseBody
     public ResponseEntity<String> handleValidation(@RequestParam(value = "validationToken") String validationToken){
@@ -113,6 +123,7 @@ public class NotificationController {
 	public ResponseEntity<String> handleNotification(@RequestBody() ChangeNotificationsCollection notifications) throws KeyStoreException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, FileNotFoundException, NoSuchPaddingException, IOException, UnrecoverableKeyException, BadPaddingException, CertificateException {
         LOGGER.info(notifications.value.get(0).resource);
         byte[] decryptedKey = this.GetEncryptionKey(notifications.value.get(0).encryptedContent.dataKey);
-        return ResponseEntity.ok().body("");
+        boolean isDataSignatureValid = this.IsDataSignatureValid(decryptedKey, notifications.value.get(0).encryptedContent.data, notifications.value.get(0).encryptedContent.dataSignature);
+        return ResponseEntity.ok().body(String.valueOf(isDataSignatureValid));
 	}
 }
