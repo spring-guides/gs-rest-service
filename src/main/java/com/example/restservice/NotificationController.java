@@ -26,6 +26,7 @@ import java.io.*;
 import java.security.*;
 import java.security.cert.*;
 import org.apache.commons.codec.binary.Base64;
+import javax.crypto.*;
 
 @RestController
 public class NotificationController {
@@ -84,11 +85,23 @@ public class NotificationController {
             .post(subscription);
         return "Subscribed to entity with subscription id " + subscription.id;
     }
-    private String GetBase64EncodedCertificate() throws KeyStoreException, FileNotFoundException, IOException, CertificateException, NoSuchAlgorithmException  {
+    private KeyStore GetCertificateStore() throws KeyStoreException, FileNotFoundException, IOException, CertificateException, NoSuchAlgorithmException  {
         KeyStore ks = KeyStore.getInstance("JKS");
         ks.load(new FileInputStream(this.storename), this.storepass.toCharArray());
+        return ks;
+    }
+    private String GetBase64EncodedCertificate() throws CertificateEncodingException, KeyStoreException, FileNotFoundException, IOException, CertificateException, NoSuchAlgorithmException {
+        KeyStore ks = this.GetCertificateStore();
         java.security.cert.Certificate cert = ks.getCertificate(this.alias);
         return new String(Base64.encodeBase64(cert.getEncoded()));
+    }
+    private byte[] GetEncryptionKey(String base64encodedSymetricKey) throws KeyStoreException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, FileNotFoundException, NoSuchPaddingException, IOException, UnrecoverableKeyException, BadPaddingException, CertificateException {
+        KeyStore ks = this.GetCertificateStore();
+        Key asymmetricKey = ks.getKey(this.alias, this.storepass.toCharArray());
+        byte[] encryptedSymetricKey = Base64.decodeBase64(base64encodedSymetricKey);
+        Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
+        cipher.init(Cipher.DECRYPT_MODE, asymmetricKey);
+        return cipher.doFinal(encryptedSymetricKey);
     }
     @PostMapping(value="/notification", headers = {"content-type=text/plain"})
     @ResponseBody
@@ -97,8 +110,9 @@ public class NotificationController {
     }
     @PostMapping("/notification")
     @ResponseBody
-	public ResponseEntity<String> handleNotification(@RequestBody() ChangeNotificationsCollection notifications) {
+	public ResponseEntity<String> handleNotification(@RequestBody() ChangeNotificationsCollection notifications) throws KeyStoreException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, FileNotFoundException, NoSuchPaddingException, IOException, UnrecoverableKeyException, BadPaddingException, CertificateException {
         LOGGER.info(notifications.value.get(0).resource);
+        byte[] decryptedKey = this.GetEncryptionKey(notifications.value.get(0).encryptedContent.dataKey);
         return ResponseEntity.ok().body("");
 	}
 }
