@@ -113,6 +113,13 @@ public class NotificationController {
         String encodedHashedData = new String(Base64.encodeBase64(hashedData));
         return comparisonSignature.equals(encodedHashedData);
     }
+    private String GetDecryptedData(byte[] encryptionKey, String encryptedData) throws NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, InvalidAlgorithmParameterException {
+        SecretKey skey = new SecretKeySpec(encryptionKey, "AES");
+        IvParameterSpec ivspec = new IvParameterSpec(Arrays.copyOf(encryptionKey, 16));
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");// should be 7 but https://stackoverflow.com/a/53139355/3808675
+        cipher.init(Cipher.DECRYPT_MODE, skey, ivspec);
+        return new String(cipher.doFinal(Base64.decodeBase64(encryptedData)));
+    }
     @PostMapping(value="/notification", headers = {"content-type=text/plain"})
     @ResponseBody
     public ResponseEntity<String> handleValidation(@RequestParam(value = "validationToken") String validationToken){
@@ -120,10 +127,17 @@ public class NotificationController {
     }
     @PostMapping("/notification")
     @ResponseBody
-	public ResponseEntity<String> handleNotification(@RequestBody() ChangeNotificationsCollection notifications) throws KeyStoreException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, FileNotFoundException, NoSuchPaddingException, IOException, UnrecoverableKeyException, BadPaddingException, CertificateException {
+	public ResponseEntity<String> handleNotification(@RequestBody() ChangeNotificationsCollection notifications) throws KeyStoreException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, FileNotFoundException, NoSuchPaddingException, IOException, UnrecoverableKeyException, BadPaddingException, CertificateException, InvalidAlgorithmParameterException {
         LOGGER.info(notifications.value.get(0).resource);
         byte[] decryptedKey = this.GetEncryptionKey(notifications.value.get(0).encryptedContent.dataKey);
         boolean isDataSignatureValid = this.IsDataSignatureValid(decryptedKey, notifications.value.get(0).encryptedContent.data, notifications.value.get(0).encryptedContent.dataSignature);
-        return ResponseEntity.ok().body(String.valueOf(isDataSignatureValid));
+        if(isDataSignatureValid) {
+            String decryptedData = this.GetDecryptedData(decryptedKey, notifications.value.get(0).encryptedContent.data);
+            LOGGER.info("decrypted data");
+            LOGGER.info(decryptedData);
+            return ResponseEntity.ok().body("");
+        } else {
+            return ResponseEntity.badRequest().body("data signature validation failed");
+        }
 	}
 }
