@@ -21,10 +21,14 @@ dependencies {
 	implementation 'com.microsoft.graph:microsoft-graph:1.7.1'
 	implementation 'com.microsoft.graph:microsoft-graph-core:1.0.1'
 	implementation 'org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.1'
+	implementation 'com.auth0:jwks-rsa:0.11.0'
+	compile 'io.jsonwebtoken:jjwt-api:0.11.1'
 	compile('com.microsoft.graph:microsoft-graph-auth:0.1.0-SNAPSHOT')
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	runtime 'io.jsonwebtoken:jjwt-impl:0.11.1'
+	runtime 'io.jsonwebtoken:jjwt-jackson:0.11.1'
 }
 
 test {
