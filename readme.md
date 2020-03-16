@@ -4,7 +4,7 @@ products:
 - ms-graph
 languages:
 - spring
-- javas
+- java
 description: "Create Microsoft Graph webhook subscriptions for a Java Sprint app, so that it can receive notifications of changes for any resource. This sample also supports receiving change notifications with data, validating and decrypting the payload."
 extensions:
   contentType: samples
