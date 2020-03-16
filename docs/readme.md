@@ -1,3 +1,17 @@
+---
+page_type: sample 
+products:
+- ms-graph
+languages:
+- spring
+- javas
+description: "Create Microsoft Graph webhook subscriptions for a Java Sprint app, so that it can receive notifications of changes for any resource. This sample also supports receiving change notifications with data, validating and decrypting the payload."
+extensions:
+  contentType: samples
+  technologies:
+  - Microsoft Graph
+  createdDate: 3/15/2020 4:12:18 PM
+---
 # Sample Application - Microsoft Graph Change Notifications with Resource Data
 
 ## Use this sample application to receive Change Notifications with Resource Data
