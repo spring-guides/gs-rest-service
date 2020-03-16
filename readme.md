@@ -44,19 +44,19 @@ The sample is configured to do the following:
 
 - Click on the navigation icon in the Azure Portal, click on "All services"; on the next screen search for "Azure Active Directory" and then click on "Azure Active Directory"
 
-    ![AadAppCreate1](ad1.png)
+    ![AadAppCreate1](docs/ad1.png)
 
-    ![AadAppCreate2](ad2.png)
+    ![AadAppCreate2](docs/ad2.png)
 
 - Click on "App registrations",  then click on "+ New registration"; Fill in the required details as shown below and click "Register"
 
-    ![AadAppCreate3](ad3.png)
+    ![AadAppCreate3](docs/ad3.png)
 
-    ![AadAppCreate4](ad4.png)
+    ![AadAppCreate4](docs/ad4.png)
 
 - Go to the Application, click "Certificates & secrets", then click "+ New client secret", Add a description and then click "Add" and save the secret somewhere, you will need to add this to the configuration.
 
-    ![AadAppCreate5](ad5.png)
+    ![AadAppCreate5](docs/ad5.png)
 
 - Select the **API permissions** page. Click **Add a permission**, then select **Microsoft Graph**, **Application permissions**, **ChannelMessage.Read.All**. Click **Add permissions**.  
 
