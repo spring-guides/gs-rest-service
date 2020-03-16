@@ -160,6 +160,7 @@ public class NotificationController {
     @PostMapping("/notification")
     @ResponseBody
 	public ResponseEntity<String> handleNotification(@RequestBody() ChangeNotificationsCollection notifications) throws KeyStoreException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, FileNotFoundException, NoSuchPaddingException, IOException, UnrecoverableKeyException, BadPaddingException, CertificateException, InvalidAlgorithmParameterException {
+        LOGGER.info("notification received");
         LOGGER.info(notifications.value.get(0).resource);
         byte[] decryptedKey = this.GetEncryptionKey(notifications.value.get(0).encryptedContent.dataKey);
         boolean isDataSignatureValid = this.IsDataSignatureValid(decryptedKey, notifications.value.get(0).encryptedContent.data, notifications.value.get(0).encryptedContent.dataSignature);
