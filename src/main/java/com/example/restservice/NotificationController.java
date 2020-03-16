@@ -35,13 +35,14 @@ import io.jsonwebtoken.security.Keys;
 @RestController
 public class NotificationController {
 //region app registration information
-    private String clientId  = "24f1a7a0-bda7-4bf8-b8a6-c915da1d0ddb";
+    private String clientId  = "";
     private String clientSecret = "";
-    private String tenantId = "bd4c6c31-c49c-4ab6-a0aa-742e07c20232";
+    private String tenantId = "";
 //endregion
 //region subscription information
-    private String publicUrl = "https://c2ddde53.ngrok.io";
-    private String resource = "teams/9c05f27f-f866-4cc0-b4c2-6225a4568bc5/channels/19:015c392a3030451f8b52fac6084be56d@thread.skype/messages";
+    private String publicUrl = ""; //eg https://c2ddde53.ngrok.io no trailing slash
+    private String resource = ""; // eg teams/9c05f27f-f866-4cc0-b4c2-6225a4568bc5/channels/19:015c392a3030451f8b52fac6084be56d@thread.skype/messages
+    private String changeType = "created";
 //endregion
 //region certificate information
     private String storename = "JKSkeystore.jks";
@@ -69,7 +70,7 @@ public class NotificationController {
                             .buildClient();
         graphClient.setServiceRoot("https://graph.microsoft.com/beta");
         Subscription subscription = new Subscription();
-        subscription.changeType = "created";
+        subscription.changeType = this.changeType;
         subscription.notificationUrl = this.publicUrl + "/notification";
         subscription.resource = this.resource;
         subscription.expirationDateTime = Calendar.getInstance();
