@@ -1,0 +1,6 @@
+{
+    "default": true,
+    "$schema": "https://raw.githubusercontent.com/DavidAnson/markdownlint/master/schema/markdownlint-config-schema.json",
+    "no-trailing-punctuation": false,
+    "MD013": false
+}
