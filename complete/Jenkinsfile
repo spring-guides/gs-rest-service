@@ -9,8 +9,10 @@ pipeline {
         stage('Build') { 
             steps {
                 dir ("complete") {
-                    sh './mvnw clean package'
-                    sh './mvnw deploy -Dregistry=https://maven.pkg.github.com/giuesposbit/gs-rest-service'
+                    configFileProvider(
+                        [configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
+                            sh './mvnw -s $MAVEN_SETTINGS clean deploy -Dregistry=https://maven.pkg.github.com/giuesposbit/gs-rest-service'
+                    }
                 }
             }
         }
