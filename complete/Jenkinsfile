@@ -6,11 +6,11 @@ pipeline {
         }
     }
     stages {
-        stage('Build') { 
+        stage('Maven GitHub Deploy') { 
             steps {
                 dir ("complete") {
                     configFileProvider(
-                        [configFile(fileId: '522522f3-a190-40b3-bf2f-3df92ece5bce', variable: 'MAVEN_SETTINGS')]) {
+                        [configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
                             sh './mvnw -s $MAVEN_SETTINGS clean deploy -Dregistry=https://maven.pkg.github.com/giuesposbit/gs-rest-service'
                     }
                 }
