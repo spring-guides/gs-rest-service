@@ -9,8 +9,10 @@ pipeline {
         stage('Build') { 
             steps {
                 sh "pwd"
+                sh "ls -la"
                 sh "cd complete"
                 sh "pwd"
+                sh "ls -la"
                 sh 'mvn clean package' 
             }
         }
