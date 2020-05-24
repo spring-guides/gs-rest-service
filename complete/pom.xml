@@ -49,7 +49,7 @@
     		<repository>
       			<id>github</id>
       			<name>github personal repo</name>
-      			<url>https://maven.pkg.github.com/giuesposbit</url>
+      			<url>https://maven.pkg.github.com/giuesposbit/gs-rest-service</url>
     		</repository>
 	</distributionManagement>
 </project>
