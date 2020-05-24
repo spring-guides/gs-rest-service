@@ -8,7 +8,9 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
+                sh "pwd"
                 sh "cd complete"
+                sh "pwd"
                 sh 'mvn clean package' 
             }
         }
