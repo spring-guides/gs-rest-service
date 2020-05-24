@@ -10,7 +10,7 @@ pipeline {
             steps {
                 dir ("complete") {
                     configFileProvider(
-                        [configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
+                        [configFile(fileId: 'MySettings', variable: 'MAVEN_SETTINGS')]) {
                             sh './mvnw -s $MAVEN_SETTINGS clean deploy -Dregistry=https://maven.pkg.github.com/giuesposbit/gs-rest-service'
                     }
                 }
