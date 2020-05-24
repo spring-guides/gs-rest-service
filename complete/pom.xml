@@ -45,5 +45,13 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	<distributionManagement>
+    		<repository>
+      			<uniqueVersion>false</uniqueVersion>
+      			<id>github</id>
+      			<name>github personal repo</name>
+      			<url>https://maven.pkg.github.com/giuesposbit</url>
+      			<layout>default</layout>
+    		</repository>
+	</distributionManagement>
 </project>
