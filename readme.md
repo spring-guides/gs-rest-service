@@ -30,7 +30,7 @@ extensions:
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [ngrok](https://ngrok.com/).
 - [JDK13](https://docs.oracle.com/en/java/javase/13/install/)
-- [Maven](https://maven.apache.org/).
+- [Maven](https://maven.apache.org/) or [Gradle](https://gradle.org/).
 
 ### How the sample application works
 
@@ -98,7 +98,9 @@ Note: this command will request for a password to protect the keystore, write it
 
 ### Start the application
 
-From the root of the repository:
+Open the repository with Visual Studio Code. Press F5.
+
+Alternatively if you are not using Visual Studio Code, from the root of the repository:
 
 ```shell
 mvn install
