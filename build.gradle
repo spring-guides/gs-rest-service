@@ -12,7 +12,7 @@ repositories {
 	mavenCentral()
 	jcenter()
 		jcenter{
-        url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
+        url 'https://oss.jfrog.org/artifactory/oss-snapshot-local'
 		}
 }
 
@@ -22,13 +22,14 @@ dependencies {
 	implementation 'com.microsoft.graph:microsoft-graph-core:1.0.1'
 	implementation 'org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2'
 	implementation 'com.auth0:jwks-rsa:0.12.0'
-	compile 'io.jsonwebtoken:jjwt-api:0.11.2'
-	compile('com.microsoft.graph:microsoft-graph-auth:0.2.0')
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	implementation 'com.microsoft.graph:microsoft-graph-auth:0.2.0'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-	runtime 'io.jsonwebtoken:jjwt-impl:0.11.2'
-	runtime 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+
 }
 
 test {
