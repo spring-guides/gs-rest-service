@@ -31,6 +31,7 @@ import javax.crypto.spec.*;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.apache.commons.text.StringEscapeUtils;
 
 @RestController
 public class NotificationController {
@@ -155,7 +156,7 @@ public class NotificationController {
     @PostMapping(value="/notification", headers = {"content-type=text/plain"})
     @ResponseBody
     public ResponseEntity<String> handleValidation(@RequestParam(value = "validationToken") String validationToken){
-        return ResponseEntity.ok().contentType(MediaType.TEXT_PLAIN).body(validationToken);
+        return ResponseEntity.ok().contentType(MediaType.TEXT_PLAIN).body(StringEscapeUtils.escapeHtml4(validationToken));
     }
     @PostMapping("/notification")
     @ResponseBody
