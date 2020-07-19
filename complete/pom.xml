@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<buildDirectory>${project.basedir}/target</buildDirectory>
 	</properties>
 
 	<dependencies>
@@ -38,6 +39,12 @@
 	</dependencies>
 
 	<build>
+                <directory>${buildDirectory}</directory>
+                <resources>
+                        <resource>
+                                <directory>src\main\java</directory>
+                        </resource>
+                </resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
