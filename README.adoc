@@ -2,7 +2,7 @@
 :toc:
 :project_id: gs-rest-service
 :spring_version: current
-:spring_boot_version: 2.2.1.RELEASE
+:spring_boot_version: 2.3.2.RELEASE
 :icons: font
 :source-highlighter: prettify
 
@@ -56,13 +56,7 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 For all Spring applications, you should start with the https://start.spring.io[Spring
 Initializr]. The Initializr offers a fast way to pull in all the dependencies you need for
 an application and does a lot of the setup for you. This example needs only the Spring Web
-dependency. The following image shows the Initializr set up for this sample project:
-
-image::images/initializr.png[]
-
-NOTE: The preceding image shows the Initializr with Maven chosen as the build tool. You
-can also use Gradle. It also shows values of `com.example` and `rest-service` as the Group
-and Artifact, respectively. You will use those values throughout the rest of this sample.
+dependency.
 
 The following listing shows the `pom.xml` file that is created when you choose Maven:
 
