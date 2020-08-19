@@ -1,7 +1,5 @@
 package com.example.restservice;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,11 +10,8 @@ import com.microsoft.graph.requests.extensions.*;
 import com.microsoft.graph.auth.confidentialClient.*;
 import com.microsoft.graph.models.extensions.*;
 import com.microsoft.graph.auth.enums.*;
-import com.microsoft.graph.authentication.*;
-import com.microsoft.graph.httpcore.*;
 import org.springframework.http.*;
 import com.google.gson.JsonPrimitive;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Calendar;
@@ -29,8 +24,6 @@ import org.apache.commons.codec.binary.Base64;
 import javax.crypto.*;
 import javax.crypto.spec.*;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import org.apache.commons.text.StringEscapeUtils;
 
 @RestController
