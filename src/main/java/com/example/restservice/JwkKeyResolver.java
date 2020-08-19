@@ -13,18 +13,21 @@ import org.slf4j.LoggerFactory;
 
 public class JwkKeyResolver extends SigningKeyResolverAdapter {
     // private static String wellKnownUri = "https://login.microsoftonline.com/common/.well-known/openid-configuration";
-    private JwkProvider keyStore;
+    private final JwkProvider keyStore;
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+
     public JwkKeyResolver() throws java.net.URISyntaxException, java.net.MalformedURLException {
-        this.keyStore = new UrlJwkProvider((new URI("https://login.microsoftonline.com/common/discovery/keys").toURL()));
+        this.keyStore = new UrlJwkProvider(
+                (new URI("https://login.microsoftonline.com/common/discovery/keys").toURL()));
     }
+
     @Override
-    public Key resolveSigningKey(JwsHeader jwsHeader, Claims claims) {
+    public Key resolveSigningKey(final JwsHeader jwsHeader, final Claims claims) {
         try {
-            String keyId = jwsHeader.getKeyId();
-            Jwk pub = keyStore.get(keyId);
+            final String keyId = jwsHeader.getKeyId();
+            final Jwk pub = keyStore.get(keyId);
             return pub.getPublicKey();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             LOGGER.error(e.getMessage());
             return null;
         }
