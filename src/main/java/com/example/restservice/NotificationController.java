@@ -166,7 +166,7 @@ public class NotificationController {
 
     @PostMapping("/notification")
     @ResponseBody
-    public ResponseEntity<String> handleNotification(@RequestBody() final ChangeNotificationsCollection notifications)
+    public ResponseEntity<String> handleNotification(@RequestBody() final ChangeNotificationCollection notifications)
             throws KeyStoreException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException,
             FileNotFoundException, NoSuchPaddingException, IOException, UnrecoverableKeyException, BadPaddingException,
             CertificateException, InvalidAlgorithmParameterException {
