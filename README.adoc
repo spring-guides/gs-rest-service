@@ -166,7 +166,7 @@ object instead of a view. It is shorthand for including both `@Controller` and
 
 The `Greeting` object must be converted to JSON. Thanks to Spring's HTTP message converter
 support, you need not do this conversion manually. Because
-https://wiki.fasterxml.com/JacksonHome[Jackson 2] is on the classpath, Spring's
+https://github.com/FasterXML/jackson[Jackson 2] is on the classpath, Spring's
 https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/http/converter/json/MappingJackson2HttpMessageConverter.html[`MappingJackson2HttpMessageConverter`]
 is automatically chosen to convert the `Greeting` instance to JSON.
 
