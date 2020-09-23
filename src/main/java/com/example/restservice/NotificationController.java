@@ -7,9 +7,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.microsoft.graph.requests.extensions.*;
+import com.microsoft.graph.serializer.DefaultSerializer;
 import com.microsoft.graph.auth.confidentialClient.*;
 import com.microsoft.graph.models.extensions.*;
 import com.microsoft.graph.auth.enums.*;
+import com.microsoft.graph.logger.DefaultLogger;
+
 import org.springframework.http.*;
 import com.google.gson.JsonPrimitive;
 import java.util.Arrays;
@@ -166,10 +169,12 @@ public class NotificationController {
 
     @PostMapping("/notification")
     @ResponseBody
-    public ResponseEntity<String> handleNotification(@RequestBody() final ChangeNotificationCollection notifications)
+    public ResponseEntity<String> handleNotification(@RequestBody() final String jsonString)
             throws KeyStoreException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException,
             FileNotFoundException, NoSuchPaddingException, IOException, UnrecoverableKeyException, BadPaddingException,
             CertificateException, InvalidAlgorithmParameterException {
+        final DefaultSerializer defaultSerializer = new DefaultSerializer(new DefaultLogger());
+        final ChangeNotificationCollection notifications = defaultSerializer.deserializeObject(jsonString, ChangeNotificationCollection.class);
         LOGGER.info("notification received");
         LOGGER.info(notifications.value.get(0).resource);
         final byte[] decryptedKey = this.GetEncryptionKey(notifications.value.get(0).encryptedContent.dataKey);
