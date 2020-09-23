@@ -1,12 +1,5 @@
 {
     "recommendations": [
-        "vscjava.vscode-spring-boot-dashboard",
-        "vscjava.vscode-spring-initializr",
-        "vscjava.vscode-java-dependency",
-        "vscjava.vscode-java-pack",
-        "vscjava.vscode-maven",
-        "redhat.java",
-        "vscjava.vscode-java-test",
-        "redhat.vscode-xml"
+        "vscjava.vscode-java-pack"
     ]
 }
