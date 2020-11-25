@@ -221,7 +221,7 @@ The following guides may also be helpful:
 * https://spring.io/guides/gs/consuming-rest-jquery/[Consuming a RESTful Web Service with jQuery]
 * https://spring.io/guides/gs/consuming-rest-restjs/[Consuming a RESTful Web Service with rest.js]
 * https://spring.io/guides/gs/securing-web/[Securing a Web Application]
-* https://spring.io/guides/tutorials/bookmarks/[Building REST services with Spring]
+* https://spring.io/guides/tutorials/rest/[Building REST services with Spring]
 * https://spring.io/guides/tutorials/react-and-spring-data-rest/[React.js and Spring Data REST]
 * https://spring.io/guides/gs/spring-boot/[Building an Application with Spring Boot]
 * https://spring.io/guides/gs/testing-restdocs/[Creating API Documentation with Restdocs]
