@@ -103,6 +103,12 @@ Open the repository with Visual Studio Code. Press F5.
 Alternatively if you are not using Visual Studio Code, from the root of the repository:
 
 ```shell
+gradle run
+```
+
+Or (depending on your favorite tool)
+
+```shell
 mvn install
 mvn package
 java -jar target/rest-service-0.0.1-SNAPSHOT.jar

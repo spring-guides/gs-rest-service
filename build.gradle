@@ -10,10 +10,7 @@ sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
-	jcenter()
-		jcenter{
-        url 'https://oss.jfrog.org/artifactory/oss-snapshot-local'
-		}
+	maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
 }
 
 dependencies {

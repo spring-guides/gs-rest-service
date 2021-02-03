@@ -18,30 +18,6 @@
 	</properties>
 	<profiles>
 		<profile>
-            <repositories>
-                <repository>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                    <id>bintray-microsoftgraph-Maven</id>
-                    <name>bintray</name>
-                    <url>https://dl.bintray.com/microsoftgraph/Maven</url>
-                </repository>
-            </repositories>
-            <pluginRepositories>
-                <pluginRepository>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                    <id>bintray-microsoftgraph-Maven</id>
-                    <name>bintray-plugins</name>
-                    <url>https://dl.bintray.com/microsoftgraph/Maven</url>
-                </pluginRepository>
-			</pluginRepositories>
-			<activation><activeByDefault>true</activeByDefault></activation>
-            <id>bintray</id>
-        </profile>
-		<profile>
 		   <id>allow-snapshots</id>
 			  <activation><activeByDefault>true</activeByDefault></activation>
 		   <repositories>
