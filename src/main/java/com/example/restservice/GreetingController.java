@@ -16,4 +16,10 @@ public class GreetingController {
 	public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
 		return new Greeting(counter.incrementAndGet(), String.format(template, name));
 	}
+
+	@GetMapping("/calculate")
+	public Calculate calculate(@RequestParam(value = "name", defaultValue = "World") String name) {
+		System.out.println("paso");
+		return new Calculate();
+	}	
 }
