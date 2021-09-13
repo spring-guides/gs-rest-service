@@ -49,7 +49,7 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/how_to_complete_this_guide.adoc[]
 
 [[scratch]]
-== Starting with Spring Initialize
+== Starting with Spring Initializr
 
 If you use Maven, visit the https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.4.3.RELEASE&packaging=jar&jvmVersion=1.8&groupId=com.example&artifactId=rest-service&name=rest-service&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.rest-service&dependencies=web[Spring Initializr] to generate a new project with the required dependency (Spring Web).
 
