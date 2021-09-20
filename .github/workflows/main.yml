@@ -1,2 +1,0 @@
-- name: Run pull request stats
-  uses: flowwer-dev/pull-request-stats@master
