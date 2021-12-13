@@ -1,0 +1,66 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: PR Build Validation
+
+on:
+  # Allow manual kickoff for testing, remove workflow_dispatch
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+
+jobs:
+  init:
+    name: Init
+    runs-on: ubuntu-latest
+    steps:
+     - name: Checkout repo
+       uses: actions/checkout@v2
+    outputs:
+      env: ${{ toJson(env) }}
+
+
+  pull_request:
+    runs-on: ubuntu-latest
+    needs: init
+    env: ${{ fromJson(needs.init.outputs.env) }} # Setting env to env output from previous job
+
+    steps:
+      - name: Checkout latest
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 1.11
+        uses: actions/setup-java@v2
+        with:
+          distribution: adopt
+          java-version: 11
+
+      - name: Restore cached dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build with Maven
+        env:
+          ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
+          ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
+        run: mvn -s settings.xml -U clean install -am -pl :$PROJECT_NAME
+
+#      - name: SonarQube Checks
+#        env:
+#          ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
+#          ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
+#        run: >-
+#          mvn sonar:sonar
+#          -s settings.xml
+#          -Dmaven.test.skip=true
+#          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+#          -Dsonar.host.url=${{ env.SONAR_SERVER_URL }}
+#          -Dsonar.projectKey=${{ env.SONAR_PROJECT_NAME }}
+#          -Dsonar.projectName=${{ env.SONAR_PROJECT_NAME }}
+#          -Dsonar.pullrequest.branch=${{ github.event.pull_request.head.ref }}
+#          -Dsonar.pullrequest.key=${{ github.event.pull_request.number }}
+#          -Dsonar.pullrequest.base=${{ github.event.pull_request.base.ref }}
