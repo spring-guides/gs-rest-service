@@ -1,0 +1,188 @@
+:spring_version: current
+:toc:
+:project_id: gs-rest-service
+:icons: font
+:source-highlighter: prettify
+
+* オリジナルの英語版は ./README-ja.adoc[こちら]
+
+このガイドでは、"`Hello, World`" を作成する手順を説明します。RESTfulなウェブサービスをSpringで実現します。
+
+== 作成する内容
+
+HTTP GETリクエストで呼び出すことのできるサービスを作成します。
+これは `http://localhost:8080/greeting` でアクセスします。
+
+次のリストのように、挨拶の内容をJSONで返します。:
+
+====
+[source,json]
+----
+{"id":1,"content":"Hello, World!"}
+----
+====
+
+次のように、クエリ文字列のオプションの `name` パラメータで挨拶をカスタマイズすることができます。:
+
+====
+[source,text]
+----
+http://localhost:8080/greeting?name=User
+----
+====
+
+`name` パラメータの値を、デフォルトの `World` から `User` に上書きし、その値を反映します。
+変更後のレスポンスは、次のリストのようになります。:
+
+====
+[source,json]
+----
+{"id":1,"content":"Hello, User!"}
+----
+====
+
+== 必要な環境
+
+:java_version: 1.8
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/prereq_editor_jdk_buildtools.adoc[]
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/how_to_complete_this_guide.adoc[]
+
+[[scratch]]
+== Spring Initializr を使って始める
+
+https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.5.5&packaging=jar&jvmVersion=11&groupId=com.example&artifactId=rest-service&name=rest-service&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.rest-service&dependencies=web[pre-initialized project] を使用すると、GenerateボタンをクリックするだけでZIP fileがダウンロードできます。このプロジェクトは、このチュートリアルの例に合うように構成されています。
+
+プロジェクトを手動で初期化する場合:
+
+. https://start.spring.io に移動します。このサービスは、アプリケーションに必要なすべての依存関係を取り込み、セットアップのほとんどを行います。
+. GradleまたはMavenのいずれかと、使用する言語を選択します。このガイドでは、Javaを選択したと仮定しています。
+. *Dependencies* をクリックし、 *Spring Web* を選択します。
+. *Generate* をクリックします。
+. 生成されたZIPファイルをダウンロードします。このファイルは、選択した内容で構成されたWebアプリケーションのアーカイブです。
+
+NOTE: Spring Initializrが統合されているIDEであれば、IDEからこの処理を完了させることができます。
+
+NOTE: また、Githubからプロジェクトをフォークして、IDEなどのエディタで開くこともできます。
+
+[[initial]]
+== Resource Representation Class の作成
+
+プロジェクトとビルドシステムの設定が終わったので、ウェブサービスを作成します。
+
+サービスのインタラクションを考えることから始めます。
+
+このサービスは `/greeting` に対する `GET` リクエストを処理し、オプションで `name` パラメータをクエリ文字列で指定することができます。
+`GET` リクエストは、bodyに挨拶内容を表すJSONを含む `200 OK` 応答を返す必要があります。以下のような出力になるはずです。:
+
+====
+[source,json]
+----
+{
+    "id": 1,
+    "content": "Hello, World!"
+}
+----
+====
+
+`id` フィールドは挨拶文の一意な識別子であり、`content` は挨拶文のテキスト表現です。
+
+挨拶表現をモデル化するために、リソース表現クラスを作成します。そのためには、古いJavaオブジェクトにフィールド、コンストラクター、および `id` と `create` のためのアクセサーを用意します。
+次のリスト (`src/main/java/com/example/restservice/Greeting.java`) に示すように、`content` データを取得します。:
+
+[source,java]
+----
+include::complete/src/main/java/com/example/restservice/Greeting.java[]
+----
+
+====
+NOTE: このアプリケーションは https://github.com/FasterXML/jackson[Jackson JSON] ライブラリを使用して、 `Greeting` 型のインスタンスを自動的に JSON にマーシャルしています。Jackson は Web スターターによってデフォルトでインクルードされています。
+====
+
+== Resource Controller の作成
+
+SpringのRESTfulなWebサービス構築のアプローチでは、HTTPリクエストはコントローラによって処理されます。これらのコンポーネントは https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/RestController.html[`@RestController`] アノテーションで識別され、次に示す `GreetingController` (`src/main/java/com/example/restservice/GreetingController.java`) は `/greeting` に対する `GET` リクエストを処理し、 `Greeting` クラスの新しいインスタンスを返します。:
+
+====
+[source,java]
+----
+include::complete/src/main/java/com/example/restservice/GreetingController.java[]
+----
+====
+
+このコントローラーは簡潔でシンプルですが、その裏側ではたくさんのことが行われています。ステップ・バイ・ステップで解説します。
+
+`GetMapping` アノテーションは、 `/greeting` への HTTP GET リクエストが `greeting()` メソッドにマップされることを保証します。
+
+NOTE: 他のHTTPメソッドのための付随するアノテーションもあります (例: POSTのための `@PostMapping`) 。また、これらはすべて `@RequestMapping` アノテーションから派生しており、同義語として機能します (例: `@RequestMapping(method=GET)`) 。
+
+`@RequestParam` はクエリストリングパラメータ `name` の値を `greeting()` メソッドの `name` パラメータにバインドします。リクエストに `name` パラメータがない場合は、 `defaultValue` の `World` が使用されます。
+
+メソッド本体の実装は、 `counter` の次の値に基づいて `id` と `content` 属性を持つ新しい `Greeting` オブジェクトを生成して返し、与えられた `name` を greeting `template` を用いて整形します。
+
+従来のMVCコントローラと、先に示したRESTful Webサービスコントローラの大きな違いは、HTTPレスポンスボディの作成方法です。この RESTful Web サービスコントローラは、挨拶文のデータをサーバーサイドで HTML にレンダリングするビュー技術に依存するのではなく、 `Greeting` オブジェクトを生成して返します。オブジェクトのデータはJSONとしてHTTPレスポンスに直接書き込まれます。
+
+このコードでは Spring https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/RestController.html[`@RestController`] アノテーションを使っています。これはクラスをコントローラとしてマークし、すべてのメソッドがビューではなく、ドメインオブジェクトを返せるようにします。これは、 `@Controller` と `@ResponseBody` の両方を含めるための省略記法です。
+
+挨拶文`オブジェクトは、JSONに変換する必要があります。Spring の HTTP メッセージコンバータサポートのおかげで、この変換を手動で行う必要はありません。https://github.com/FasterXML/jackson[Jackson 2] がクラスパスにあるので、Spring の https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/http/converter/json/MappingJackson2HttpMessageConverter.html[`MappingJackson2HttpMessageConverter`] は自動的に選択されて `Greeting` インスタンスを JSON へと変換してくれるのです。
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/spring-boot-application-new-path.adoc[]
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/build_an_executable_jar_subhead.adoc[]
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/build_an_executable_jar_with_both.adoc[]
+
+ログの出力が表示されます。数秒以内にサービスが起動するはずです。
+
+
+== 作成したサービスのテスト
+
+サービスが開始されたら、`http://localhost:8080/greeting`にアクセスしてみてください。:
+
+====
+[source,json]
+----
+{"id":1,"content":"Hello, World!"}
+----
+====
+
+`http://localhost:8080/greeting?name=User`にアクセスして、`name`クエリ文字列パラメータを付与してみます。次のリストが示すように、`content` 属性の値が `Hello, World!` から `Hello, User!` に変化することが確認できます。:
+
+====
+[source,json]
+----
+{"id":2,"content":"Hello, User!"}
+----
+====
+
+この変更は、 `GreetingController` の `@RequestParam` 配置が期待通りに動作していることを示すものです。name` パラメータにはデフォルト値として `World` が与えられていますが、クエリ文字列で明示的にオーバーライドすることができます。
+
+`id` 属性が `1` から `2` に変化していることにも注目してください。これは、複数のリクエストに対して同じ `GreetingController` インスタンスを使用していることと、 `counter` フィールドが期待通りにコールごとにインクリメントされていることを証明します。
+
+== まとめ
+
+おめでとうございます。これで、Spring を使って RESTful なウェブサービスを開発することができました。
+
+== 関連コンテンツ
+
+以下のガイドも参考になると思います。:
+
+* https://spring.io/guides/gs/accessing-gemfire-data-rest/[Accessing GemFire Data with REST]
+* https://spring.io/guides/gs/accessing-mongodb-data-rest/[Accessing MongoDB Data with REST]
+* https://spring.io/guides/gs/accessing-data-mysql/[Accessing data with MySQL]
+* https://spring.io/guides/gs/accessing-data-rest/[Accessing JPA Data with REST]
+* https://spring.io/guides/gs/accessing-neo4j-data-rest/[Accessing Neo4j Data with REST]
+* https://spring.io/guides/gs/consuming-rest/[Consuming a RESTful Web Service]
+* https://spring.io/guides/gs/consuming-rest-angularjs/[Consuming a RESTful Web Service with AngularJS]
+* https://spring.io/guides/gs/consuming-rest-jquery/[Consuming a RESTful Web Service with jQuery]
+* https://spring.io/guides/gs/consuming-rest-restjs/[Consuming a RESTful Web Service with rest.js]
+* https://spring.io/guides/gs/securing-web/[Securing a Web Application]
+* https://spring.io/guides/tutorials/rest/[Building REST services with Spring]
+* https://spring.io/guides/tutorials/react-and-spring-data-rest/[React.js and Spring Data REST]
+* https://spring.io/guides/gs/spring-boot/[Building an Application with Spring Boot]
+* https://spring.io/guides/gs/testing-restdocs/[Creating API Documentation with Restdocs]
+* https://spring.io/guides/gs/rest-service-cors/[Enabling Cross Origin Requests for a RESTful Web Service]
+* https://spring.io/guides/gs/rest-hateoas/[Building a Hypermedia-Driven RESTful Web Service]
+* https://spring.io/guides/gs/circuit-breaker/[Circuit Breaker]
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/footer.adoc[]
