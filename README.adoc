@@ -4,6 +4,8 @@
 :icons: font
 :source-highlighter: prettify
 
+* Japanese version is link:./README-ja.adoc[here]
+
 This guide walks you through the process of creating a "`Hello, World`" RESTful web
 service with Spring.
 

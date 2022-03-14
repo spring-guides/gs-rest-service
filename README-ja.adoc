@@ -4,7 +4,7 @@
 :icons: font
 :source-highlighter: prettify
 
-* オリジナルの英語版は ./README-ja.adoc[こちら]
+* オリジナルの英語版は link:./README.adoc[こちら]
 
 このガイドでは、"`Hello, World`" を作成する手順を説明します。RESTfulなウェブサービスをSpringで実現します。
 
