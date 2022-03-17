@@ -33,7 +33,9 @@ public class GreetingControllerTests {
 
 	@Autowired
 	private MockMvc mockMvc;
+	/*** Autor: Renato M Souza */
 
+	//O metodo possui um teste que faz uma chamada de um end-point que seu status deve retornar um "Ok" e o seu conteudo em json deve aparecer um Hello World
 	@Test
 	public void noParamGreetingShouldReturnDefaultMessage() throws Exception {
 
@@ -41,6 +43,7 @@ public class GreetingControllerTests {
 				.andExpect(jsonPath("$.content").value("Hello, World!"));
 	}
 
+	//O metodo possui um teste que executa uma chamada em GET com parametros name e values Sprint Community e que a expectativa de retorno é um status "Ok" e que o seu conteudo retorno json um Hello, Sprint Community
 	@Test
 	public void paramGreetingShouldReturnTailoredMessage() throws Exception {
 
