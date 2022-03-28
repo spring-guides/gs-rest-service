@@ -27,20 +27,27 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class GreetingControllerTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-
+	/**
+	* Retorna a mensagem default.
+  	* @return Mensagem default.
+ 	 */
 	@Test
 	public void noParamGreetingShouldReturnDefaultMessage() throws Exception {
 
 		this.mockMvc.perform(get("/greeting")).andDo(print()).andExpect(status().isOk())
 				.andExpect(jsonPath("$.content").value("Hello, World!"));
 	}
-
+	/**
+	* Deve retornar uma mensagem personalizada.
+    * @return Mensagem personalizada.
+  	*/
 	@Test
 	public void paramGreetingShouldReturnTailoredMessage() throws Exception {
 
