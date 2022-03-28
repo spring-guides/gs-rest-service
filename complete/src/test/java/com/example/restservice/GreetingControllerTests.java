@@ -35,9 +35,9 @@ public class GreetingControllerTests {
 	@Autowired
 	private MockMvc mockMvc;
 	/**
-	* Retorna a mensagem default.
-  	* @return Mensagem default.
- 	 */
+	* Retorna a mensagem padrão.
+  	* @return Mensagem "Hello, World!".
+ 	*/
 	@Test
 	public void noParamGreetingShouldReturnDefaultMessage() throws Exception {
 
@@ -45,8 +45,8 @@ public class GreetingControllerTests {
 				.andExpect(jsonPath("$.content").value("Hello, World!"));
 	}
 	/**
-	* Deve retornar uma mensagem personalizada.
-    * @return Mensagem personalizada.
+	* Retorna uma mensagem personalizada.
+	* @return Mensagem "Hello, Spring Community!"
   	*/
 	@Test
 	public void paramGreetingShouldReturnTailoredMessage() throws Exception {
