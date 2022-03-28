@@ -45,7 +45,7 @@ public class GreetingControllerTests {
 				.andExpect(jsonPath("$.content").value("Hello, World!"));
 	}
 	/**
-	* Retorna uma mensagem personalizada.
+	* Retorna uma mensagem personalizada..
 	* @return Mensagem "Hello, Spring Community!"
   	*/
 	@Test
