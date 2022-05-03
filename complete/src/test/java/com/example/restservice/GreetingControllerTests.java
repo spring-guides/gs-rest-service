@@ -27,6 +27,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+// Autor Gabriel Alberto Bento 
+// testando o "Greetings" web service
 @SpringBootTest
 @AutoConfigureMockMvc
 public class GreetingControllerTests {
@@ -34,6 +36,7 @@ public class GreetingControllerTests {
 	@Autowired
 	private MockMvc mockMvc;
 
+	// define o ponto de entrada dos testes 
 	@Test
 	public void noParamGreetingShouldReturnDefaultMessage() throws Exception {
 
@@ -41,6 +44,7 @@ public class GreetingControllerTests {
 				.andExpect(jsonPath("$.content").value("Hello, World!"));
 	}
 
+	// permite o teste passando parametro nome 
 	@Test
 	public void paramGreetingShouldReturnTailoredMessage() throws Exception {
 
@@ -50,3 +54,4 @@ public class GreetingControllerTests {
 	}
 
 }
+
