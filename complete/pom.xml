@@ -55,10 +55,9 @@
 				<configuration>
 					<image>
 						<builder>localhost:5000/paketobuildpacks/builder:0.1.253-tiny</builder>
-						<runImage>paketobuildpacks/run:1.3.72-tiny-cnb</runImage>
+						<runImage>localhost:5000/paketobuildpacks/run:1.3.72-tiny-cnb</runImage>
 						<env>
 							<BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
-							<BP_NATIVE_IMAGE_BUILD_ARGUMENTS>-J-Xmx4G</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
 						</env>
 					</image>
 				</configuration>

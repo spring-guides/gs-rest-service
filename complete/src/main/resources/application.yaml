@@ -1,6 +1,5 @@
 spring:
   datasource:
-    #    url: jdbc:h2:tcp://localhost/E:/h2-2019-10-14/h2/bin/mydb  # 配置h2数据库的连接地址
     url: jdbc:h2:mem:dbtest  # 配置h2数据库的连接地址
     username: sa
     password: sa
@@ -16,6 +15,3 @@ spring:
       schema-locations: classpath:schema.sql
       data-locations: classpath:data.sql
       platform: h2
-logging:
-  level:
-    root: debug
