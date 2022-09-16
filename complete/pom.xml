@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -54,12 +54,20 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<image>
-						<builder>localhost:5000/paketobuildpacks/builder:0.1.253-tiny</builder>
-						<runImage>localhost:5000/paketobuildpacks/run:1.3.72-tiny-cnb</runImage>
+						<builder>paketobuildpacks/builder:0.1.253-tiny</builder>
+						<runImage>paketobuildpacks/run:1.3.72-tiny-cnb</runImage>cd
 						<env>
 							<BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
 						</env>
+						<name>419638637/spring-native:${project.version}-${project.artifactId}</name>
+						<publish>true</publish>
 					</image>
+					<docker>
+						<publishRegistry>
+							<username>419638637</username>
+							<password>xujinbiao6812078</password>
+						</publishRegistry>
+					</docker>
 				</configuration>
 			</plugin>
 			<plugin>
