@@ -26,4 +26,6 @@ jobs:
       env:
         REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
         REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+        ALIYUN_REGISTRY_USERNAME: ${{ secrets.ALIYUN_REGISTRY_USERNAME }}
+        ALIYUN_REGISTRY_PASSWORD: ${{ secrets.ALIYUN_REGISTRY_PASSWORD }}
       run: mvn clean spring-boot:build-image -U -DskipTests --file complete/pom.xml
