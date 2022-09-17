@@ -1,9 +1,9 @@
 spring:
-#  datasource:
-#    url: jdbc:h2:mem:dbtest  # 配置h2数据库的连接地址
-#    username: sa
-#    password: sa
-#    driver-class-name: org.h2.Driver
+  datasource:
+    url: jdbc:h2:mem:dbtest  # 配置h2数据库的连接地址
+    username: sa
+    password: sa
+    driver-class-name: org.h2.Driver
   h2:
     console:
       settings:

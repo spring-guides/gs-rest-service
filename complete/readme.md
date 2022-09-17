@@ -17,5 +17,5 @@
 
 ### 容器测试
 0. 运行容器 `docker run -d -p 8080:8080 rest-service-complete:lastest`
-1. 普通HTTP请求 `GET http://localhost:8080/greeting?name=ypq` , 成功
-2. H2数据库测试 `GET http://localhost:8080/increaseAndGetAge?userId=1` , 失败
+1. 普通HTTP请求 `curl http://localhost:8080/greeting?name=ypq` , 状态码200
+2. H2数据库测试 `curl http://localhost:8080/increaseAndGetAge?userId=1` , 状态码200
