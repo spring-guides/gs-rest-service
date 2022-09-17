@@ -5,7 +5,7 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main", "*" ]
+    branches: [ "*" ]
   pull_request:
     branches: [ "main" ]
 
@@ -26,4 +26,4 @@ jobs:
       env:
         REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
         REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
-      run: mvn clean -U -DskipTests spring-boot:build-image --file complete/pom.xml
+      run: mvn clean spring-boot:build-image -U -DskipTests --file complete/pom.xml
