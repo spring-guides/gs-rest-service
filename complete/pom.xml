@@ -65,16 +65,16 @@
 						<env>
 							<BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
 						</env>
-<!--						<name>abcaot/${project.artifactId}:${project.version}</name>-->
-						<name>registry.cn-shenzhen.aliyuncs.com/org-ypq/${project.artifactId}:${project.version}</name>
+						<name>abcaot/${project.artifactId}:${project.version}</name>
+<!--						<name>registry.cn-shenzhen.aliyuncs.com/org-ypq/${project.artifactId}:${project.version}</name>-->
 						<publish>true</publish>
 					</image>
 					<docker>
 						<publishRegistry>
-<!--							<username>${REGISTRY_USERNAME}</username>-->
-<!--							<password>${REGISTRY_PASSWORD}</password>							-->
-							<username>${ALIYUN_REGISTRY_USERNAME}</username>
-							<password>${ALIYUN_REGISTRY_PASSWORD}</password>
+							<username>${REGISTRY_USERNAME}</username>
+							<password>${REGISTRY_PASSWORD}</password>
+<!--							<username>${ALIYUN_REGISTRY_USERNAME}</username>-->
+<!--							<password>${ALIYUN_REGISTRY_PASSWORD}</password>-->
 						</publishRegistry>
 					</docker>
 				</configuration>
