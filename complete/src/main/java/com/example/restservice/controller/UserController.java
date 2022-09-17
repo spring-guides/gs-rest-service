@@ -11,7 +11,7 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
-    @GetMapping("/getAge")
+    @GetMapping("/increaseAndGetAge")
     public int getAgeByUserId(int userId) {
         userMapper.increaseAge(userId);
         return userMapper.getAgeByUserIdForUpdate(userId);
