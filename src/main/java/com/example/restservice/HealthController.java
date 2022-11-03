@@ -34,7 +34,7 @@ public class HealthController extends RuntimeException {
     @GetMapping("/switch")
     public String switchHealth() {
         status = !status;
-        return "OK! Switched"
+        return "OK! Switched";
     }
 
 }
