@@ -90,8 +90,7 @@ The `id` field is a unique identifier for the greeting, and `content` is the tex
 representation of the greeting.
 
 To model the greeting representation, create a resource representation class. To do so,
-provide a plain old Java object with fields, constructors, and accessors for the `id` and
-`content` data, as the following listing (from
+provide a Java record class for the `id` and `content` data, as the following listing (from
 `src/main/java/com/example/restservice/Greeting.java`) shows:
 
 [source,java]
