@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  gsrestservice:
+    image: gsrestservice
+    build:
+      context: .
+      dockerfile: ./Dockerfile
