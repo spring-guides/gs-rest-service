@@ -33,6 +33,7 @@ Or
           from:
             kind: ImageStreamTag
             name: 'jboss-webserver56-openjdk8-tomcat9-openshift-ubi8:latest'
+            namespace: openshift
       postCommit: {}
       source:
         type: Git
