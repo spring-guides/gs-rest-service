@@ -152,6 +152,20 @@ https://github.com/FasterXML/jackson[Jackson 2] is on the classpath, Spring's
 https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/http/converter/json/MappingJackson2HttpMessageConverter.html[`MappingJackson2HttpMessageConverter`]
 is automatically chosen to convert the `Greeting` instance to JSON.
 
+== Run the Service
+
+The Spring Initializr creates an application class for you. In this case, you do not need
+to further modify the class. The following listing
+(from src/main/java/com/example/restservice/RestServiceApplication.java) shows the
+application class:
+
+====
+[source,java]
+----
+include::complete/src/main/java/com/example/restservice/RestServiceApplication.java[]
+----
+====
+
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/spring-boot-application-new-path.adoc[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/build_an_executable_jar_subhead.adoc[]
