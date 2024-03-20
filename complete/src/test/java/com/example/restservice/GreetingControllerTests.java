@@ -34,6 +34,7 @@ public class GreetingControllerTests {
 	@Autowired
 	private MockMvc mockMvc;
 
+	//verifica se o status da resposta é OK e se o corpo da resposta contém um objeto JSON com uma propriedade "content" que possui o valor "Hello, World!".
 	@Test
 	public void noParamGreetingShouldReturnDefaultMessage() throws Exception {
 
@@ -41,6 +42,12 @@ public class GreetingControllerTests {
 				.andExpect(jsonPath("$.content").value("Hello, World!"));
 	}
 
+	//O método mockMvc.perform() faz a solicitação HTTP GET para o endpoint /greeting com o parâmetro name. 
+	//O método andDo(print()) imprime a resposta no console para fins de depuração, e os métodos expect() 
+	//verificam se a resposta é um código de status 200 OK e se a resposta JSON contém o conteúdo esperado.
+
+	//O método jsonPath() especifica a expressão do caminho JSON para extrair o conteúdo esperado do corpo da resposta. 
+	//Neste caso, o conteúdo esperado é “Hello, Spring Community!”.
 	@Test
 	public void paramGreetingShouldReturnTailoredMessage() throws Exception {
 
