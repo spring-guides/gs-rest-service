@@ -24,6 +24,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>        
+
+        <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>1.6.12</version>
@@ -48,6 +53,23 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+
+            <configuration>
+                <webResources>
+                    <resource>
+                        <directory>src/main/webapp/WEB-INF-resources</directory>
+                        <targetPath>WEB-INF</targetPath>
+                        <includes>
+                            <include>jboss-deployment-structure.xml</include>
+                        </includes>
+                        <filtering>false</filtering>
+                    </resource>
+                </webResources>
+            </configuration>
+        </plugin>            
         </plugins>
     </build>
 
