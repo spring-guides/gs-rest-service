@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// commit Bonus: Copilot
 package com.example.restservice;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
