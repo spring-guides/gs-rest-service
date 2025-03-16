@@ -31,9 +31,22 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 public class GreetingControllerTests {
 
-	@Autowired
-	private MockMvc mockMvc;
+	/* O trecho destacado na classe GreetingControllerTests utiliza a anotação @Autowired para injetar uma 
+	instância de MockMvc. Essa classe é usada para simular requisições HTTP e testar endpoints do controlador 
+	GreetingController sem a necessidade de iniciar um servidor real.
+	No contexto da classe, o MockMvc é usado em dois testes:
 
+	noParamGreetingShouldReturnDefaultMessage: Verifica se o endpoint /greeting retorna a mensagem padrão "Hello, World!" quando nenhum parâmetro é fornecido.
+	paramGreetingShouldReturnTailoredMessage: Verifica se o endpoint retorna uma mensagem personalizada quando o parâmetro name é fornecido.
+	Esses testes garantem que o controlador responde corretamente às requisições simuladas.
+	*/
+	@Autowired
+	private MockMvc mockMvc; 
+	
+
+	/* O método noParamGreetingShouldReturnDefaultMessage é um teste que verifica o comportamento do endpoint /greeting quando nenhum parâmetro é fornecido. Ele utiliza o MockMvc para simular uma requisição HTTP GET e valida que:	O status da resposta é 200 OK (andExpect(status().isOk())).
+	O corpo da resposta JSON contém o campo content com o valor "Hello, World!" (andExpect(jsonPath("$.content").value("Hello, World!"))).
+	Esse teste garante que o controlador retorna a mensagem padrão corretamente em cenários sem parâmetros. */
 	@Test
 	public void noParamGreetingShouldReturnDefaultMessage() throws Exception {
 
@@ -41,6 +54,12 @@ public class GreetingControllerTests {
 				.andExpect(jsonPath("$.content").value("Hello, World!"));
 	}
 
+	/*
+	O método paramGreetingShouldReturnTailoredMessage é um teste que verifica o comportamento do endpoint /greeting quando o parâmetro name é fornecido. Ele utiliza o MockMvc para simular uma requisição HTTP GET com o parâmetro name definido como "Spring Community" e valida que:
+	O status da resposta é 200 OK (andExpect(status().isOk())).
+	O corpo da resposta JSON contém o campo content com o valor "Hello, Spring Community!" (andExpect(jsonPath("$.content").value("Hello, Spring Community!"))).
+	Esse teste garante que o controlador retorna uma mensagem personalizada corretamente quando o parâmetro é fornecido.
+	 */
 	@Test
 	public void paramGreetingShouldReturnTailoredMessage() throws Exception {
 
