@@ -6,19 +6,19 @@ public class Employee {
     String first_name;
     String last_name;
     String email;
-    String address;
+    String title;
 
     //Default Constructor for Employee
     public Employee(){
     }
 
     //Parameterized Constructor
-    public Employee(Integer employee_Id, String first_name, String last_name, String email, String address) {
+    public Employee(Integer employee_Id, String first_name, String last_name, String email, String title) {
         this.employee_Id = employee_Id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
-        this.address = address;
+        this.title = title;
     }
 
     //Employee getters and setters
@@ -54,16 +54,16 @@ public class Employee {
         this.email = email;
     }
 
-    public String getAddress() {
-        return address;
+    public String getTitle() {
+        return title;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Override
     public String toString() {
-        return "Employee [employee_Id=" + employee_Id + ", first_name=" + first_name + ", last_name=" + last_name + ", email=" + email + ", address=" + address + "]";
+        return "Employee [employee_Id=" + employee_Id + ", first_name=" + first_name + ", last_name=" + last_name + ", email=" + email + ", title=" + title + "]";
     }
 }
