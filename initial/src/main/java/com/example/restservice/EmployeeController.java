@@ -21,7 +21,7 @@ public class EmployeeController {
     }
 
     // POST endpoint to add a new employee
-    @PostMapping("/")
+    @PostMapping("/employees")
     public ResponseEntity<Object> addEmployee(@RequestBody Employee employee) {
 
         // Generate ID for the new employee
