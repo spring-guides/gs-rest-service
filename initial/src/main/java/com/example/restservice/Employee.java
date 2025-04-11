@@ -2,11 +2,11 @@ package com.example.restservice;
 
 public class Employee {
     //Variables for employee
-    Integer employee_Id;
-    String first_name;
-    String last_name;
-    String email;
-    String title;
+    private Integer employee_Id;
+    private String first_name;
+    private String last_name;
+    private String email;
+    private String title;
 
     //Default Constructor for Employee
     public Employee(){
