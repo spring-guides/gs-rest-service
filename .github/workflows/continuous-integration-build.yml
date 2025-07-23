@@ -32,10 +32,18 @@ jobs:
         working-directory: ./initial
         run: ./gradlew build
 
+      - name: Build Initial Kotlin with Gradle
+        working-directory: ./initial-kotlin
+        run: ./gradlew build
+
       - name: Build Complete with Maven
         working-directory: ./complete
         run: ./mvnw --batch-mode clean package
 
       - name: Build Complete with Gradle
         working-directory: ./complete
+        run: ./gradlew build
+
+      - name: Build Complete Kotlin with Gradle
+        working-directory: ./complete-kotlin
         run: ./gradlew build
