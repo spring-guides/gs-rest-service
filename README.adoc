@@ -90,12 +90,17 @@ The `id` field is a unique identifier for the greeting, and `content` is the tex
 representation of the greeting.
 
 To model the greeting representation, create a resource representation class. To do so,
-provide a Java record class for the `id` and `content` data, as the following listing (from
-`src/main/java/com/example/restservice/Greeting.java`) shows:
+provide a Java record class or a Kotlin data class for the `id` and `content` data, as the following listing shows:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::complete/src/main/java/com/example/restservice/Greeting.java[]
+----
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/main/kotlin/com/example/restservice/Greeting.kt[]
 ----
 
 ====
@@ -108,16 +113,19 @@ automatically marshal instances of type `Greeting` into JSON. Jackson is include
 In Spring's approach to building RESTful web services, HTTP requests are handled by a
 controller. These components are identified by the
 https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/RestController.html[`@RestController`]
-annotation, and the `GreetingController` shown in the following listing (from
-`src/main/java/com/example/restservice/GreetingController.java`) handles `GET` requests
+annotation, and the `GreetingController` class shown in the following listing handles `GET` requests
 for `/greeting` by returning a new instance of the `Greeting` class:
 
-====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::complete/src/main/java/com/example/restservice/GreetingController.java[]
 ----
-====
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/main/kotlin/com/example/restservice/GreetingController.kt[]
+----
 
 This controller is concise and simple, but there is plenty going on under the hood. We
 break it down step by step.
@@ -155,16 +163,18 @@ is automatically chosen to convert the `Greeting` instance to JSON.
 == Run the Service
 
 The Spring Initializr creates an application class for you. In this case, you do not need
-to further modify the class. The following listing
-(from src/main/java/com/example/restservice/RestServiceApplication.java) shows the
-application class:
+to further modify the class. The following listing shows the `RestServiceApplication` application class:
 
-====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::complete/src/main/java/com/example/restservice/RestServiceApplication.java[]
 ----
-====
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/main/kotlin/com/example/restservice/RestServiceApplication.kt[]
+----
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/spring-boot-application-new-path.adoc[]
 
