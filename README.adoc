@@ -162,8 +162,11 @@ is automatically chosen to convert the `Greeting` instance to JSON.
 
 == Run the Service
 
-The Spring Initializr creates an application class for you. In this case, you do not need
-to further modify the class. The following listing shows the `RestServiceApplication` application class:
+The https://start.spring.io[Spring Initializr] creates an application class for you.
+For the purpose of this guide, the sample project uses the package `com.example.restservice`
+and the class name `RestServiceApplication`.
+
+The following listing shows the application class used in this tutorial:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
