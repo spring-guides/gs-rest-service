@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gs-rest-service
+  namespace: gs-rest
+  labels:
+    app: gs-rest
+spec:
+  type: LoadBalancer
+  selector:
+    app: gs-rest
+  ports:
+    - name: http
+      port: 80 
+      targetPort: 8080

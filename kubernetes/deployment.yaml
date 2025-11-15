@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployement
+metadata:
+  name: gs-rest-deployment
+  namespace: gs-rest
+  labels:
+    app:gs-rest
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gs-rest
+  template:
+    metadata:
+      labels:
+        app: gs-rest
+    spec:
+      containers:
+        - name: gs-rest
+          image: my-image:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          redinessProbe:
+            httpGet: 
+              path: /greenting
+              port: 8080
