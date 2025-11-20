@@ -56,7 +56,7 @@ To manually initialize the project:
 
 . Navigate to https://start.spring.io.
 This service pulls in all the dependencies you need for an application and does most of the setup for you.
-. Choose either Gradle or Maven and the language you want to use. This guide assumes that you chose Java.
+. Choose either Gradle or Maven and the language you want to use.
 . Click *Dependencies* and select *Spring Web*.
 . Click *Generate*.
 . Download the resulting ZIP file, which is an archive of a web application that is configured with your choices.
