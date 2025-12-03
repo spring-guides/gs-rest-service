@@ -50,13 +50,14 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 [[scratch]]
 == Starting with Spring Initializr
 
-You can use this https://start.spring.io/#!type=maven-project&groupId=com.example&artifactId=rest-service&name=rest-service&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.rest-service&dependencies=web[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
+You can use this https://start.spring.io/#!type=gradle-project&language=java&packaging=jar&groupId=com.example&artifactId=rest-service&name=rest-service&packageName=com.example.rest-service&dependencies=web[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
 
 To manually initialize the project:
 
 . Navigate to https://start.spring.io.
 This service pulls in all the dependencies you need for an application and does most of the setup for you.
 . Choose either Gradle or Maven and the language you want to use.
+. Type "rest-service" in the "Artifact" form field.
 . Click *Dependencies* and select *Spring Web*.
 . Click *Generate*.
 . Download the resulting ZIP file, which is an archive of a web application that is configured with your choices.
@@ -156,8 +157,8 @@ object instead of a view. It is shorthand for including both `@Controller` and
 
 The `Greeting` object must be converted to JSON. Thanks to Spring's HTTP message converter
 support, you need not do this conversion manually. Because
-https://github.com/FasterXML/jackson[Jackson 2] is on the classpath, Spring's
-https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/http/converter/json/MappingJackson2HttpMessageConverter.html[`MappingJackson2HttpMessageConverter`]
+https://github.com/FasterXML/jackson[Jackson] is on the classpath, Spring's
+https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/http/converter/json/JacksonJsonHttpMessageConverter.html[`JacksonJsonHttpMessageConverter`]
 is automatically chosen to convert the `Greeting` instance to JSON.
 
 == Run the Service

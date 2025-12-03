@@ -1,1 +1,1 @@
-rootProject.name = "rest-service-initial"
+rootProject.name = "rest-service"

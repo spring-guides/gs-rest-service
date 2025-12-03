@@ -15,38 +15,39 @@
  */
 package com.example.restservice;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.client.RestTestClient;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureRestTestClient
 public class GreetingControllerTests {
 
 	@Autowired
-	private MockMvc mockMvc;
+	private RestTestClient restTestClient;
 
 	@Test
 	public void noParamGreetingShouldReturnDefaultMessage() throws Exception {
 
-		this.mockMvc.perform(get("/greeting")).andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.content").value("Hello, World!"));
+		this.restTestClient.get().uri("/greeting")
+				.exchange()
+				.expectStatus().isOk()
+				.expectBody()
+				.jsonPath("$.content").isEqualTo("Hello, World!");
 	}
 
 	@Test
 	public void paramGreetingShouldReturnTailoredMessage() throws Exception {
 
-		this.mockMvc.perform(get("/greeting").param("name", "Spring Community"))
-				.andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
+		this.restTestClient.get()
+				.uri(uri -> uri.path("/greeting").queryParam("name", "Spring Community").build())
+				.exchange()
+				.expectStatus().isOk()
+				.expectBody()
+				.jsonPath("$.content").isEqualTo("Hello, Spring Community!");
 	}
 
 }
