@@ -11,10 +11,10 @@ private const val template = "Hello, %s!"
 @RestController
 class GreetingController {
 
-    private val counter = AtomicLong()
+  private val counter = AtomicLong()
 
-    @GetMapping("/greeting")
-    fun greeting(@RequestParam name: String = "World") =
-        Greeting(counter.incrementAndGet(), template.format(name))
+  @GetMapping("/greeting")
+  fun greeting(@RequestParam name: String = "World") =
+    Greeting(counter.incrementAndGet(), template.format(name))
 
 }

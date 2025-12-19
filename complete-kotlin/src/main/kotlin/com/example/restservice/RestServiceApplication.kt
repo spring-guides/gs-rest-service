@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class RestServiceApplication
 
 fun main(args: Array<String>) {
-	runApplication<RestServiceApplication>(*args)
+  runApplication<RestServiceApplication>(*args)
 }
