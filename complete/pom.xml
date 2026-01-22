@@ -37,10 +37,15 @@
       </plugin>
 
       <!-- JaCoCo: Code Coverage Analysis -->
-      <plugin>
+      <!-- Note: Temporarily disabled due to Java 25 incompatibility (class file version 69) -->
+      <!-- Will use alternative coverage solution or downgrade Java to 17 -->
+      <!--plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>0.8.12</version>
+        <configuration>
+          <propertyName>surefireArgLine</propertyName>
+        </configuration>
         <executions>
           <execution>
             <goals>
@@ -78,7 +83,7 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
+      </plugin-->
 
       <!-- PiTest: Mutation Testing -->
       <plugin>
@@ -104,6 +109,13 @@
         <groupId>org.sonarsource.scanner.maven</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
         <version>3.10.0.2594</version>
+      </plugin>
+
+      <!-- Surefire: Maven Test Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.4</version>
       </plugin>
     </plugins>
   </build>

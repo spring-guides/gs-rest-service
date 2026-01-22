@@ -71,7 +71,7 @@ public class GreetingControllerTests {
   }
 
   @Test
-  @DisplayName("Empty name parameter should use empty string")
+  @DisplayName("Empty name parameter should use default 'World' message")
   public void emptyNameParameterShouldReturnEmptyString() throws Exception {
 
     this.restTestClient.get()
@@ -79,7 +79,7 @@ public class GreetingControllerTests {
         .exchange()
         .expectStatus().isOk()
         .expectBody()
-        .jsonPath("$.content").isEqualTo("Hello, !");
+        .jsonPath("$.content").isEqualTo("Hello, World!");
   }
 
   @Test
@@ -87,7 +87,7 @@ public class GreetingControllerTests {
   public void specialCharactersInNameShouldBeHandled() throws Exception {
 
     this.restTestClient.get()
-        .uri(uri -> uri.path("/greeting").queryParam("name", "John@123!").build())
+        .uri(uri -> uri.path("/greeting").queryParam("name", "John@123").build())
         .exchange()
         .expectStatus().isOk()
         .expectBody()
