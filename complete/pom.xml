@@ -102,6 +102,13 @@
             <outputFormat>HTML</outputFormat>
           </outputFormats>
         </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-junit5-plugin</artifactId>
+            <version>1.2.1</version>
+          </dependency>
+        </dependencies>
       </plugin>
 
       <!-- SonarQube Maven Plugin -->
