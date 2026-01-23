@@ -5,17 +5,14 @@ FROM eclipse-temurin:17-jdk-jammy AS builder
 
 WORKDIR /build
 
-# Copy Maven wrapper and project files
+# Copy Maven project files
 COPY pom.xml .
-COPY mvnw .
-COPY mvnw.cmd .
-COPY .mvn .mvn/
-
-# Copy source code
 COPY src src/
 
-# Build the application
-RUN ./mvnw clean package -DskipTests
+# Build the application using Maven
+RUN apt-get update && apt-get install -y maven && \
+    mvn clean package -DskipTests && \
+    apt-get remove -y maven && apt-get clean
 
 # Stage 2: Runtime image
 FROM eclipse-temurin:17-jre-jammy
