@@ -23,7 +23,7 @@ public class MoviesController {
     }
 
     @GetMapping("/findbyid/{id}")
-    public Movie findBookById(@PathVariable int id) {
+    public Movie findMovieById(@PathVariable int id) {
         Movie m = null;
         for (int i = 0; i < list_ofMovies.size(); i++) {
             if (m.getId() == id) {
@@ -34,13 +34,13 @@ public class MoviesController {
     }
 
     @GetMapping("/findall")
-    public List<Movie> findAllBooks() {
+    public List<Movie> findAllMovies() {
         List<Movie> m = list_ofMovies;
         return m;
     }
 
     @DeleteMapping("/delete")
-    public String deleteAllBooks() {
+    public String deleteAllMovies() {
         list_ofMovies.clear();
         return "All movies have been deleted.";
     }
