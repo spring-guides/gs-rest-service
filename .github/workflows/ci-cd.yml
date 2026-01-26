@@ -12,7 +12,7 @@ jobs:
     
     strategy:
       matrix:
-        java-version: [ '17', '21' ]
+        java-version: [ '21' ]
     
     steps:
     - name: Checkout code
