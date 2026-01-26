@@ -106,12 +106,17 @@ jobs:
         distribution: 'temurin'
         cache: maven
     
-    - name: Run SonarQube Analysis
+    - name: Run SonarCloud Analysis
       working-directory: ./complete
       run: |
-        echo "SonarQube integration requires sonar.projectKey configuration"
-        echo "To enable SonarQube scanning, configure SONAR_HOST_URL and SONAR_LOGIN secrets"
-        mvn clean verify -DskipTests=true -Dsonar.skip=false || true
+        mvn clean verify sonar:sonar \
+          -Dsonar.projectKey=gs-rest-service \
+          -Dsonar.organization=zakaria2329 \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+          -DskipTests
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       continue-on-error: true
     
     - name: Check Code Style
