@@ -110,14 +110,14 @@ jobs:
       working-directory: ./complete
       run: |
         mvn clean verify sonar:sonar \
-          -Dsonar.projectKey=gs-rest-service \
+          -Dsonar.projectKey=zkouari-f_gs-rest-service \
           -Dsonar.organization=zkouari-f \
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
           -DskipTests
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      continue-on-error: true
+      continue-on-error: false
     
     - name: Check Code Style
       working-directory: ./complete
