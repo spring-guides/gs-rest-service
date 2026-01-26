@@ -40,9 +40,7 @@
       </plugin>
 
       <!-- JaCoCo: Code Coverage Analysis -->
-      <!-- Note: Temporarily disabled due to Java 25 incompatibility (class file version 69) -->
-      <!-- Will use alternative coverage solution or downgrade Java to 17 -->
-      <!--plugin>
+      <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>0.8.12</version>
@@ -86,7 +84,7 @@
             </configuration>
           </execution>
         </executions>
-      </plugin-->
+      </plugin>
 
       <!-- PiTest: Mutation Testing -->
       <plugin>

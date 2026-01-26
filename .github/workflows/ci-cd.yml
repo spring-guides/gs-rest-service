@@ -33,6 +33,29 @@ jobs:
       working-directory: ./complete
       run: mvn test
     
+    - name: Generate JaCoCo Code Coverage Report
+      working-directory: ./complete
+      run: mvn jacoco:report
+      continue-on-error: false
+    
+    - name: Upload Coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./complete/target/site/jacoco/jacoco.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
+        verbose: true
+      continue-on-error: true
+    
+    - name: Archive Code Coverage Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: jacoco-coverage-report-java-${{ matrix.java-version }}
+        path: complete/target/site/jacoco/
+        retention-days: 30
+    
     - name: Run Mutation Testing with PiTest
       working-directory: ./complete
       run: mvn org.pitest:pitest-maven:mutationCoverage
@@ -63,6 +86,10 @@ jobs:
           echo "### Test Results:" >> $GITHUB_STEP_SUMMARY
           cat target/surefire-reports/com.example.restservice.GreetingControllerTests.txt >> $GITHUB_STEP_SUMMARY
         fi
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Code Coverage:" >> $GITHUB_STEP_SUMMARY
+        echo "✅ JaCoCo code coverage report generated and uploaded" >> $GITHUB_STEP_SUMMARY
+        echo "📊 Download the coverage report from artifacts" >> $GITHUB_STEP_SUMMARY
 
   code-quality:
     runs-on: ubuntu-latest
