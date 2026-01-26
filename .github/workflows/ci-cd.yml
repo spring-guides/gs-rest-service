@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, develop, 'appmod/**' ]
   pull_request:
     branches: [ main, develop ]
 
@@ -111,7 +111,7 @@ jobs:
       run: |
         mvn clean verify sonar:sonar \
           -Dsonar.projectKey=gs-rest-service \
-          -Dsonar.organization=zakaria2329 \
+          -Dsonar.organization=zkouari-f \
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
           -DskipTests
