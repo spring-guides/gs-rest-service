@@ -14,6 +14,9 @@ public class GreetingController {
 
   @GetMapping("/greeting")
   public Greeting greeting(@RequestParam(defaultValue = "World") String name) {
+    if (name.isBlank()) {
+      name = "World";
+    }
     return new Greeting(counter.incrementAndGet(), template.formatted(name));
   }
 }
