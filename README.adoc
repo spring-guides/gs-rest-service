@@ -181,7 +181,27 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/build_an_executable_jar_subhead.adoc[]
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/build_an_executable_jar_with_both.adoc[]
+You can run the application from the command line with Gradle or Maven. You can also build a single executable JAR file that contains all the necessary dependencies, classes, and resources and run that. Building an executable jar makes it easy to ship, version, and deploy the service as an application throughout the development lifecycle, across different environments, and so forth.
+
+If you use Gradle, you can run the application by using `./gradlew bootRun`. Alternatively, you can build the JAR file by using `./gradlew build` and then run the JAR file, as follows:
+
+====
+[subs="attributes", role="has-copy-button"]
+----
+java -jar build/libs/rest-service-complete-0.0.1-SNAPSHOT.jar
+----
+====
+
+If you use Maven, you can run the application by using `./mvnw spring-boot:run`. Alternatively, you can build the JAR file with `./mvnw clean package` and then run the JAR file, as follows:
+
+====
+[subs="attributes", role="has-copy-button"]
+----
+java -jar target/rest-service-complete-0.0.1-SNAPSHOT.jar
+----
+====
+
+NOTE: The steps described here create a runnable JAR. You can also link:/guides/gs/convert-jar-to-war/[build a classic WAR file].
 
 Logging output is displayed. The service should be up and running within a few seconds.
 
