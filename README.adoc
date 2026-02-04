@@ -220,6 +220,14 @@ its `counter` field is being incremented on each call as expected.
 
 Congratulations! You have just developed a RESTful web service with Spring.
 
+In this guide, you learned how to:
+
+* Use the `start.spring.io` service to bootstrap a project.
+* Create a **Resource Representation Class** (Java Record or Kotlin Data Class).
+* Build a **REST Controller** using `@RestController` and `@GetMapping`.
+* Use `@RequestParam` to handle query parameters.
+* Leverage Spring's automatic JSON conversion via Jackson.
+
 == See Also
 
 The following guides may also be helpful:
