@@ -90,8 +90,8 @@ body that represents a greeting. It should resemble the following output:
 The `id` field is a unique identifier for the greeting, and `content` is the textual
 representation of the greeting.
 
-To model the greeting representation, create a resource representation class. To do so,
-provide a Java record class or a Kotlin data class for the `id` and `content` data, as the following listing shows:
+To model the greeting representation, create a resource representation class.
+To do so, provide a Java record class (in `src/main/java/com/example/restservice/Greeting.java`) or a Kotlin data class (in ``src/main/kotlin/com/example/restservice/Greeting.kt`) for the `id` and `content` data, as the following listing shows:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
@@ -115,7 +115,9 @@ In Spring's approach to building RESTful web services, HTTP requests are handled
 controller. These components are identified by the
 https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/RestController.html[`@RestController`]
 annotation, and the `GreetingController` class shown in the following listing handles `GET` requests
-for `/greeting` by returning a new instance of the `Greeting` class:
+for `/greeting` by returning a new instance of the `Greeting` class.
+
+Create a resource controller (in `src/main/java/com/example/restservice/GreetingController.java` for Java or `src/main/kotlin/com/example/restservice/GreetingController.kt` for Kotlin) with the following contents:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
@@ -164,7 +166,9 @@ is automatically chosen to convert the `Greeting` instance to JSON.
 == Run the Service
 
 The Spring Initializr creates an application class for you. In this case, you do not need
-to further modify the class. The following listing shows the `RestServiceApplication` application class:
+to further modify the class. The following listing shows the `RestServiceApplication` application class (in `src/main/java/com/example/restservice/RestServiceApplication.java`
+ for Java or `src/main/kotlin/com/example/restservice/RestServiceApplication.kt`
+for Kotlin):
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
