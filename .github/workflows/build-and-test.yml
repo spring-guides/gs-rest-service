@@ -44,3 +44,16 @@ jobs:
         file: ./complete/Dockerfile
         push: true
         tags: markobugbg/gs-rest-service:latest
+
+    - name: Configure SSH
+      run: |
+        mkdir -p ~/.ssh/
+        echo "$SSH_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
+      env:
+        SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SSH_HOST: ${{ secrets.HOST }}
+
+    - name: Run Remote Command
+      run: ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} "ls -la"
