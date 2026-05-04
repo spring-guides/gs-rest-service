@@ -1,0 +1,24 @@
+name: Deploy service
+
+on:
+  workflow_run:
+    workflows: ["Build and Test"] # Must match the 'name' of the upstream workflow
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Execute remote SSH commands
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          docker pull markobugbg/gs-rest-service:${{ github.event.workflow_run.id }}
+          docker stop gs-rest-service && docker rm gs-rest-service
+          docker run -d -p 777:8080 --name gs-rest-service markobugbg/gs-rest-service:${{ github.event.workflow_run.id }}
