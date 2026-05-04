@@ -45,15 +45,14 @@ jobs:
         push: true
         tags: markobugbg/gs-rest-service:latest
 
-    - name: Configure SSH
-      run: |
-        mkdir -p ~/.ssh/
-        eval $(ssh-agent -s)
-        echo "$SSH_KEY" | tr -d '\r' | ssh-add -
-        ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
-      env:
-        SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        SSH_HOST: 178.105.96.53
+    - name: Execute remote SSH commands
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          whoami
+          ls -al
 
-    - name: Run Remote Command
-      run: ssh -vvv root@$178.105.96.53 "ls -la"
