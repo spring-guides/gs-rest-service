@@ -50,7 +50,6 @@ jobs:
         mkdir -p ~/.ssh/
         eval $(ssh-agent -s)
         echo "$SSH_KEY" | tr -d '\r' | ssh-add -
-        chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
       env:
         SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
