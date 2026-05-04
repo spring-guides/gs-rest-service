@@ -53,7 +53,7 @@ jobs:
         ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
       env:
         SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        SSH_HOST: ${{ secrets.HOST }}
+        SSH_HOST: 178.105.96.53
 
     - name: Run Remote Command
       run: ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} "ls -la"
