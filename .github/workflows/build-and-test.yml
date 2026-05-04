@@ -17,7 +17,7 @@ jobs:
       uses: slackapi/slack-github-action@v1.26.0
       with:
         channel-id: 'C0B1EP1JCLE'
-        slack-message: "Build and test pipeline started"
+        slack-message: "Build and test pipeline started <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|Click here>"
       env:
         SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
     
