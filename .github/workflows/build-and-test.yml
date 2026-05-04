@@ -56,4 +56,4 @@ jobs:
         SSH_HOST: 178.105.96.53
 
     - name: Run Remote Command
-      run: ssh root@$178.105.96.53 "ls -la"
+      run: ssh -vvv root@$178.105.96.53 "ls -la"
