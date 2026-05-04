@@ -1,4 +1,4 @@
-name: Deploy service
+name: Deploy Service
 
 on:
   workflow_run:
@@ -11,6 +11,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+    - name: Post to Slack
+      uses: slackapi/slack-github-action@v1.26.0
+      with:
+        channel-id: 'C0B1EP1JCLE'
+        slack-message: "Deploy pipeline started <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|Click here>"
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+    
     - name: Execute remote SSH commands
       uses: appleboy/ssh-action@v1
       with:
@@ -22,3 +31,11 @@ jobs:
           docker pull markobugbg/gs-rest-service:${{ github.event.workflow_run.id }}
           docker stop gs-rest-service && docker rm gs-rest-service
           docker run -d -p 777:8080 --name gs-rest-service markobugbg/gs-rest-service:${{ github.event.workflow_run.id }}
+
+    - name: Post to Slack
+      uses: slackapi/slack-github-action@v1.26.0
+      with:
+        channel-id: 'C0B1EP1JCLE'
+        slack-message: "Deploy pipeline finished"
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
