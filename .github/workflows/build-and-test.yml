@@ -43,3 +43,10 @@ jobs:
         push: true
         tags: markobugbg/gs-rest-service:${{ github.run_id }}
         
+    - name: Post to Slack
+      uses: slackapi/slack-github-action@v1.26.0
+      with:
+        channel-id: 'C0B1EP1JCLE'
+        slack-message: "Build and test pipeline finished"
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
