@@ -42,17 +42,4 @@ jobs:
         file: ./complete/Dockerfile
         push: true
         tags: markobugbg/gs-rest-service:${{ github.run_id }}
-
-    - name: Execute remote SSH commands
-      uses: appleboy/ssh-action@v1
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 22
-        script: |
-          docker pull markobugbg/gs-rest-service:${{ github.run_id }}
-          docker stop gs-rest-service && docker rm gs-rest-service
-          docker run -d -p 777:8080 --name gs-rest-service markobugbg/gs-rest-service:${{ github.run_id }}
-          
-
+        
