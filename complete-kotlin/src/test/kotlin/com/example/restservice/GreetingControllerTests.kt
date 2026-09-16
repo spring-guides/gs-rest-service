@@ -29,4 +29,15 @@ class GreetingControllerTests {
       .jsonPath("$.content").isEqualTo("Hello, Spring Community!")
   }
 
+    @Test
+    fun emptyParamGreetingShouldReturnDefaultMessage(
+        @Autowired restTestClient: RestTestClient
+    ) {
+        restTestClient.get()
+            .uri { it.path("/greeting").queryParam("name", "").build() }
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody()
+            .jsonPath("$.content").isEqualTo("Hello, World!")
+    }
 }
