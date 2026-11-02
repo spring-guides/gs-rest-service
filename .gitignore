@@ -16,3 +16,24 @@ dependency-reduced-pom.xml
 README.html
 *.iml
 .idea
+# Environment
+.env
+.env.*
+
+# VS Code
+.vscode/
+
+# IntelliJ
+.idea/
+
+# Maven
+target/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+.fake

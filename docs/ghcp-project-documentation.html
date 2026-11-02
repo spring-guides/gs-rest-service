@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Copilot Capstone Repository Documentation</title>
+  <style>
+    :root {
+      --bg: #f4efe5;
+      --panel: rgba(255, 250, 240, 0.92);
+      --panel-strong: #fff9f0;
+      --ink: #1f2430;
+      --muted: #5f6675;
+      --accent: #0f6c5c;
+      --accent-2: #c96f2d;
+      --accent-3: #123b5d;
+      --line: rgba(31, 36, 48, 0.12);
+      --shadow: 0 18px 40px rgba(18, 59, 93, 0.12);
+      --radius: 18px;
+      --sidebar-width: 310px;
+      --mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+      --sans: "Segoe UI Variable", "Aptos", "Trebuchet MS", sans-serif;
+      --serif: "Georgia", "Times New Roman", serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(201, 111, 45, 0.18), transparent 30%),
+        radial-gradient(circle at top right, rgba(15, 108, 92, 0.18), transparent 28%),
+        linear-gradient(180deg, #f6f1e8 0%, #f1ecdf 46%, #ece8e0 100%);
+      min-height: 100vh;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 24px;
+      border-right: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(18, 59, 93, 0.98), rgba(15, 108, 92, 0.96));
+      color: #f8f3eb;
+      overflow: auto;
+    }
+
+    .brand {
+      margin-bottom: 22px;
+    }
+
+    .eyebrow {
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.82;
+    }
+
+    .brand h1 {
+      margin: 10px 0 8px;
+      font-family: var(--serif);
+      font-size: 1.85rem;
+      line-height: 1.1;
+    }
+
+    .brand p,
+    .sidebar-note,
+    .nav a,
+    .metric small,
+    .tag,
+    .meta,
+    .section-intro,
+    td,
+    li,
+    .search-status,
+    .repo-path,
+    .card p,
+    .caption {
+      color: var(--muted);
+    }
+
+    .brand p,
+    .sidebar-note {
+      color: rgba(248, 243, 235, 0.82);
+    }
+
+    .search-box {
+      margin: 18px 0 22px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      outline: none;
+    }
+
+    .search-box input::placeholder {
+      color: rgba(255, 255, 255, 0.62);
+    }
+
+    .search-status {
+      min-height: 1.2rem;
+      margin-top: 8px;
+      font-size: 0.84rem;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .nav {
+      display: grid;
+      gap: 8px;
+      margin: 18px 0 24px;
+    }
+
+    .nav a {
+      display: block;
+      padding: 10px 12px;
+      border-radius: 10px;
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .nav a:hover,
+    .nav a:focus {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateX(3px);
+    }
+
+    .sidebar-note {
+      font-size: 0.92rem;
+      line-height: 1.55;
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+      padding-top: 18px;
+    }
+
+    main {
+      padding: 28px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(255, 249, 240, 0.95), rgba(255, 244, 226, 0.92)),
+        linear-gradient(120deg, rgba(201, 111, 45, 0.15), rgba(15, 108, 92, 0.12));
+      border: 1px solid rgba(201, 111, 45, 0.16);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -80px -80px auto;
+      width: 260px;
+      height: 260px;
+      background: radial-gradient(circle, rgba(15, 108, 92, 0.17), transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero h2 {
+      margin: 12px 0 10px;
+      font-family: var(--serif);
+      font-size: clamp(2rem, 3vw, 3.1rem);
+      line-height: 1.06;
+      max-width: 12ch;
+    }
+
+    .hero p {
+      max-width: 76ch;
+      line-height: 1.68;
+      font-size: 1.02rem;
+      color: #394150;
+    }
+
+    .hero-grid,
+    .metrics,
+    .cards,
+    .two-col,
+    .evidence-grid,
+    .agent-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero-grid {
+      grid-template-columns: 2.3fr 1fr;
+      align-items: start;
+    }
+
+    .cover-page {
+      position: relative;
+      overflow: hidden;
+      padding: 34px;
+      margin-bottom: 24px;
+      background:
+        linear-gradient(140deg, rgba(18, 59, 93, 0.98), rgba(11, 96, 82, 0.95) 58%, rgba(201, 111, 45, 0.88));
+      color: #f8f3eb;
+      border: 1px solid rgba(18, 59, 93, 0.14);
+      border-radius: 28px;
+      box-shadow: 0 24px 48px rgba(18, 59, 93, 0.18);
+    }
+
+    .cover-page::before,
+    .cover-page::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .cover-page::before {
+      top: -80px;
+      right: -50px;
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.16), transparent 65%);
+    }
+
+    .cover-page::after {
+      left: -60px;
+      bottom: -120px;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(255, 237, 212, 0.18), transparent 68%);
+    }
+
+    .cover-grid,
+    .cover-meta,
+    .cover-stats {
+      display: grid;
+      gap: 18px;
+    }
+
+    .cover-grid {
+      position: relative;
+      z-index: 1;
+      grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.95fr);
+      align-items: stretch;
+    }
+
+    .cover-title {
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 4vw, 4rem);
+      line-height: 1.02;
+      margin: 14px 0 12px;
+      max-width: 12ch;
+    }
+
+    .cover-subtitle {
+      max-width: 70ch;
+      font-size: 1.08rem;
+      line-height: 1.65;
+      color: rgba(248, 243, 235, 0.88);
+    }
+
+    .cover-panel,
+    .cover-stat {
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(6px);
+    }
+
+    .cover-panel {
+      padding: 22px;
+    }
+
+    .cover-meta {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 22px;
+    }
+
+    .cover-meta-item {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .cover-meta-item span,
+    .cover-panel p,
+    .cover-label,
+    .cover-url,
+    .cover-subtle {
+      color: rgba(248, 243, 235, 0.8);
+    }
+
+    .cover-meta-item span,
+    .cover-label,
+    .cover-subtle {
+      display: block;
+      font-size: 0.84rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .cover-meta-item strong,
+    .cover-url {
+      display: block;
+      margin-top: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .cover-url {
+      color: #fff2de;
+      text-decoration: none;
+    }
+
+    .cover-url:hover,
+    .cover-url:focus {
+      text-decoration: underline;
+    }
+
+    .cover-stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 18px;
+    }
+
+    .cover-stat {
+      padding: 18px;
+    }
+
+    .cover-stat strong {
+      display: block;
+      font-size: 2rem;
+      line-height: 1;
+      color: #fff2de;
+    }
+
+    .cover-stat span {
+      display: block;
+      margin-top: 8px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .cover-stat small {
+      display: block;
+      margin-top: 8px;
+      line-height: 1.45;
+      color: rgba(248, 243, 235, 0.8);
+    }
+
+    .metrics {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin: 24px 0;
+    }
+
+    .metric,
+    .card,
+    .callout,
+    .evidence-item,
+    .diagram-card,
+    .timeline,
+    .catalog,
+    .search-empty {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .metric {
+      padding: 18px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 2rem;
+      line-height: 1;
+      color: var(--accent-3);
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 8px;
+      font-weight: 600;
+      color: #2a3040;
+    }
+
+    .metric small {
+      display: block;
+      margin-top: 8px;
+      line-height: 1.45;
+    }
+
+    .cards,
+    .agent-grid,
+    .evidence-grid {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .card,
+    .callout,
+    .evidence-item,
+    .catalog,
+    .timeline {
+      padding: 20px;
+    }
+
+    .callout {
+      background: linear-gradient(145deg, rgba(18, 59, 93, 0.96), rgba(15, 108, 92, 0.92));
+      color: #f7f3ea;
+    }
+
+    .callout p,
+    .callout li,
+    .callout .caption,
+    .callout .meta {
+      color: rgba(247, 243, 234, 0.84);
+    }
+
+    .callout h3,
+    .card h3,
+    .diagram-card h3,
+    .catalog h3,
+    .timeline h3,
+    .evidence-item h3 {
+      margin-top: 0;
+      color: inherit;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 16px 0 0;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(15, 108, 92, 0.09);
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .tag.warn {
+      background: rgba(201, 111, 45, 0.12);
+      color: #9b4f1d;
+    }
+
+    details.doc-section {
+      margin: 0 0 18px;
+      overflow: hidden;
+    }
+
+    details.doc-section[hidden] {
+      display: none;
+    }
+
+    details.doc-section > summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 22px 24px;
+      font-size: 1.18rem;
+      font-weight: 700;
+      background: rgba(255, 249, 240, 0.8);
+      border-bottom: 1px solid transparent;
+    }
+
+    details.doc-section[open] > summary {
+      border-bottom-color: var(--line);
+    }
+
+    details.doc-section > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .summary-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .summary-text small {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .chevron {
+      flex: 0 0 auto;
+      width: 34px;
+      height: 34px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(15, 108, 92, 0.09);
+      color: var(--accent);
+      transition: transform 0.2s ease;
+    }
+
+    details[open] .chevron {
+      transform: rotate(90deg);
+    }
+
+    .section-body {
+      padding: 24px;
+      background: rgba(255, 252, 247, 0.95);
+    }
+
+    .section-intro {
+      margin: 0 0 18px;
+      line-height: 1.62;
+      color: #465063;
+    }
+
+    h3,
+    h4 {
+      color: #243144;
+    }
+
+    p,
+    li {
+      line-height: 1.65;
+    }
+
+    ul,
+    ol {
+      padding-left: 20px;
+    }
+
+    .two-col {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .diagram-card {
+      padding: 20px;
+      overflow: auto;
+      margin: 16px 0 0;
+    }
+
+    .diagram-card .caption {
+      margin-top: 12px;
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    .diagram-card .mermaid {
+      min-width: 620px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      background: rgba(255, 255, 255, 0.72);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(31, 36, 48, 0.08);
+      text-align: left;
+    }
+
+    th {
+      background: rgba(18, 59, 93, 0.9);
+      color: #f8f3eb;
+      font-weight: 700;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    code,
+    .mono {
+      font-family: var(--mono);
+      font-size: 0.94em;
+      color: #143d5e;
+    }
+
+    .timeline ol {
+      margin: 0;
+    }
+
+    .timeline li + li {
+      margin-top: 10px;
+    }
+
+    .evidence-item pre,
+    .catalog pre {
+      margin: 0;
+      padding: 14px;
+      overflow: auto;
+      border-radius: 14px;
+      background: #1e2430;
+      color: #f7f3ea;
+      font-family: var(--mono);
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+
+    .repo-path {
+      display: block;
+      margin-top: 6px;
+      font-size: 0.9rem;
+    }
+
+    .search-empty {
+      display: none;
+      padding: 18px 20px;
+      margin-bottom: 18px;
+    }
+
+    .footer {
+      padding: 22px 4px 0;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 1120px) {
+      .cover-grid,
+      .hero-grid,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 920px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        position: static;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+      }
+
+      main {
+        padding: 18px;
+      }
+
+      .hero {
+        padding: 24px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .cover-meta,
+      .cover-stats,
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .diagram-card .mermaid {
+        min-width: 520px;
+      }
+
+      details.doc-section > summary,
+      .section-body,
+      .card,
+      .callout,
+      .catalog,
+      .timeline,
+      .evidence-item,
+      .metric {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside>
+      <div class="brand">
+        <div class="eyebrow">Project Documentation</div>
+        <h1>GitHub Copilot Capstone</h1>
+        <p>Repository-level documentation for the agentic delivery model, governance controls, MCP integrations, and delivery evidence.</p>
+      </div>
+
+      <div class="search-box">
+        <label for="doc-search" class="eyebrow">Search</label>
+        <input id="doc-search" type="search" placeholder="Filter sections, evidence, workflows...">
+        <div id="search-status" class="search-status">Showing all sections</div>
+      </div>
+
+      <nav class="nav">
+        <a href="#cover-page">Cover Page</a>
+        <a href="#executive-summary">Executive Summary</a>
+        <a href="#repository-overview">Repository Overview</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#agent-catalog">Agent Catalog</a>
+        <a href="#workflows">Workflows</a>
+        <a href="#mcp-integrations">MCP Integrations</a>
+        <a href="#governance">Governance</a>
+        <a href="#traceability">Traceability</a>
+        <a href="#evidence">Evidence</a>
+        <a href="#benefits">Benefits Achieved</a>
+        <a href="#lessons">Lessons Learned</a>
+        <a href="#roadmap">Future Roadmap</a>
+      </nav>
+
+      <div class="sidebar-note">
+        Repository focus: a Spring guide adapted into a GitHub Copilot capstone that demonstrates an agentic SDLC with explicit human approval gates, documentation-driven delivery, and Jira-backed requirements traceability.
+      </div>
+    </aside>
+
+    <main>
+      <section id="cover-page" class="cover-page" aria-labelledby="cover-title">
+        <div class="cover-grid">
+          <div>
+            <div class="eyebrow">Professional Cover Page</div>
+            <h2 id="cover-title" class="cover-title">GitHub Copilot Capstone Project</h2>
+            <p class="cover-subtitle">Agentic SDLC Framework with Jira MCP and GitHub MCP Integration</p>
+
+            <div class="cover-meta">
+              <div class="cover-meta-item">
+                <span>Repository</span>
+                <strong>gs-rest-service</strong>
+              </div>
+              <div class="cover-meta-item">
+                <span>Prepared By</span>
+                <strong>Gowri Kuppusamy</strong>
+              </div>
+              <div class="cover-meta-item">
+                <span>Role</span>
+                <strong>Software Test Automation Engineer</strong>
+              </div>
+              <div class="cover-meta-item">
+                <span>Generated Date</span>
+                <strong>2026-08-14</strong>
+              </div>
+              <div class="cover-meta-item" style="grid-column: 1 / -1;">
+                <span>Repository URL</span>
+                <a class="cover-url" href="https://github.com/GowriKuppusamy/gs-rest-service">https://github.com/GowriKuppusamy/gs-rest-service</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="cover-panel">
+            <span class="cover-label">Project Statistics</span>
+            <p>This repository combines a Spring guide reference implementation with a governed GitHub Copilot operating model that documents the full SDLC, validates handoffs, and preserves human approval across every phase.</p>
+            <div class="cover-stats">
+              <div class="cover-stat">
+                <strong>8</strong>
+                <span>Approved artifacts</span>
+                <small>Requirements through PR documentation are present in <span class="mono">docs/</span>.</small>
+              </div>
+              <div class="cover-stat">
+                <strong>9</strong>
+                <span>Defined agents</span>
+                <small>One orchestrator plus eight phase specialists manage the SDLC flow.</small>
+              </div>
+              <div class="cover-stat">
+                <strong>3</strong>
+                <span>Workflow automations</span>
+                <small>GitHub Actions cover CI validation, build packaging, and Dependabot merge support.</small>
+              </div>
+              <div class="cover-stat">
+                <strong>1</strong>
+                <span>Validated MCP server</span>
+                <small>The checked-in MCP configuration explicitly validates the Atlassian Jira endpoint.</small>
+              </div>
+            </div>
+            <p class="cover-subtle">Current repository signals: working branch <span class="mono">feature/agentic-sdlc</span>, capstone story <span class="mono">SCRUM-3</span>, and verification evidence showing <span class="mono">BUILD SUCCESS</span> with three passing tests.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="hero">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow">Executive Dashboard</div>
+            <h2>AI-assisted delivery with governed handoffs and documented evidence.</h2>
+            <p>This repository is not presented as an application code walkthrough. It is documented as a delivery system: an existing Spring Boot sample is used as the working product, while the primary capstone value comes from the surrounding GitHub Copilot customization layer that formalizes requirements capture, architecture, design review, implementation planning, implementation, code review, verification, and pull request preparation.</p>
+            <p>The repository demonstrates a disciplined agentic SDLC where each phase emits an artifact in <span class="mono">docs/</span>, each downstream phase requires explicit human approval of upstream artifacts, and governance is reinforced through agent instructions, prompt files, skills, hooks, CI workflows, Dependabot policy, and a Jira MCP configuration validated at session start.</p>
+            <div class="tag-row">
+              <span class="tag">8 approved SDLC artifacts</span>
+              <span class="tag">9 agent definitions</span>
+              <span class="tag">3 GitHub Actions workflows</span>
+              <span class="tag">1 active Jira MCP server</span>
+              <span class="tag warn">GitHub MCP tooling implied, not repo-configured</span>
+            </div>
+          </div>
+          <div class="callout">
+            <h3>Repository Signals</h3>
+            <p class="meta">Working branch</p>
+            <p><strong>feature/agentic-sdlc</strong></p>
+            <p class="meta">Current capstone story</p>
+            <p><strong>SCRUM-3</strong> Display personalized greeting message</p>
+            <p class="meta">Primary evidence chain</p>
+            <ul>
+              <li>Jira story in requirements artifact</li>
+              <li>Approved documents across all SDLC phases</li>
+              <li>Verification report with build and test evidence</li>
+              <li>PR artifact summarizing scope, tests, and rollback</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="metrics" aria-label="Executive metrics">
+        <div class="metric">
+          <strong>8</strong>
+          <span>Phase artifacts</span>
+          <small>Requirements, architecture, design review, implementation plan, review report, verification, PR description, and final report are present in <span class="mono">docs/</span>.</small>
+        </div>
+        <div class="metric">
+          <strong>9</strong>
+          <span>Agents</span>
+          <small>One orchestrator plus eight phase agents in <span class="mono">.github/agents/</span> implement phase specialization.</small>
+        </div>
+        <div class="metric">
+          <strong>3</strong>
+          <span>Workflow automations</span>
+          <small>CI pipelines for builds and tests, plus Dependabot auto-merge for dependency maintenance.</small>
+        </div>
+        <div class="metric">
+          <strong>1</strong>
+          <span>Validated MCP endpoint</span>
+          <small><span class="mono">.vscode/mcp.json</span> registers the Atlassian MCP endpoint and a hook verifies it on session start.</small>
+        </div>
+      </section>
+
+      <div id="search-empty" class="search-empty">
+        No sections match the current search. Try terms such as <span class="mono">Jira</span>, <span class="mono">workflow</span>, <span class="mono">approval</span>, or <span class="mono">traceability</span>.
+      </div>
+
+      <details id="executive-summary" class="doc-section" open data-section-title="Executive Summary">
+        <summary>
+          <span class="summary-text">Executive Summary<small>Capstone intent, scope, and documented outcomes</small></span>
+          <span class="chevron">&#8250;</span>
+        </summary>
+        <div class="section-body">
+          <p class="section-intro">The capstone uses the Spring <span class="mono">gs-rest-service</span> guide as a bounded product surface and layers a professional GitHub Copilot operating model on top of it. The business goal captured in SCRUM-3 is intentionally small: deliver a personalized greeting endpoint. The organizational goal is larger: prove that GitHub Copilot can participate across the full SDLC under governance, with human approval, evidence capture, and traceability.</p>
+          <div class="cards">
+            <article class="card">
+              <h3>What was implemented</h3>
+              <p>The repository documents an end-to-end SDLC sequence culminating in an approved verification report and PR package for SCRUM-3. The final report states that all planned phases were completed, including implementation, testing, verification, and pull request preparation.</p>
+            </article>
+            <article class="card">
+              <h3>Why it matters</h3>
+              <p>The value is not just speed. The repo demonstrates how AI assistance can be constrained through prompts, agents, hooks, and approval gates so that generated output remains reviewable, auditable, and aligned to a named business story.</p>
+            </article>
+            <article class="card">
+              <h3>What is notable</h3>
+              <p>The strongest signals in this repository are the formalized handoffs. Every phase has a dedicated agent, every phase produces an artifact, and downstream work is blocked until the human explicitly approves the prior result.</p>
+            </article>
+          </div>
+        </div>
+      </details>
+
+      <details id="repository-overview" class="doc-section" open data-section-title="Repository Overview">
+        <summary>
+          <span class="summary-text">Repository Overview<small>Portfolio layout and capstone-specific surfaces</small></span>
+          <span class="chevron">&#8250;</span>
+        </summary>
+        <div class="section-body">
+          <p class="section-intro">The workspace combines four guide variants with a dedicated documentation and automation layer. The application code is only one part of the story; the repository is structured to show how agent customization and process governance wrap around a modest implementation scope.</p>
+          <div class="two-col">
+            <article class="catalog">
+              <h3>Top-level structure</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Area</th>
+                    <th>Purpose</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="mono">initial/</span></td>
+                    <td>Primary implementation target for SCRUM-3 and the Maven-based verification scope.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="mono">complete/</span></td>
+                    <td>Reference implementation variant retained alongside the working project.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="mono">initial-kotlin/</span> and <span class="mono">complete-kotlin/</span></td>
+                    <td>Kotlin guide variants preserved in the repository and built by CI.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="mono">docs/</span></td>
+                    <td>Authoritative SDLC artifacts, final report, and this generated documentation page.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="mono">.github/</span></td>
+                    <td>Agent definitions, workflows, prompts, skills, hooks, and global Copilot instructions.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="mono">test/run.sh</span></td>
+                    <td>Additional test support script retained from the broader guide repository structure.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </article>
+            <article class="catalog">
+              <h3>Capstone evidence already present</h3>
+              <ul>
+                <li>Approved requirement, architecture, design review, implementation plan, review, verification, and PR artifacts.</li>
+                <li>A final report summarizing completion of all SDLC phases.</li>
+                <li>A feature branch named <span class="mono">feature/agentic-sdlc</span> with multiple capstone-oriented commits.</li>
+                <li>Hooks and workflow files that enforce or automate governance checkpoints.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </details>
+
+      <details id="architecture" class="doc-section" open data-section-title="Architecture">
+        <summary>
+          <span class="summary-text">Architecture<small>Solution framing for the repository, not a source-level code tour</small></span>
+          <span class="chevron">&#8250;</span>
+        </summary>
+        <div class="section-body">
+          <p class="section-intro">At repository level, the architecture separates product implementation, process governance, agent behavior, automation, and evidence. This is the correct level of abstraction for the capstone because the main contribution is the controlled delivery framework around the application, not the internals of the application code itself.</p>
+
+          <article class="diagram-card">
+            <h3>1. Solution Architecture</h3>
+            <div class="mermaid">
+flowchart LR
+    A[Business Story SCRUM-3 in Jira] --> B[Requirements Artifact in docs]
+    B --> C[Agentic SDLC Layer in .github]
+    C --> D[Implementation Target in initial/]
+    C --> E[Governance Hooks and Instructions]
+    C --> F[GitHub Actions and Dependabot]
+    D --> G[Verification Evidence]
+    E --> G
+    F --> G
+    G --> H[PR Description and Final Report]
+            </div>
+            <p class="caption">The delivery system is layered around a small application scope. The capstone value comes from how Jira-driven requirements, agent instructions, hooks, and CI converge into verifiable documentation and release evidence.</p>
+          </article>
+
+          <article class="diagram-card">
+            <h3>2. Agentic SDLC Architecture</h3>
+            <div class="mermaid">
+flowchart TD
+    O[SDLC Orchestrator] --> R[Requirements Agent]
+    O --> A[Architecture Agent]
+    O --> D[Design Review Agent]
+    O --> P[Implementation Planner Agent]
+    O --> I[Implementation Agent]
+    O --> C[Code Review Agent]
+    O --> V[Verification Agent]
+    O --> PR[PR Agent]
+
+    R --> DR1[docs/requirements.md]
+    A --> DR2[docs/architecture.md]
+    D --> DR3[docs/design-review.md]
+    P --> DR4[docs/implementation-plan.md]
+    I --> APP[Application changes and tests]
+    C --> DR5[docs/review-report.md]
+    V --> DR6[docs/verification.md]
+    PR --> DR7[docs/pr-description.md]
+            </div>
+            <p class="caption">The orchestrator is explicitly forbidden from doing the phase work itself. It delegates to specialized agents and advances only after human approval of the current phase output.</p>
+          </article>
+
+          <article class="diagram-card">
+            <h3>3. Agent Interaction Flow</h3>
+            <div class="mermaid">
+sequenceDiagram
+    participant Human
+    participant Orchestrator as SDLC Orchestrator
+    participant Agent as Phase Agent
+    participant Docs as docs/
+
+    Human->>Orchestrator: Start or approve next phase
+    Orchestrator->>Docs: Check required approved artifacts
+    Docs-->>Orchestrator: Approval Status confirmed
+    Orchestrator->>Agent: Delegate phase work
+    Agent->>Docs: Produce phase artifact
+    Agent-->>Orchestrator: Report completion
+    Orchestrator-->>Human: Present artifact summary and request approval
+    Human->>Orchestrator: Explicit approval or concerns
+            </div>
+            <p class="caption">This interaction pattern is repeated phase by phase and is the core control mechanism in the capstone's operating model.</p>
+          </article>
+        </div>
+      </details>
+
+      <details id="agent-catalog" class="doc-section" open data-section-title="Agent Catalog">
+        <summary>
+          <span class="summary-text">Agent Catalog<small>Specialized roles defined in .github/agents</small></span>
+          <span class="chevron">&#8250;</span>
+        </summary>
+        <div class="section-body">
+          <p class="section-intro">The repository defines nine agent files. Eight are phase specialists. One is an orchestrator responsible for sequencing, prerequisites, and approval-gate enforcement. The catalog below is derived from the agent metadata stored in <span class="mono">.github/agents/</span>.</p>
+          <div class="agent-grid">
+            <article class="card">
+              <h3>SDLC Orchestrator</h3>
+              <p>Coordinates all phases, verifies required approved artifacts, delegates to phase agents, and prevents unauthorized phase skipping or self-approval.</p>
+              <div class="tag-row"><span class="tag">Tools: read, search, agent</span></div>
+            </article>
+            <article class="card">
+              <h3>Requirements Agent</h3>
+              <p>Retrieves the user story from Jira or Confluence and generates <span class="mono">docs/requirements.md</span> without self-approving the result.</p>
+              <div class="tag-row"><span class="tag">Tools: read, edit, search, jira/*</span></div>
+            </article>
+            <article class="card">
+              <h3>Architecture Agent</h3>
+              <p>Consumes approved requirements and creates the architecture artifact while preserving the human approval boundary before design review.</p>
+              <div class="tag-row"><span class="tag">Tools: read, edit, search</span></div>
+            </article>
+            <article class="card">
+              <h3>Design Review Agent</h3>
+              <p>Reviews the approved architecture against requirements and records risks, accepted recommendations, and coverage observations in <span class="mono">docs/design-review.md</span>.</p>
+              <div class="tag-row"><span class="tag">Tools: read, edit, search</span></div>
+            </article>
+            <article class="card">
+              <h3>Implementation Planner Agent</h3>
+              <p>Builds a dependency-ordered implementation plan from approved upstream artifacts and blocks implementation until that plan is human-approved.</p>
+              <div class="tag-row"><span class="tag">Tools: read, edit, search</span></div>
+            </article>
+            <article class="card">
+              <h3>Implementation Agent</h3>
+              <p>Owns the only phase allowed to modify application source and tests. It is also bound to pre-implementation and post-implementation hooks.</p>
+              <div class="tag-row"><span class="tag">Tools: read, edit, search, execute</span></div>
+            </article>
+            <article class="card">
+              <h3>Code Review Agent</h3>
+              <p>Assesses the completed implementation against approved artifacts and produces a review report before verification can begin.</p>
+              <div class="tag-row"><span class="tag">Tools: read, edit, search</span></div>
+            </article>
+            <article class="card">
+              <h3>Verification Agent</h3>
+              <p>Runs build and test evidence collection, validates acceptance coverage, and records PASS, FAIL, or BLOCKED outcomes in <span class="mono">docs/verification.md</span>.</p>
+              <div class="tag-row"><span class="tag">Tools: read, edit, search, execute</span></div>
+            </article>
+            <article class="card">
+              <h3>PR Agent</h3>
+              <p>Assembles the pull request package using approved SDLC artifacts and verification results. Its tool scope explicitly includes Jira, Confluence, and GitHub integrations.</p>
+              <div class="tag-row"><span class="tag">Tools: read, edit, search, jira/*, confluence/*, github/*</span></div>
+            </article>
+          </div>
+        </div>
+      </details>
+
+      <details id="workflows" class="doc-section" open data-section-title="Workflows">
+        <summary>
+          <span class="summary-text">Workflows<small>Agents, prompts, skills, hooks, and GitHub Actions</small></span>
+          <span class="chevron">&#8250;</span>
+        </summary>
+        <div class="section-body">
+          <p class="section-intro">The `.github` area is the repository's control plane. It defines how GitHub Copilot should behave, what each phase agent can do, how hooks enforce readiness, and how GitHub Actions validates builds across project variants.</p>
+          <div class="two-col">
+            <article class="catalog">
+              <h3>.github structure</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Folder or file</th>
+                    <th>Role in the delivery model</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="mono">agents/</span></td>
+                    <td>Defines the orchestrator and phase-specific agents with constraints and tool scopes.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="mono">prompts/</span></td>
+                    <td>Encodes per-phase operating procedures and output expectations.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="mono">skills/</span></td>
+                    <td>Provides phase-specific quality rules and specialized guidance.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="mono">hooks/</span></td>
+                    <td>Enforces gatekeeping around implementation start, implementation completion, PR preparation, and Jira MCP validation.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="mono">workflows/</span></td>
+                    <td>Runs CI builds and tests, and supports automated Dependabot PR merging.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="mono">copilot-instructions.md</span></td>
+                    <td>Declares the authoritative SDLC phase order, approval governance, source-of-truth rules, and code modification boundaries.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="mono">dco.yml</span></td>
+                    <td>Enables Developer Certificate of Origin style governance checks with member exceptions disabled.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="mono">dependabot.yml</span></td>
+                    <td>Schedules monthly grouped dependency updates for Maven and Gradle paths targeting the main branch.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="mono">instructions/java-instructions.md</span></td>
+                    <td>Provides an additional instruction layer for Java work, albeit in a minimal form.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </article>
+            <article class="catalog">
+              <h3>Automation workflow inventory</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Workflow</th>
+                    <th>Observed behavior</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="mono">ci.yml</span></td>
+                    <td>Builds and tests the <span class="mono">initial/</span> Maven project on pushes and pull requests to main and master, then uploads built jars.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="mono">continuous-integration-build.yml</span></td>
+                    <td>Builds all four guide variants across Maven and Gradle on pushes and pull requests to main.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="mono">dependabot-automerge.yml</span></td>
+                    <td>Delegates to the Spring-maintained merge workflow to auto-merge Dependabot PRs with rebase semantics.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </article>
+          </div>
+
+          <article class="diagram-card">
+            <h3>6. End-to-End Delivery Workflow</h3>
+            <div class="mermaid">
+flowchart TD
+    J[Jira story or approved user story] --> RQ[Requirements artifact]
+    RQ --> AR[Architecture artifact]
+    AR --> DR[Design review artifact]
+    DR --> IP[Implementation plan]
+    IP --> IM[Implementation work]
+    IM --> CR[Code review report]
+    CR --> VR[Verification report]
+    VR --> PR[PR description]
+
+    H1[Human approval] --> AR
+    H2[Human approval] --> DR
+    H3[Human approval] --> IP
+    H4[Human approval] --> IM
+    H5[Human approval] --> VR
+    H6[Human approval] --> PR
+            </div>
+            <p class="caption">The repository's global instructions require this exact order and prohibit silent progression across gates. The implementation phase is the only phase authorized to modify application source.</p>
+          </article>
+        </div>
+      </details>
+
+      <details id="mcp-integrations" class="doc-section" open data-section-title="MCP Integrations">
+        <summary>
+          <span class="summary-text">MCP Integrations<small>What is explicitly configured and what is implied by agent capability</small></span>
+          <span class="chevron">&#8250;</span>
+        </summary>
+        <div class="section-body">
+          <p class="section-intro">The repository contains concrete Jira MCP configuration and validation logic. GitHub integration appears in the agent model and workflow/evidence layers, but no parallel GitHub MCP endpoint configuration file is stored in the repository. The documentation distinguishes those two levels instead of overstating the implementation maturity.</p>
+          <div class="two-col">
+            <article class="catalog">
+              <h3>Jira MCP</h3>
+              <ul>
+                <li><span class="mono">.vscode/mcp.json</span> defines a server named <span class="mono">jira</span> with the Atlassian MCP URL <span class="mono">https://mcp.atlassian.com/v1/mcp/authv2</span>.</li>
+                <li><span class="mono">.github/hooks/validate-jira-mcp.ps1</span> verifies that the MCP file exists and that the Atlassian endpoint is configured.</li>
+                <li><span class="mono">.github/hooks/hook.json</span> runs that validation script as a <span class="mono">sessionStart</span> hook.</li>
+                <li>The requirements artifact links directly to Jira story SCRUM-3, closing the traceability loop from backlog to delivery evidence.</li>
+              </ul>
+            </article>
+            <article class="catalog">
+              <h3>GitHub integration</h3>
+              <ul>
+                <li>The PR Agent declares access to <span class="mono">github/*</span> tools alongside Jira and Confluence tools.</li>
+                <li>GitHub Actions workflows operationalize build, test, artifact upload, and Dependabot auto-merge behavior.</li>
+                <li>The git history shows a feature branch named <span class="mono">feature/agentic-sdlc</span> and capstone commits culminating in <span class="mono">Finalize Agentic SDLC capstone workflow</span>.</li>
+                <li>No separate GitHub MCP server declaration was found under <span class="mono">.vscode/</span>, so GitHub integration is evidenced through agent permissions, repository workflows, git state, and PR documentation rather than a repo-local MCP configuration file.</li>
+              </ul>
+            </article>
+          </div>
+
+          <article class="diagram-card">
+            <h3>4. Jira MCP Integration Flow</h3>
+            <div class="mermaid">
+sequenceDiagram
+    participant Hook as sessionStart hook
+    participant Config as .vscode/mcp.json
+    participant JiraMCP as Atlassian MCP endpoint
+    participant Req as Requirements Agent
+    participant Docs as docs/requirements.md
+
+    Hook->>Config: Verify file exists
+    Hook->>Config: Check Atlassian MCP URL
+    Config-->>Hook: Jira server configured
+    Req->>JiraMCP: Retrieve story context
+    JiraMCP-->>Req: Story details for SCRUM-3
+    Req->>Docs: Write approved requirements artifact
+            </div>
+            <p class="caption">Jira is the most explicit MCP integration in the repository because both the config file and the validation hook are present.</p>
+          </article>
+
+          <article class="diagram-card">
+            <h3>5. GitHub MCP Integration Flow</h3>
+            <div class="mermaid">
+flowchart LR
+    A[Approved SDLC artifacts] --> B[PR Agent]
+    B --> C[github/* tool capability declared in agent]
+    C --> D[Branch and PR operations]
+    D --> E[GitHub Actions workflows]
+    E --> F[Build, test, artifact, and merge automation evidence]
+
+    note1[Repo evidence: PR Agent tool scope, git branches, workflows, PR artifact]
+    note2[No repo-local GitHub MCP endpoint config found]
+    note1 -.-> B
+    note2 -.-> C
+            </div>
+            <p class="caption">The repository supports a GitHub-oriented delivery path, but unlike Jira, the MCP endpoint itself is not declared in a checked-in workspace config file.</p>
+          </article>
+        </div>
+      </details>
+
+      <details id="governance" class="doc-section" open data-section-title="Governance">
+        <summary>
+          <span class="summary-text">Governance and Compliance<small>Approval gates, hooks, policies, and control boundaries</small></span>
+          <span class="chevron">&#8250;</span>
+        </summary>
+        <div class="section-body">
+          <p class="section-intro">Governance is the most mature part of this repository. The global instructions define a mandatory phase order, require every artifact to record status and approval metadata, prevent the AI from self-approving artifacts, restrict source-code changes to the implementation phase, and preserve the human as the final decision maker.</p>
+          <div class="cards">
+            <article class="card">
+              <h3>Phase-order enforcement</h3>
+              <p>The global instructions mandate the exact sequence from Requirements through Pull Request and explicitly state that later phases cannot begin until the prior artifact is reviewed and approved by a human.</p>
+            </article>
+            <article class="card">
+              <h3>Hook-based checks</h3>
+              <p>Pre-implementation, post-implementation, and pre-PR hooks describe mandatory preconditions such as approved documents, scope control, tests, absence of secrets, and readiness for review and verification.</p>
+            </article>
+            <article class="card">
+              <h3>Compliance signals</h3>
+              <p><span class="mono">dco.yml</span> enables contribution-signoff governance, <span class="mono">dependabot.yml</span> formalizes dependency maintenance cadence, and CI workflows enforce repeatable build execution.</p>
+            </article>
+            <article class="card">
+              <h3>Source-of-truth discipline</h3>
+              <p>Approved artifacts are declared authoritative, meaning new work is expected to trace back to documented decisions rather than bypassing them.</p>
+            </article>
+          </div>
+        </div>
+      </details>
+
+      <details id="traceability" class="doc-section" open data-section-title="Traceability">
+        <summary>
+          <span class="summary-text">Traceability<small>From Jira story through artifacts, tests, review, and PR</small></span>
+          <span class="chevron">&#8250;</span>
+        </summary>
+        <div class="section-body">
+          <p class="section-intro">The repository establishes a clear delivery chain for SCRUM-3. The requirements artifact names the Jira story. Architecture and design review map requirements to a solution shape. The implementation plan maps acceptance criteria to tasks. Verification maps requirements and acceptance criteria to executable evidence. The PR artifact consolidates that chain into reviewer-facing delivery evidence.</p>
+
+          <article class="diagram-card">
+            <h3>7. Traceability Workflow</h3>
+            <div class="mermaid">
+flowchart LR
+    JS[Jira Story SCRUM-3] --> REQ[docs/requirements.md]
+    REQ --> ARC[docs/architecture.md]
+    ARC --> REV[docs/design-review.md]
+    REV --> PLAN[docs/implementation-plan.md]
+    PLAN --> VERIFY[docs/verification.md]
+    VERIFY --> PRDOC[docs/pr-description.md]
+    REQ --> ACCEPT[Acceptance criteria]
+    ACCEPT --> VERIFY
+    REVIEW[docs/review-report.md] --> VERIFY
+    VERIFY --> FINAL[docs/final-report.md]
+            </div>
+            <p class="caption">This chain is observable in the checked-in documentation, not inferred from tribal knowledge. That makes the capstone auditable.</p>
+          </article>
+
+          <div class="timeline">
+            <h3>Traceability checkpoints</h3>
+            <ol>
+              <li>The requirements document anchors the work to Jira story SCRUM-3 and defines functional, non-functional, security, acceptance, dependency, constraint, and assumption sets.</li>
+              <li>The architecture document adds requirement-to-component coverage and design constraints.</li>
+              <li>The design review confirms requirement coverage and flags accepted low-risk items.</li>
+              <li>The implementation plan maps acceptance criteria to dependency-ordered tasks.</li>
+              <li>The verification report records command-level evidence and maps each requirement and acceptance criterion to a PASS result.</li>
+              <li>The PR description packages changes, known limitations, risks, and rollback guidance for reviewers.</li>
+            </ol>
+          </div>
+        </div>
+      </details>
+
+      <details id="evidence" class="doc-section" open data-section-title="Evidence">
+        <summary>
+          <span class="summary-text">Evidence<small>Commits, branches, workflows, hooks, and generated artifacts</small></span>
+          <span class="chevron">&#8250;</span>
+        </summary>
+        <div class="section-body">
+          <p class="section-intro">The evidence section is grounded in repository state collected during this documentation pass. It combines checked-in SDLC artifacts with git history and automation definitions.</p>
+          <div class="evidence-grid">
+            <article class="evidence-item">
+              <h3>Recent branch state</h3>
+              <pre>* feature/agentic-sdlc                99c6f78 Finalize Agentic SDLC capstone workflow
+  feature/cursor-agentic-sdlc         2ef8e28 Bump the guide-dependencies-maven group across 2 directories with 1 update
+  main                                2ef8e28 Bump the guide-dependencies-maven group across 2 directories with 1 update
+  remotes/origin/feature/agentic-sdlc 99c6f78 Finalize Agentic SDLC capstone workflow</pre>
+            </article>
+            <article class="evidence-item">
+              <h3>Recent commits</h3>
+              <pre>99c6f78 Finalize Agentic SDLC capstone workflow
+e429b77 Complete GHCP capstone workflow
+bcd1187 Complete agentic SDLC workflow for SCRUM-3
+403e5df Complete GHCP capstone workflow
+e82054d docs: approve business requirements for SCRUM-3</pre>
+            </article>
+            <article class="evidence-item">
+              <h3>Generated artifacts</h3>
+              <pre>docs/requirements.md
+docs/architecture.md
+docs/design-review.md
+docs/implementation-plan.md
+docs/review-report.md
+docs/verification.md
+docs/pr-description.md
+docs/final-report.md</pre>
+            </article>
+            <article class="evidence-item">
+              <h3>Verification evidence</h3>
+              <pre>Command: .\mvnw.cmd clean verify
+Result: BUILD SUCCESS
+Tests run: 3
+Failures: 0
+Errors: 0
+Skipped: 0</pre>
+            </article>
+          </div>
+          <div class="cards">
+            <article class="card">
+              <h3>Branch and PR evidence</h3>
+              <p>The repository's final report references a created pull request titled <span class="mono">Feature/agentic sdlc</span>, while the current git state shows active work on branch <span class="mono">feature/agentic-sdlc</span>. The PR artifact is present and approved in <span class="mono">docs/pr-description.md</span>.</p>
+            </article>
+            <article class="card">
+              <h3>Workflow evidence</h3>
+              <p>Two CI workflows cover build and test automation. One scopes tightly to <span class="mono">initial/</span>. The other builds Maven and Gradle variants across Java and Kotlin guide directories.</p>
+            </article>
+            <article class="card">
+              <h3>Hook evidence</h3>
+              <p>A session-start hook invokes <span class="mono">validate-jira-mcp.ps1</span>, which writes status to <span class="mono">hook-status.txt</span>. Hook metadata is declared in <span class="mono">hook.json</span>.</p>
+            </article>
+          </div>
+        </div>
+      </details>
+
+      <details id="benefits" class="doc-section" open data-section-title="Benefits Achieved">
+        <summary>
+          <span class="summary-text">Benefits Achieved<small>Observed business and engineering value</small></span>
+          <span class="chevron">&#8250;</span>
+        </summary>
+        <div class="section-body">
+          <p class="section-intro">The benefits documented here are derived from the repository's final report and the control structure visible in the repo itself.</p>
+          <div class="cards">
+            <article class="card">
+              <h3>Faster documentation throughput</h3>
+              <p>The repository demonstrates that requirements, architecture, design review, planning, review, verification, and PR documentation can all be generated within one governed workflow rather than as disconnected manual artifacts.</p>
+            </article>
+            <article class="card">
+              <h3>Higher delivery confidence</h3>
+              <p>Approval gates, verification evidence, and review artifacts reduce ambiguity about whether a change is ready to move forward.</p>
+            </article>
+            <article class="card">
+              <h3>Improved auditability</h3>
+              <p>The traceability chain from Jira story to verification and PR package makes the outcome easier to defend in reviews, demos, and compliance conversations.</p>
+            </article>
+            <article class="card">
+              <h3>Reusable operating model</h3>
+              <p>The `.github` control plane can be adapted for other repositories, enabling the capstone to serve as a process template rather than a one-off exercise.</p>
+            </article>
+          </div>
+        </div>
+      </details>
+
+      <details id="lessons" class="doc-section" open data-section-title="Lessons Learned">
+        <summary>
+          <span class="summary-text">Lessons Learned<small>What the repository shows about applying Copilot at SDLC scale</small></span>
+          <span class="chevron">&#8250;</span>
+        </summary>
+        <div class="section-body">
+          <p class="section-intro">The repo's final report already records several lessons. Reading across the artifacts adds a few more pragmatic conclusions.</p>
+          <div class="cards">
+            <article class="card">
+              <h3>AI needs explicit constraints</h3>
+              <p>The strongest part of this capstone is not freeform generation; it is the rule set that prevents premature implementation, self-approval, and undocumented scope drift.</p>
+            </article>
+            <article class="card">
+              <h3>Human approval remains structural</h3>
+              <p>The orchestrator and global instructions both reinforce that human approval is not ceremonial. It is the actual gate that allows progression to the next phase.</p>
+            </article>
+            <article class="card">
+              <h3>Integration maturity can be uneven</h3>
+              <p>Jira integration is concrete and validated in this repo. GitHub integration is present operationally through agent capability and workflow usage, but its MCP endpoint configuration is not stored here. That distinction should remain visible.</p>
+            </article>
+            <article class="card">
+              <h3>Small stories are useful proving grounds</h3>
+              <p>A narrowly scoped feature like SCRUM-3 makes it feasible to evaluate the SDLC framework itself without confounding the exercise with large product complexity.</p>
+            </article>
+          </div>
+        </div>
+      </details>
+
+      <details id="roadmap" class="doc-section" open data-section-title="Future Roadmap">
+        <summary>
+          <span class="summary-text">Future Roadmap<small>Logical next improvements suggested by the current repository state</small></span>
+          <span class="chevron">&#8250;</span>
+        </summary>
+        <div class="section-body">
+          <p class="section-intro">The repository is already complete as a capstone, but several follow-on improvements are directly suggested by the current artifacts and open issues.</p>
+          <div class="timeline">
+            <h3>Next-step roadmap</h3>
+            <ol>
+              <li>Make the blank or whitespace-only <span class="mono">name</span> behavior an explicit approved contract across requirements, design notes, tests, and PR documentation.</li>
+              <li>Add one Spring web-slice contract test to strengthen API-level regression detection beyond standalone controller wiring.</li>
+              <li>Expand MCP documentation and configuration parity so GitHub integration is as explicit in the repository as Jira integration already is.</li>
+              <li>Introduce optional security automation, such as SAST or dependency scanning evidence, to strengthen the verification phase for future stories.</li>
+              <li>Package the `.github` control plane as a reusable starter template for additional capstone or internal delivery repositories.</li>
+            </ol>
+          </div>
+        </div>
+      </details>
+
+      <div class="footer">
+        Generated from repository artifacts, `.github` configuration, `.vscode` MCP settings, and local git evidence collected on 2026-08-14. This page intentionally documents delivery architecture and governance rather than source code internals.
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "base",
+      securityLevel: "loose",
+      themeVariables: {
+        primaryColor: "#f9efe0",
+        primaryTextColor: "#1f2430",
+        primaryBorderColor: "#0f6c5c",
+        lineColor: "#37526e",
+        secondaryColor: "#e8f3ef",
+        tertiaryColor: "#fff7ec",
+        clusterBkg: "#fffaf2",
+        clusterBorder: "#c96f2d",
+        fontFamily: "Segoe UI Variable, Aptos, Trebuchet MS, sans-serif"
+      }
+    });
+
+    const searchInput = document.getElementById("doc-search");
+    const status = document.getElementById("search-status");
+    const empty = document.getElementById("search-empty");
+    const sections = Array.from(document.querySelectorAll("details.doc-section"));
+
+    function updateSearch() {
+      const query = searchInput.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      sections.forEach((section) => {
+        const text = section.textContent.toLowerCase();
+        const isMatch = query === "" || text.includes(query);
+        section.hidden = !isMatch;
+        if (isMatch) {
+          visibleCount += 1;
+          if (query !== "") {
+            section.open = true;
+          }
+        }
+      });
+
+      if (query === "") {
+        status.textContent = "Showing all sections";
+      } else {
+        status.textContent = "Showing " + visibleCount + " matching section" + (visibleCount === 1 ? "" : "s");
+      }
+
+      empty.style.display = visibleCount === 0 ? "block" : "none";
+    }
+
+    searchInput.addEventListener("input", updateSearch);
+    updateSearch();
+  </script>
+</body>
+</html>
